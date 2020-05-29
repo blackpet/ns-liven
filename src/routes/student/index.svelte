@@ -9,7 +9,7 @@
 -->
 <script>
     import {onMount} from 'svelte';
-    import LivenService from '../../service/liven-service';
+    import LivenService, {ROLE} from '../../service/liven-service';
     import {listenOnServer} from '../../service/student-service';
 
     // TODO blackpet: onMount 접속할 것!!
@@ -31,7 +31,7 @@
     }
 
     function connect() {
-        const socket = LivenService.connectServer(subjCd, userId, LivenService.role.ROLE_STUDENT);
+        const socket = LivenService.connectServer(subjCd, userId, ROLE.STUDENT);
         connected = true;
 
         listenOnServer(socket);

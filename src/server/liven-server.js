@@ -8,8 +8,9 @@ let io;
 
 function createLivenServer(server) {
 
+  // socket listening for subject namespace
   const listenOnNsp = (socket) => {
-    console.log(`a user connected on namespace ${socket.nsp.name} (socket.id: ${socket.id}`);
+    console.log(`a user connected on [namespace: ${socket.nsp.name}] (socket.id: ${socket.id}`);
     const ns = socket.nsp.name.replace(/^\/liven-/, '');
     console.log(`real namespace ${ns}`);
 
@@ -23,6 +24,7 @@ function createLivenServer(server) {
     });
   }
 
+  // global socket listening
   const listenOnDefault = (socket) => {
     console.log('a user connected', socket.id, socket.nsp.name);
 

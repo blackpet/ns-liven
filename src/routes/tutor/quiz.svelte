@@ -1,6 +1,6 @@
 <script>
     export let surveyData;
-    import LivenService from "../../service/liven-service";
+    import LivenService, {ROLE} from "../../service/liven-service";
 
     let socket;
     const userId = 'tutor01';
@@ -44,7 +44,7 @@
 
         // [퀴즈 시작]btn
         startSurvey: () => {
-            socket = LivenService.connectServer(subjCd, userId, LivenService.role.ROLE_STUDENT);
+            socket = LivenService.connectServer(subjCd, userId, ROLE.TUTOR);
 
             // listen on server...
             listenOnServer();

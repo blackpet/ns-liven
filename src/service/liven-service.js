@@ -1,38 +1,7 @@
-// import './realtime-survey.scss';
-
 import io from 'socket.io-client';
 import * as _ from 'lodash';
 
-// 투표모드 template
-const surveyVoteTmpl = `
-  <form name="surveyFrm">
-    <ol>
-      {{for surveyItems}}
-      <li id="survey{{:id}}">
-        <span><input type="radio" name="surveyId" id="surveyItem{{:id}}" value="{{:id}}"></span>
-        <label for="surveyItem{{:id}}">{{>subject}}</label> (<span class="vote-count">{{:vote}}</span>)
-      </li>
-      {{/for}}
-    </ol>
-  </form>
-`;
-// 결과모드 template
-const surveyResultTmpl = `
-  <ol>
-    {{for surveyItems}}
-    <li id="survey{{:id}}">
-      <label for="survey{{:id}}">{{>subject}}</label>
-      <div class="graph"><div style="width:{{:vote*10}}%">&nbsp;<span class="vote-count">0</span></div></div>
-    </li>
-    {{/for}}
-  </ol>
-`;
-
 let socket;
-const role = {
-  'ROLE_STUDENT': 'student',
-  'ROLE_TUTOR': 'tutor'
-}
 
 function createService() {
 
@@ -81,8 +50,7 @@ function createService() {
     serveSurvey,
     startSurvey,
     renderSurvey,
-    vote,
-    role
+    vote
   }
 }
 
@@ -115,3 +83,8 @@ export default LivenService;
 export const EVENT = {
   'STUDENT_START_LIVEN': 'student:start-liven'
 };
+
+export const ROLE = {
+  'STUDENT': 'student',
+  'TUTOR': 'tutor'
+}

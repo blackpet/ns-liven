@@ -1,13 +1,23 @@
 <!--
     Live.N Main page
     1. Connect to socket
-        - namespace: subjCd
+        - socket.namespace = subjCd
         - userId: session.userId
+        ==> connected = true
 
-    2.
+    2. store writable(socket)
 -->
 <script>
-    const subjCd = 'ON1234'; // TODO blackpet: socket namespace by subjCd
+    import {onMount} from 'svelte';
+    import LivenService from '../../service/liven-service';
+    import {listenOnServer} from '../../service/student-service';
+
+    // TODO blackpet: onMount 접속할 것!!
+    onMount(() => {
+        // connect();
+    });
+
+    let subjCd = 'ON1234'; // TODO blackpet: socket namespace by subjCd
     let userId; // TODO blackpet: nsedu session.userId
 
     let connected = false; // socket connect state
@@ -21,7 +31,10 @@
     }
 
     function connect() {
+        const socket = LivenService.connectServer(subjCd, userId, LivenService.role.ROLE_STUDENT);
+        connected = true;
 
+        listenOnServer(socket);
     }
 </script>
 
@@ -31,9 +44,15 @@
 </svelte:head>
 
 <h1>student page!</h1>
-
-userId: <input type="text" bind:value={userId}>
-<button on:click={connect}>Connect</button>
+<ul>
+    <li>
+        subjCd: <input type="text" bind:value={subjCd}>
+    </li>
+    <li>
+        userId: <input type="text" bind:value={userId}>
+        <button on:click={connect}>Connect</button>
+    </li>
+</ul>
 
 <ul>
     <li><a href="quiz" on:click|preventDefault="{() => goto('quiz')}">Quiz</a></li>
@@ -42,3 +61,7 @@ userId: <input type="text" bind:value={userId}>
     <li><a href="student/qna">Q&A</a></li>
     <li><a href="student/share">Share</a></li>
 </ul>
+
+{#if connected}
+    <div>대기중 입니다.....</div>
+{/if}

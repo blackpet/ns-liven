@@ -3,8 +3,6 @@
 import io from 'socket.io-client';
 import * as _ from 'lodash';
 
-let socket;
-
 // 투표모드 template
 const surveyVoteTmpl = `
   <form name="surveyFrm">
@@ -30,10 +28,25 @@ const surveyResultTmpl = `
   </ol>
 `;
 
-// public API
-const LivenSurvey = {
+let socket;
+const role = {
+  'ROLE_STUDENT': 'student',
+  'ROLE_TUTOR': 'tutor'
+}
+
+function createService() {
+
+  // Live.N 서버 접속
+  const connectServer = (namespace, userId, role) => {
+    socket = io(`/liven-${namespace}?userId=${userId}`);
+    console.log(`[client] ${userId} connected!!`, socket);
+    listenOnServer();
+
+    return socket;
+  };
+
   // 설문 조회
-  serveSurvey: () => {
+  const serveSurvey = () => {
     return fetch('tutor/survey-items.json').then((res) => {
       if (res.ok) {
         const data = res.json();
@@ -42,36 +55,36 @@ const LivenSurvey = {
       }
       return null; // error
     });
-  },
-
-  // 실시간 설문 서버 접속
-  connectServer: (userId) => {
-    socket = io(`//localhost:4004?userId=${userId}`);
-    console.log(`[client] ${userId} connected!!`, socket);
-    listenOnServer();
-
-    return socket;
-  },
+  };
 
   // 설문 시작 (request to server for broadcast survey)
-  startSurvey: (survey) => {
-    console.log("socket.emit('startSurvey')", survey);
-    socket.emit('startSurvey', survey);
-  },
+  const startSurvey = (survey) => {
+    console.log("tutor > socket.emit('startSurvey')", survey);
+    socket.emit(EVENT.STUDENT_START_LIVEN, survey);
+  };
 
   // 설문 출력 (설문모드 | 결과모드)
-  renderSurvey: (el, data) => {
+  const renderSurvey = (el, data) => {
     const mode = data.mode === 'vote' ? 'vote' : 'result';
     const tmplHtml = mode === 'result' ? surveyResultTmpl : surveyVoteTmpl;
     // const tmpl = $.templates(tmplHtml);
     // $(el).html(tmpl.render(data));
-  },
+  }
 
   // 투표!
-  vote: (voteId) => {
+  const vote = (voteId) => {
     socket.emit('vote', voteId);
-  },
-};
+  };
+
+  return {
+    connectServer,
+    serveSurvey,
+    startSurvey,
+    renderSurvey,
+    vote,
+    role
+  }
+}
 
 // listen on server
 function listenOnServer() {
@@ -96,6 +109,9 @@ function listenOnServer() {
   });
 }
 
+const LivenService = new createService();
+export default LivenService;
 
-export default LivenSurvey;
-
+export const EVENT = {
+  'STUDENT_START_LIVEN': 'student:start-liven'
+};

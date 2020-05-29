@@ -4,7 +4,6 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",
-    "liven-dev": "nodemon --experimental-modules server/liven-server.mjs",
     "build": "sapper build",
     "export": "sapper export",
     "start": "node __sapper__/build",

@@ -11,7 +11,7 @@
 
     import { stores } from '@sapper/app';
     import { onMount } from 'svelte';
-    import RealtimeSurveyClient from "../tutor/liven-survey";
+    import RealtimeSurveyClient from "../../service/liven-service";
 
     const { page } = stores();
 

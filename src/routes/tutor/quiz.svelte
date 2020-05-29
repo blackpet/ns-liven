@@ -1,9 +1,10 @@
 <script>
     export let surveyData;
-    import LivenSurvey from "./liven-survey";
+    import LivenService from "../../service/liven-service";
 
     let socket;
     const userId = 'tutor01';
+    let subjCd = 'ON1234'; // TODO blackpet: socket namespace by subjCd
 
     // listen on server...
     function listenOnServer() {
@@ -32,7 +33,7 @@
 
         // [설문 조회]btn
         loadSurveyItems: async () => {
-            const data = await LivenSurvey.serveSurvey();
+            const data = await LivenService.serveSurvey();
             surveyData = {surveyItems: data, user: 'tutor'};
 
             console.log('surveyData', surveyData);
@@ -43,13 +44,13 @@
 
         // [설문 시작]btn
         startSurvey: () => {
-            socket = LivenSurvey.connectServer(userId);
+            socket = LivenService.connectServer(subjCd, userId, LivenService.role.ROLE_STUDENT);
 
             // listen on server...
             listenOnServer();
 
             // 설문을 수강생에 중계하자!
-            LivenSurvey.startSurvey(surveyData);
+            LivenService.startSurvey(surveyData);
         },
 
         disconnect: () => {

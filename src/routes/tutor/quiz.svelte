@@ -31,7 +31,7 @@
     // events...
     const evt = {
 
-        // [설문 조회]btn
+        // [퀴즈 조회]btn
         loadSurveyItems: async () => {
             const data = await LivenService.serveSurvey();
             surveyData = {surveyItems: data, user: 'tutor'};
@@ -42,14 +42,14 @@
             // LivenSurvey.renderSurvey('#surveyItems', surveyData);
         },
 
-        // [설문 시작]btn
+        // [퀴즈 시작]btn
         startSurvey: () => {
             socket = LivenService.connectServer(subjCd, userId, LivenService.role.ROLE_STUDENT);
 
             // listen on server...
             listenOnServer();
 
-            // 설문을 수강생에 중계하자!
+            // 퀴즈를 수강생에 중계하자!
             LivenService.startSurvey(surveyData);
         },
 
@@ -82,8 +82,8 @@
         </ul>
     </div>
 
-    <button on:click={evt.loadSurveyItems}>설문 조회</button>
-    <button on:click={evt.startSurvey}>설문 시작</button>
+    <button on:click={evt.loadSurveyItems}>퀴즈 조회</button>
+    <button on:click={evt.startSurvey}>퀴즈 시작</button>
     <button on:click={evt.disconnect}>연결끊기</button>
 
     <div id="surveyItems">

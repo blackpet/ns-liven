@@ -50,7 +50,7 @@
             listenOnServer();
 
             // 퀴즈를 수강생에 중계하자!
-            LivenService.startSurvey(surveyData);
+            LivenService.startSurvey('quiz', surveyData);
         },
 
         disconnect: () => {

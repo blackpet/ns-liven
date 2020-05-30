@@ -12,6 +12,8 @@
     import { stores } from '@sapper/app';
     import { onMount } from 'svelte';
     import RealtimeSurveyClient from "../../service/liven-service";
+    import Storage from './student-store.js';
+    import {foo} from '../../sample-store.js'
 
     const { page } = stores();
 
@@ -19,10 +21,12 @@
     let mode = 'vote'; // vote: 투표모드 | result: 결과모드
     let survey;
     let connected = false;
+    let quiz;
 
     onMount(() => {
-        userId = $page.query.userId;
-        evt.connect();
+        //userId = $page.query.userId;
+        //evt.connect();
+        quiz = Storage.get('quiz');
     });
 
 
@@ -153,6 +157,13 @@
 
     <div>
         <button on:click={evt.vote}>투표하기</button>
+    </div>
+    
+    <div>
+      data: {JSON.stringify($quiz)}
+    </div>
+    <div>
+      foo: {JSON.stringify($foo)}
     </div>
 
 </div>

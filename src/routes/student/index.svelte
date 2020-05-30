@@ -11,6 +11,8 @@
     import {onMount} from 'svelte';
     import LivenService, {ROLE} from '../../service/liven-service';
     import {listenOnServer} from '../../service/student-service';
+    
+    import {foo} from '../../sample-store'
 
     // TODO blackpet: onMount 접속할 것!!
     onMount(() => {
@@ -64,4 +66,5 @@
 
 {#if connected}
     <div>대기중 입니다.....</div>
+    <div>{JSON.stringify($foo)}</div>
 {/if}

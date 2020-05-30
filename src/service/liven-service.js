@@ -27,9 +27,10 @@ function createService() {
   };
 
   // 설문 시작 (request to server for broadcast survey)
-  const startSurvey = (survey) => {
-    console.log("tutor > socket.emit('startSurvey')", survey);
-    socket.emit(EVENT.STUDENT_START_LIVEN, survey);
+  const startSurvey = (type, data) => {
+    console.log("tutor > socket.emit('startSurvey')", type, data);
+    data.type = type;
+    socket.emit(EVENT.STUDENT_START_LIVEN, data);
   };
 
   // 설문 출력 (설문모드 | 결과모드)

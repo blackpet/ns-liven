@@ -169,9 +169,6 @@
       livenData: {JSON.stringify($livenData)}
     </div>
     <div>
-      sapper/store/session: {JSON.stringify($session)}
-    </div>
-    <div>
       foo: {JSON.stringify($foo)}
     </div>
 

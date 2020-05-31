@@ -3,12 +3,13 @@ import {writable} from 'svelte/store';
 const _storage = {};
 
 function storage() {
+  const {subscribe, set, update} = writable(_storage);
   console.log('init liven-store!!!!');
 
-  const set = (key, data) => {
-    if (Object.keys(_storage).includes(key)) {
-      throw new Error(`'${key}' key already exists!`);
-    }
+  const put = (key, data) => {
+    // if (Object.keys(_storage).includes(key)) {
+    //   throw new Error(`'${key}' key already exists!`);
+    // }
     _storage[key] = store(data);
   };
 
@@ -26,8 +27,11 @@ function storage() {
   };
 
   return {
+    subscribe,
     set,
-    get
+    put,
+    get,
+    keys: () => Object.keys(_storage)
   }
 }
 

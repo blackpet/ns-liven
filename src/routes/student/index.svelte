@@ -18,7 +18,6 @@
     import {listenOnServer} from '../../service/student-service';
     import Storage from '../../liven-store';
     import {foo} from '../../sample-store';
-    import {livenData} from '../../store/liven-data';
     import { goto } from '@sapper/app';
 
     export let prekey1;
@@ -50,8 +49,6 @@
 
     function storeSample() {
         Storage.set('refer', {referer: 'index', user: ROLE.STUDENT});
-        livenData.set({key1: 1, key2: 2, key3: 3});
-        console.log($livenData);
     }
 </script>
 

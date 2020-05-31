@@ -58,6 +58,9 @@
 		<li><a rel=prefetch aria-current='{segment === "blog" ? "page" : undefined}' href='blog'>blog</a></li>
 
 		<li><a aria-current='{segment === "student" ? "page" : undefined}' href='student'>student</a></li>
-		<li><a rel="prefetch" aria-current='{segment === "tutor" ? "page" : undefined}' href='tutor'>tutor</a></li>
+		<li><a aria-current='{segment === "tutor" ? "page" : undefined}' href='tutor'>tutor</a></li>
+
+		<li><a aria-current='{segment === "student2" ? "page" : undefined}' href='student2'>student2</a></li>
+		<li><a aria-current='{segment === "tutor2" ? "page" : undefined}' href='tutor2'>tutor2</a></li>
 	</ul>
 </nav>

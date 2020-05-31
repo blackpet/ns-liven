@@ -3,7 +3,6 @@ import {EVENT} from '../service/liven-service';
 
 let users = {}
 let survey
-let namespaces = [];
 let io;
 
 function createLivenServer(server) {

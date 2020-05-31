@@ -1,5 +1,5 @@
 import {EVENT} from './liven-service';
-import Storage from '../routes/student/student-store';
+import Storage from '../liven-store';
 
 /**
  *  tutor Service

@@ -26,13 +26,3 @@ polka({server})
  */
 
 const io = LivenServer(server);
-
-// // listen on /liven-{namespace}
-// const nsp = io.of(/^\/liven-.*$/).on('connection', LivenServer.listenOnNsp);
-//
-// // middleware
-// io.use(LivenServer.middlewareDefault);
-//
-// // listen on globally
-// io.on('connection', LivenServer.listenOnDefault);
-//

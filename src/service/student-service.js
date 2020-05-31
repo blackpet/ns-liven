@@ -1,5 +1,6 @@
 import {EVENT} from './liven-service';
-import Storage from '../routes/student/student-store';
+import Storage from '../liven-store';
+import {goto} from '@sapper/app';
 
 /**
  *  student Service
@@ -11,6 +12,6 @@ export function listenOnServer(socket) {
   socket.on(EVENT.STUDENT_START_LIVEN, res => {
     Storage.set(res.type, res.data);
 
-    location.href = `student/${res.type}`;
+    goto(`student/${res.type}`)
   });
 }

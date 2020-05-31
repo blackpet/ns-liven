@@ -7,12 +7,21 @@
 
     2. store writable(socket)
 -->
+<script context="module">
+    export function preload({params, query}) {
+        return {prekey1: 'preprepre!!!'};
+    }
+</script>
 <script>
     import {onMount} from 'svelte';
     import LivenService, {ROLE} from '../../service/liven-service';
     import {listenOnServer} from '../../service/student-service';
-    
-    import {foo} from '../../sample-store'
+    import Storage from '../../liven-store';
+    import {foo} from '../../sample-store';
+    import {livenData} from '../../store/liven-data';
+    import { goto } from '@sapper/app';
+
+    export let prekey1;
 
     // TODO blackpet: onMount 접속할 것!!
     onMount(() => {
@@ -24,12 +33,12 @@
 
     let connected = false; // socket connect state
 
-    function goto(menu) {
+    function gogo(menu) {
         if (!userId) {
             alert('input userId!');
             return;
         }
-        location.href = `student/${menu}?userId=${userId}`
+        goto(`student/${menu}?userId=${userId}`)
     }
 
     function connect() {
@@ -37,6 +46,12 @@
         connected = true;
 
         listenOnServer(socket);
+    }
+
+    function storeSample() {
+        Storage.set('refer', {referer: 'index', user: ROLE.STUDENT});
+        livenData.set({key1: 1, key2: 2, key3: 3});
+        console.log($livenData);
     }
 </script>
 
@@ -46,6 +61,7 @@
 </svelte:head>
 
 <h1>student page!</h1>
+<div>prekey1: {prekey1}</div>
 <ul>
     <li>
         subjCd: <input type="text" bind:value={subjCd}>
@@ -53,11 +69,12 @@
     <li>
         userId: <input type="text" bind:value={userId}>
         <button on:click={connect}>Connect</button>
+        <button on:click={storeSample}>store sample</button>
     </li>
 </ul>
 
 <ul>
-    <li><a href="quiz" on:click|preventDefault="{() => goto('quiz')}">Quiz</a></li>
+    <li><a href="quiz" on:click|preventDefault="{() => gogo('quiz')}">Quiz</a></li>
     <li><a href="student/poll">Poll</a></li>
     <li><a href="student/survey">Survey</a></li>
     <li><a href="student/qna">Q&A</a></li>

@@ -3,6 +3,7 @@ import {writable} from 'svelte/store';
 const _storage = {};
 
 function storage() {
+  console.log('init liven-store!!!!');
 
   const set = (key, data) => {
     if (Object.keys(_storage).includes(key)) {

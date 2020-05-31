@@ -9,24 +9,24 @@
 
     let userId;
 
-    import { stores } from '@sapper/app';
     import { onMount } from 'svelte';
     import RealtimeSurveyClient from "../../service/liven-service";
-    import Storage from './student-store.js';
+    import Storage from '../../liven-store.js';
     import {foo} from '../../sample-store.js'
-
-    const { page } = stores();
+    import {livenData} from '../../store/liven-data';
 
     let socket;
     let mode = 'vote'; // vote: 투표모드 | result: 결과모드
     let survey;
     let connected = false;
     let quiz;
+    let refer;
 
     onMount(() => {
         //userId = $page.query.userId;
         //evt.connect();
-        quiz = Storage.get('quiz');
+        // quiz = Storage.get('quiz');
+        // refer = Storage.get('refer');
     });
 
 
@@ -161,6 +161,15 @@
     
     <div>
       data: {JSON.stringify($quiz)}
+    </div>
+    <div>
+      refer: {JSON.stringify($refer)}
+    </div>
+    <div>
+      livenData: {JSON.stringify($livenData)}
+    </div>
+    <div>
+      sapper/store/session: {JSON.stringify($session)}
     </div>
     <div>
       foo: {JSON.stringify($foo)}

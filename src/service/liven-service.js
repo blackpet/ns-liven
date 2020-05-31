@@ -7,8 +7,8 @@ function createService() {
 
   // Live.N 서버 접속
   const connectServer = (namespace, userId, role) => {
-    socket = io(`/liven-${namespace}?userId=${userId}`);
-    console.log(`[client] ${userId} connected!!`, socket);
+    socket = io(`/liven-${namespace}?userId=${userId}&role=${role}`);
+    console.log(`[client] ${userId} (${role}) connected!!`, socket);
     listenOnServer();
 
     return socket;

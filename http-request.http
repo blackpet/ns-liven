@@ -1,0 +1,62 @@
+GET http://localhost:4004/users
+
+###
+
+
+POST http://localhost:4004/users
+Content-Type: application/json
+
+{
+  "id": "user04",
+  "name": "사용자4",
+  "key1": "val1",
+  "connected": false
+}
+
+###
+
+GET http://localhost:4004/quiz
+
+###
+
+# overwrite data
+PUT http://localhost:4004/users/user01
+Content-Type: application/json
+
+{
+  "connected": true
+}
+
+###
+
+# update data
+PATCH http://localhost:4004/users/user02
+Content-Type: application/json
+
+{
+  "connected": false
+}
+
+###
+
+PATCH http://localhost:4004/quiz/1
+Content-Type: application/json
+
+{
+  "vote": 2
+}
+
+###
+
+# #n quiz vote users
+GET {{host}}/quiz/2/votes
+
+
+###
+
+# quiz and vote users
+GET {{host}}/quiz/1?_embed=votes
+
+
+
+###

@@ -3,6 +3,8 @@ import * as _ from 'lodash';
 
 let socket;
 
+const api = 'http://localhost:4004';
+
 function createService() {
 
   // Live.N 서버 접속
@@ -13,6 +15,7 @@ function createService() {
 
     return socket;
   };
+
 
   // 설문 조회
   const serveSurvey = () => {
@@ -82,7 +85,11 @@ const LivenService = new createService();
 export default LivenService;
 
 export const EVENT = {
-  'STUDENT_START_LIVEN': 'student:start-liven'
+  'EVERYONE_CONNECT': 'everyone:connect',
+  'EVERYONE_DISCONNECT': 'everyone:disconnect',
+  'TUTOR_START_LIVEN': 'tutor:start-liven',
+  'TUTOR_SHOW_RESULT': 'tutor:show-result',
+  'STUDENT_SUBMIT': 'student:submit'
 };
 
 export const ROLE = {

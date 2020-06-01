@@ -1,84 +1,54 @@
-<!--
-    Live.N Main page
-    1. Connect to socket
-        - socket.namespace = subjCd
-        - userId: session.userId
-        ==> connected = true
-
-    2. store writable(socket)
--->
 <script context="module">
-    export function preload({params, query}) {
-        return {prekey1: 'preprepre!!!'};
-    }
+  export function preload({query}, session) {
+    // TODO blackpet: set {namespace, userId} to session
+    session.ns = !!query.ns ? query.ns : 'ON1234';
+    session.userId = !!query.userId ? query.userId : 'user01';
+  }
 </script>
+
 <script>
-    import {onMount} from 'svelte';
-    import LivenService, {ROLE} from '../../service/liven-service';
-    import {listenOnServer} from '../../service/student-service';
-    import Storage from '../../liven-store';
-    import {foo} from '../../sample-store';
-    import { goto } from '@sapper/app';
+  import {onMount} from 'svelte'
+  import {goto, stores} from '@sapper/app'
+  import LivenService, {ROLE, EVENT} from '../../service/liven-service'
+  import LivenStorage from '../../store/liven-store'
 
-    export let prekey1;
+  const {session} = stores()
+  let socket;
 
-    // TODO blackpet: onMount 접속할 것!!
-    onMount(() => {
-        // connect();
+  onMount(() => {
+    socket = LivenService.connectServer($session.ns, $session.userId, ROLE.STUDENT)
+    console.log($session)
+
+    socket.on(EVENT.TUTOR_START_LIVEN, data => {
+      console.log(`student on ${EVENT.TUTOR_START_LIVEN}`, data);
+      // store action data
+      LivenStorage.put(data.act, data.data)
+
+      goto(`student/${data.act}`)
     });
+  });
 
-    let subjCd = 'ON1234'; // TODO blackpet: socket namespace by subjCd
-    let userId; // TODO blackpet: nsedu session.userId
 
-    let connected = false; // socket connect state
-
-    function gogo(menu) {
-        if (!userId) {
-            alert('input userId!');
-            return;
-        }
-        goto(`student/${menu}?userId=${userId}`)
-    }
-
-    function connect() {
-        const socket = LivenService.connectServer(subjCd, userId, ROLE.STUDENT);
-        connected = true;
-
-        listenOnServer(socket);
-    }
-
-    function storeSample() {
-        Storage.set('refer', {referer: 'index', user: ROLE.STUDENT});
-    }
 </script>
 
+<div class="container">
+  <section class="content">
 
-<svelte:head>
-    <title>Live.N Student</title>
-</svelte:head>
+    <div class="contBox_NLive">
 
-<h1>student page!</h1>
-<div>prekey1: {prekey1}</div>
-<ul>
-    <li>
-        subjCd: <input type="text" bind:value={subjCd}>
-    </li>
-    <li>
-        userId: <input type="text" bind:value={userId}>
-        <button on:click={connect}>Connect</button>
-        <button on:click={storeSample}>store sample</button>
-    </li>
-</ul>
+      <div class="cb_inner">
 
-<ul>
-    <li><a href="quiz" on:click|preventDefault="{() => gogo('quiz')}">Quiz</a></li>
-    <li><a href="student/poll">Poll</a></li>
-    <li><a href="student/survey">Survey</a></li>
-    <li><a href="student/qna">Q&A</a></li>
-    <li><a href="student/share">Share</a></li>
-</ul>
+        <span class="txt_s18cDGray_ready">강사의 요청을 기다려 주세요.</span>
+        <div class="nl_loading_w">
+          <div class="nl_progress">
+            <span class="txt_s18cWhite">대기중</span>
+          </div>
+          <i class="nlp_circle_01"></i>
+          <i class="nlp_circle_02"></i>
+        </div>
+      </div>
+    </div>
 
-{#if connected}
-    <div>대기중 입니다.....</div>
-    <div>{JSON.stringify($foo)}</div>
-{/if}
+  </section>
+
+</div>

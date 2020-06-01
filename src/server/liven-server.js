@@ -5,21 +5,27 @@ let users = {}
 let survey
 let io;
 
+/**
+ * TODO blackpet:
+ * 1. namespace 에 마지막 접속자가 접속이 끊기면 자료구조에서 삭제하자!
+ *
+ */
+
 function createLivenServer(server) {
 
-  // socket listening for subject namespace
+  // socket listening for namespace [subject]
   const listenOnNsp = (socket) => {
     console.log(`a user connected on [namespace: ${socket.nsp.name}] (socket.id: ${socket.id}`);
     const ns = socket.nsp.name.replace(/^\/liven-/, '');
     console.log(`real namespace ${ns}`);
 
-    // TODO blackpet: 과정별 listen 설정할 것!
     // [student] 수강생의 접속을 알리자!
     socket.nsp.emit('broadcast.connectUser', findUserIdBySocketId(socket.client.id));
 
-    socket.on(EVENT.STUDENT_START_LIVEN, (survey) => {
-      console.log(`${EVENT.STUDENT_START_LIVEN}`, survey);
-      socket.nsp.emit(EVENT.STUDENT_START_LIVEN, survey);
+    // [tutor] Live.N 공유 시작!
+    socket.on(EVENT.TUTOR_START_LIVEN, data => {
+      console.log(`${EVENT.TUTOR_START_LIVEN}`, data);
+      socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data);
     });
   }
 
@@ -73,6 +79,7 @@ function createLivenServer(server) {
   };
 
 
+  ///////////////////// initialize socket.io /////////////////////////
   io = require('socket.io')(server);
 
   /**
@@ -106,8 +113,8 @@ const evt = {
   }
 };
 
+// [{userId: socketId}] 구조를 뒤집자! -> [{socketId: userId}]
 function findUserIdBySocketId(socketId) {
-  console.log('1111111111111111111111111111111111111111');
   console.log(users, socketId);
   return _.invert(users)[socketId];
 }

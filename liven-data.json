@@ -1,0 +1,95 @@
+{
+  "users": [
+    {
+      "id": "user01",
+      "name": "사용자1",
+      "connected": true
+    },
+    {
+      "id": "user02",
+      "name": "사용자2",
+      "connected": false
+    },
+    {
+      "id": "user03",
+      "name": "사용자3",
+      "connected": false
+    },
+    {
+      "id": "user04",
+      "name": "사용자4",
+      "key1": "val1",
+      "connected": false
+    }
+  ],
+  "quiz": {
+    "id": 1001,
+    "subject": "당신의 농심 최고의 라면은 무엇인가요?",
+    "items": [
+      {
+        "id": 1,
+        "subject": "짜빠구리는 드셔보셨나요?",
+        "vote": 2
+      },
+      {
+        "id": 2,
+        "subject": "삼양라면 vs 신라면! 당신은 신라면파 입니까?",
+        "vote": 1,
+        "answer": true
+      },
+      {
+        "id": 3,
+        "subject": "스낵은 새우깡이 갑이지요!",
+        "vote": 0
+      },
+      {
+        "id": 4,
+        "subject": "농심 제품이 짱입니다!",
+        "vote": 0
+      }
+    ]
+  },
+  "survey": {
+    "id": 1002,
+    "subject": "당신의 농심 최고의 라면은 무엇인가요?",
+    "items": [
+      {
+        "id": 1,
+        "subject": "poll 짜빠구리는 드셔보셨나요?",
+        "vote": 2
+      },
+      {
+        "id": 2,
+        "subject": "poll 삼양라면 vs 신라면! 당신은 신라면파 입니까?",
+        "vote": 1
+      },
+      {
+        "id": 3,
+        "subject": "poll 스낵은 새우깡이 갑이지요!",
+        "vote": 0
+      },
+      {
+        "id": 4,
+        "subject": "poll 농심 제품이 짱입니다!",
+        "vote": 0
+      }
+    ]
+  },
+  "votes": [
+    {
+      "id": 1,
+      "userId": "user01",
+      "quizId": 1
+    },
+    {
+      "id": 2,
+      "userId": "user02",
+      "quizId": 1
+    },
+    {
+      "id": 3,
+      "userId": "user03",
+      "quizId": 2
+    }
+  ]
+}

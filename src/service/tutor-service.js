@@ -1,5 +1,5 @@
 import {EVENT} from './liven-service';
-import Storage from '../liven-store';
+import LivenStorage from '../store/liven-store';
 
 /**
  *  tutor Service
@@ -10,7 +10,7 @@ export function listenOnServer(socket) {
   // standby for start
   // tutor-service.js
   socket.on(EVENT.STUDENT_START_LIVEN, res => {
-    Storage.set(res.type, res.data);
+    LivenStorage.set(res.type, res.data);
 
     location.href = `student/${res.type}`;
   });

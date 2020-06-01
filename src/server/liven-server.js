@@ -22,14 +22,11 @@ function createLivenServer(server) {
     const ns = ServerStorage.parseNamespace(socket.nsp)
     console.log(`real namespace ${ns}`)
 
-    // [student] broadcast active data to all student
+    // [student] broadcast active data to all student (강사가 시작 후 접속한 수강생이 있으면 즉시 시작하자!)
     const data = ServerStorage.activeActionData(ns)
     if (!!data) {
       socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data)
     }
-
-    // [student] 수강생의 접속을 알리자!
-    socket.nsp.emit('broadcast.connectUser', findUserIdBySocketId(socket.client.id));
 
     // [tutor] Live.N 공유 시작!
     socket.on(EVENT.TUTOR_START_LIVEN, data => {

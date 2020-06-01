@@ -14,13 +14,19 @@
     dispatch('start', {act: 'quiz'})
   }
 
+  // 정답
   let answer = {id: -1}
-
-  // 강사인 경우만 답안을 표시한다!
+  // 강사인 경우만 답안을 표시한다! (default checked)
   if (role === ROLE.TUTOR) {
     answer = data.items.find(i => !!i.answer)
   }
 
+  /**
+   * 항목 선택 readonly 여부
+   *  - tutor: readonly
+   *  - student: checkable
+   * @param e
+   */
   function readonly(e) {
     // 강사인 경우는 read-only!!
     if (role === ROLE.TUTOR) {
@@ -31,6 +37,7 @@
     return;
   }
 
+  // [student] [제출하기]btn
   function submit() {
     console.log('student :: submit!!!')
   }

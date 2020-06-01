@@ -1,9 +1,12 @@
 import _ from "lodash";
 import {EVENT} from '../service/liven-service';
+import ServerStorage from './server-store'
 
 let users = {}
 let survey
 let io;
+
+let namespaceStorage
 
 /**
  * TODO blackpet:
@@ -15,9 +18,15 @@ function createLivenServer(server) {
 
   // socket listening for namespace [subject]
   const listenOnNsp = (socket) => {
-    console.log(`a user connected on [namespace: ${socket.nsp.name}] (socket.id: ${socket.id}`);
-    const ns = socket.nsp.name.replace(/^\/liven-/, '');
-    console.log(`real namespace ${ns}`);
+    console.log(`a user connected on [namespace: ${socket.nsp.name}] (socket.id: ${socket.id}`)
+    const ns = ServerStorage.parseNamespace(socket.nsp)
+    console.log(`real namespace ${ns}`)
+
+    // [student] broadcast active data to all student
+    const data = ServerStorage.activeActionData(ns)
+    if (!!data) {
+      socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data)
+    }
 
     // [student] 수강생의 접속을 알리자!
     socket.nsp.emit('broadcast.connectUser', findUserIdBySocketId(socket.client.id));
@@ -25,8 +34,19 @@ function createLivenServer(server) {
     // [tutor] Live.N 공유 시작!
     socket.on(EVENT.TUTOR_START_LIVEN, data => {
       console.log(`${EVENT.TUTOR_START_LIVEN}`, data);
+
+      // generate namespace data structure
+      ServerStorage.namespace(ns, data)
+
       socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data);
-    });
+    })
+  }
+
+  const middlewareNs = (socket, next) => {
+    const {userId, role} = socket.handshake.query
+    const ns = ServerStorage.parseNamespace(socket.nsp)
+
+    return next()
   }
 
   // global socket listening
@@ -87,13 +107,14 @@ function createLivenServer(server) {
    */
   // listen on /liven-{namespace}
   const nsp = io.of(/^\/liven-.*$/).on('connection', listenOnNsp);
+  // namespace middleware
+  nsp.use(middlewareNs);
 
-
-  // middleware
-  io.use(middlewareDefault);
 
   // listen on globally
   io.on('connection', listenOnDefault);
+  // default middleware
+  io.use(middlewareDefault);
 
   return io;
 }
@@ -109,7 +130,7 @@ const evt = {
     const userId = findUserIdBySocketId(socketId);
     delete users[userId];
 
-    io.sockets.emit('broadcast.disconnectUser', userId);
+    io.sockets.emit(EVENT.EVERYONE_DISCONNECT, userId);
   }
 };
 

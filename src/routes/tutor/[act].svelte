@@ -4,6 +4,7 @@
     const api = '//localhost:4004'
     let data;
 
+    // Action Data 조회하자!
     const res = await this.fetch(`${api}/${params.act}`)
     if (res.ok) {
       data = await res.json();

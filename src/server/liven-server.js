@@ -30,13 +30,38 @@ function createLivenServer(server) {
 
     // [tutor] Live.N 공유 시작!
     socket.on(EVENT.TUTOR_START_LIVEN, data => {
-      console.log(`${EVENT.TUTOR_START_LIVEN}`, data);
+      console.log(EVENT.TUTOR_START_LIVEN, data);
 
       // generate namespace data structure
       ServerStorage.namespace(ns, data)
 
       socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data);
     })
+
+    // [student] submit quiz/poll/survey
+    socket.on(EVENT.STUDENT_SUBMIT_QUIZ, userData => {
+      console.log(EVENT.STUDENT_SUBMIT_QUIZ, ns, userData)
+
+      /**
+       * Action Data
+       * @full {act, data}
+       * @data [...quiz] or {quiz}
+       * @quiz {id, subject, items[]}
+       * @items {id, subject, vote, answer?}
+       */
+      const act = ServerStorage.activeActionData(ns)
+      let actData
+      if (act.data.length && act.data.length > 1) {
+        actData = act.data.find(d => d.id == userData.actId);
+      } else {
+        actData = act.data;
+      }
+      const item = actData.items.find(i => i.id == userData.itemId)
+      item.vote++
+
+      // ns의 모든 사용자(강사, 학습자)에 broadcast!!
+      socket.nsp.emit(EVENT.STUDENT_SUBMIT_QUIZ, act)
+    });
   }
 
   const middlewareNs = (socket, next) => {

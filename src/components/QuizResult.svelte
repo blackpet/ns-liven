@@ -1,0 +1,74 @@
+<script>
+  export let data, role
+
+  import {ROLE} from '../service/liven-service'
+
+  let resUserTotal = 1
+  $: resUserTotal = data.items.reduce((sum, i) => {sum + i.vote}, 0)
+  console.log('resUserTotal', resUserTotal)
+
+  function percent(item) {
+    return item.vote / resUserTotal * 100
+  }
+</script>
+
+<div class="container">
+  <section class="content">
+
+    <div class="contBox_NLive">
+
+      <div class="cb_inner">
+
+        <div class="nl_result_top">
+          <ul class="items_cont_double">
+            <li class="item_cont">
+              <span class="txt_s16cBrown">참여인원  30명</span>
+            </li>
+            <li class="item_cont">
+              <span class="txt_s16cBrown">응답인원  <b class="cRed">11</b>명</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="question_w">
+          <span class="icon_qRed">
+              <span class="txt_s30cWhiteFB">Q</span>
+          </span>
+          <span class="txt_s18cDGrayFB">{@html data.subject}</span>
+        </div>
+
+        <ul class="lists_wrap_result">
+
+          {#each data.items as item, i}
+            <li class="list_result">
+              <span class="txt_s18cDGray">{i}. {@html item.subject}</span>
+              {#if item.answer}
+                <span class="txt_s18cBrown">정답</span>
+              {/if}
+              <div class="grap_x_red">
+              <span class="gWrap">
+                  <i class="gBar" style="width:{percent(item)}%;"></i>
+              </span>
+                <span class="txt_s16cDGray"><b class="cRed">{percent(item)}/ {item.vote}</b> 명</span>
+              </div>
+            </li>
+          {/each}
+
+        </ul>
+
+        {#if role === ROLE.TUTOR}
+          <div class="items_btn_single">
+            <button type="button" class="btn_brownh50">
+              <span class="txt_s16">결과 공유하기</span>
+            </button>
+          </div>
+        {/if}}
+
+
+      </div>
+    </div>
+
+  </section>
+
+
+</div>

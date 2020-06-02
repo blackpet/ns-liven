@@ -42,6 +42,9 @@
     })
 
     listenOnTutor(socket)
+
+    // 결과 페이지로 화면 전환하자!
+    act = 'quiz-result'
   }
 
 </script>

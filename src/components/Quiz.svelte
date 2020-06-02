@@ -3,11 +3,16 @@
   Quiz
 -->
 <script>
+  /**
+   * data {id, items[{id, subject, vote}] }
+   */
   export let data, role
 
   import {onMount, createEventDispatcher} from 'svelte'
-  import {ROLE} from '../service/liven-service'
+  import LivenService, {ROLE} from '../service/liven-service'
+  import {submitQuiz} from '../service/student-service'
 
+  // 강사는 문항을 선택할 수 없다! (readonly)
   let disabled = false
   onMount(() => {
     disabled = role === ROLE.TUTOR
@@ -26,13 +31,19 @@
     answer = data.items.find(i => !!i.answer)
   }
 
+  // 답안(문항) 선택
+  let userAnswerId = -1
   function checkAnswer(e) {
-    console.log('checkAnswer', e)
+    console.log('checkAnswer', e, e.target)
+    userAnswerId = e.target.value
   }
 
   // [student] [제출하기]btn
   function submit() {
-    confirm('제출 후에는 답안을 변경할 수 없습니다.<br>제출하시겠습니까?');
+    confirm('제출 후에는 답안을 변경할 수 없습니다.<br>제출하시겠습니까?', function () {
+      submitQuiz(data.id, userAnswerId)
+      this.close()
+    });
   }
 
 </script>
@@ -78,7 +89,7 @@
             </div>
           {:else}
             <div class="items_btn_single">
-              <button type="button" class="btn_brownh50" on:click={submit}>
+              <button type="button" class="btn_brownh50" on:click={submit} disabled="{userAnswerId === -1}">
                 <span class="txt_s18">제출하기</span>
               </button>
             </div>

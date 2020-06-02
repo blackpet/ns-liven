@@ -34,10 +34,15 @@ function createStorage() {
     return _storage[ns][_storage[ns].act];
   }
 
+  function getStorage() {
+    return _storage;
+  }
+
   return {
     namespace,
     parseNamespace,
-    activeActionData
+    activeActionData,
+    getStorage,
   }
 }
 

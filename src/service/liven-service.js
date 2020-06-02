@@ -3,9 +3,11 @@ import * as _ from 'lodash';
 
 /**** action components ****/
 import Quiz from '../components/Quiz.svelte'
+import QuizResult from '../components/QuizResult.svelte'
 
 const acts = [
-  {act: 'quiz', component: Quiz}
+  {act: 'quiz', component: Quiz},
+  {act: 'quiz-result', component: QuizResult},
 ]
 
 let socket;
@@ -23,10 +25,16 @@ function createService() {
     return socket;
   };
 
+  // action 에 맞는 Component 를 가져오자!
   const actionComponent = (act) => {
     return (acts.find(c => c.act === act)).component;
   }
 
+
+
+
+
+  ///////////////////////////////////////////////////////
 
   // 설문 조회
   const serveSurvey = () => {
@@ -76,24 +84,6 @@ function createService() {
 // listen on server
 function listenOnEveryone() {
   console.log('listenOnServer >> common');
-
-  // [student] submit
-  socket.on(EVENT.STUDENT_SUBMIT, (items, voteItem) => {
-    console.log(`liven-service > listenOnEveryone`, voteItem)
-
-    // 투표 총 합계를 구하자!
-    var total = _.map(items, 'vote').reduce((sum, cur) => sum + cur, 0)
-    console.log('total', total)
-
-    // 전체 투표수를 백분율로 width를 표시하자!
-    items.map((item) => {
-      const percent = item.vote / (total || 1) * 100;
-      // $(`#survey${item.id} .graph div`).css('width', `${percent}%`);
-      // $(`#survey${item.id} .vote-count`).text(item.vote);
-    })
-
-    // $(`#survey${voteItem.id} .graph div`).css('width', `${voteItem.vote*10}%`);
-  })
 }
 
 const LivenService = new createService();
@@ -104,7 +94,7 @@ export const EVENT = {
   'EVERYONE_DISCONNECT': 'everyone:disconnect',
   'TUTOR_START_LIVEN': 'tutor:start-liven',
   'TUTOR_SHOW_RESULT': 'tutor:show-result',
-  'STUDENT_SUBMIT': 'student:submit'
+  'STUDENT_SUBMIT_QUIZ': 'student:submit-quiz' // quiz / poll / survey submit
 };
 
 export const ROLE = {

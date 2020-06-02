@@ -1,6 +1,13 @@
 import io from 'socket.io-client';
 import * as _ from 'lodash';
 
+/**** action components ****/
+import Quiz from '../components/Quiz.svelte'
+
+const acts = [
+  {act: 'quiz', component: Quiz}
+]
+
 let socket;
 
 const api = 'http://localhost:4004';
@@ -11,10 +18,14 @@ function createService() {
   const connectServer = (namespace, userId, role) => {
     socket = io(`/liven-${namespace}?userId=${userId}&role=${role}`);
     console.log(`[client] ${userId} (${role}) connected!!`, socket);
-    listenOnServer();
+    listenOnEveryone();
 
     return socket;
   };
+
+  const actionComponent = (act) => {
+    return (acts.find(c => c.act === act)).component;
+  }
 
 
   // 설문 조회
@@ -51,6 +62,10 @@ function createService() {
 
   return {
     connectServer,
+    actionComponent,
+
+
+
     serveSurvey,
     startSurvey,
     renderSurvey,
@@ -59,26 +74,26 @@ function createService() {
 }
 
 // listen on server
-function listenOnServer() {
+function listenOnEveryone() {
   console.log('listenOnServer >> common');
 
-  // 투표결과 갱신
-  socket.on('broadcast.updateVote', (items, voteItem) => {
-    console.log(voteItem);
+  // [student] submit
+  socket.on(EVENT.STUDENT_SUBMIT, (items, voteItem) => {
+    console.log(`liven-service > listenOnEveryone`, voteItem)
 
     // 투표 총 합계를 구하자!
-    var total = _.map(items, 'vote').reduce((sum, cur) => sum + cur);
-    console.log('total', total);
+    var total = _.map(items, 'vote').reduce((sum, cur) => sum + cur, 0)
+    console.log('total', total)
 
     // 전체 투표수를 백분율로 width를 표시하자!
     items.map((item) => {
       const percent = item.vote / (total || 1) * 100;
       // $(`#survey${item.id} .graph div`).css('width', `${percent}%`);
       // $(`#survey${item.id} .vote-count`).text(item.vote);
-    });
+    })
 
     // $(`#survey${voteItem.id} .graph div`).css('width', `${voteItem.vote*10}%`);
-  });
+  })
 }
 
 const LivenService = new createService();

@@ -5,8 +5,13 @@
 <script>
   export let data, role
 
-  import {createEventDispatcher} from 'svelte'
+  import {onMount, createEventDispatcher} from 'svelte'
   import {ROLE} from '../service/liven-service'
+
+  let disabled = false
+  onMount(() => {
+    disabled = role === ROLE.TUTOR
+  });
 
   // event를 상위 component 로 전파하자!
   const dispatch = createEventDispatcher();
@@ -21,25 +26,13 @@
     answer = data.items.find(i => !!i.answer)
   }
 
-  /**
-   * 항목 선택 readonly 여부
-   *  - tutor: readonly
-   *  - student: checkable
-   * @param e
-   */
-  function readonly(e) {
-    // 강사인 경우는 read-only!!
-    if (role === ROLE.TUTOR) {
-      e.preventDefault();
-      return;
-    }
-
-    return;
+  function checkAnswer(e) {
+    console.log('checkAnswer', e)
   }
 
   // [student] [제출하기]btn
   function submit() {
-    console.log('student :: submit!!!')
+    confirm('제출 후에는 답안을 변경할 수 없습니다.<br>제출하시겠습니까?');
   }
 
 </script>
@@ -68,7 +61,7 @@
             {#each data.items as item, i}
               <li class="q_list">
                 <label class="inp_radio_nl">
-                  <input type="radio" name="q1" bind:group={answer.id} value="{item.id}" on:click="{readonly}">
+                  <input type="radio" name="q1" bind:group={answer.id} value="{item.id}" {disabled} on:click={checkAnswer}>
                   <span class="txt_s18cDGray">{i}. {@html item.subject}</span>
                   <i class="icon_rd_nl"></i>
                 </label>

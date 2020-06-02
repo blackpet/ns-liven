@@ -1,17 +1,18 @@
 import {EVENT} from './liven-service';
-import LivenStorage from '../store/liven-store';
 
 /**
  *  tutor Service
  */
-export function listenOnServer(socket) {
+export function listenOnTutor(socket) {
   console.log('tutor > listenOnServer');
 
-  // standby for start
-  // tutor-service.js
-  socket.on(EVENT.STUDENT_START_LIVEN, res => {
-    LivenStorage.set(res.type, res.data);
+  // 학습자 접속
+  socket.on(EVENT.EVERYONE_CONNECT, userId => {
+    console.log(EVENT.EVERYONE_CONNECT, userId)
+  });
 
-    location.href = `student/${res.type}`;
+  // 학습자 접속 종료
+  socket.on(EVENT.EVERYONE_DISCONNECT, userId => {
+    console.log(EVENT.EVERYONE_DISCONNECT, userId)
   });
 }

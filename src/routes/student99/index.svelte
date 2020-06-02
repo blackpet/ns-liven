@@ -18,7 +18,7 @@
 <script>
     import {onMount} from 'svelte';
     import LivenService, {ROLE} from '../../service/liven-service';
-    import {listenOnServer} from '../../service/student-service';
+    import {listenOnStudent} from '../../service/student-service';
     import LivenStorage from '../../store/liven-store';
     import { goto } from '@sapper/app';
 
@@ -44,7 +44,7 @@
         const socket = LivenService.connectServer(subjCd, userId, ROLE.STUDENT);
         connected = true;
 
-        listenOnServer(socket);
+        listenOnStudent(socket);
     }
 
     function storeSample() {

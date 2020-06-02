@@ -6,11 +6,13 @@ const _defaultData = {
 
 function createStorage() {
 
+  // create namespace and store action data
   function namespace(ns, data = _defaultData) {
     // exists ns?
     if (!Object.keys(_storage).includes(ns)) {
       _storage[ns] = {}
     }
+    debugger;
     _storage[ns][data.act] = data
     // active Action
     _storage[ns].act = data.act

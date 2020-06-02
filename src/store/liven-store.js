@@ -36,4 +36,8 @@ function storage() {
 }
 
 const LivenStorage = storage();
+
+/**
+ * @deprecated action 으로 대체
+ */
 export default LivenStorage;

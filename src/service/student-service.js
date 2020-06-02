@@ -1,17 +1,19 @@
 import {EVENT} from './liven-service';
-import LivenStorage from '../store/liven-store';
 import {goto} from '@sapper/app';
 
 /**
  *  student Service
  */
-export function listenOnServer(socket) {
-  console.log('student > listenOnServer');
+export function listenOnStudent(socket, action) {
+  console.log('student > listenOnServer', EVENT);
 
   // standby for start
-  socket.on(EVENT.STUDENT_START_LIVEN, res => {
-    LivenStorage.set(res.type, res.data);
+  socket.on(EVENT.TUTOR_START_LIVEN, data => {
+    console.log(`student on ${EVENT.TUTOR_START_LIVEN}`, data, action);
+    // store action data
+    action[data.act] = data.data
 
-    goto(`student/${res.type}`)
+    goto(`student/${data.act}`)
   });
+
 }

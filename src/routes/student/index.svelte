@@ -8,9 +8,10 @@
 
 <script>
   import {onMount} from 'svelte'
-  import {goto, stores} from '@sapper/app'
+  import {stores} from '@sapper/app'
   import LivenService, {ROLE, EVENT} from '../../service/liven-service'
-  import LivenStorage from '../../store/liven-store'
+  import {listenOnStudent} from '../../service/student-service'
+  import {action} from '../../store/action'
 
   const {session} = stores()
   let socket;
@@ -19,13 +20,7 @@
     socket = LivenService.connectServer($session.ns, $session.userId, ROLE.STUDENT)
     console.log($session)
 
-    socket.on(EVENT.TUTOR_START_LIVEN, data => {
-      console.log(`student on ${EVENT.TUTOR_START_LIVEN}`, data);
-      // store action data
-      LivenStorage.put(data.act, data.data)
-
-      goto(`student/${data.act}`)
-    });
+    listenOnStudent(socket, $action)
   });
 
 

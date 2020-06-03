@@ -1,15 +1,32 @@
 <script>
   export let data, role
+  console.log('QuizResult', data)
 
-  import {ROLE} from '../service/liven-service'
+  import {action, LivenSocket} from '../store/action'
+  import {ROLE, EVENT} from '../service/liven-service'
 
+  const socket = LivenSocket.get()
+
+  // total attendee user count
   let resUserTotal = 1
-  $: resUserTotal = data.items.reduce((sum, i) => {sum + i.vote}, 0)
-  console.log('resUserTotal', resUserTotal)
+  $: resUserTotal = data.items.reduce((sum, i) => sum + i.vote, 0)
 
   function percent(item) {
-    return item.vote / resUserTotal * 100
+    return Math.round(item.vote / resUserTotal * 100)
   }
+
+  function share() {
+    socket.emit(EVENT.TUTOR_SHARE_RESULT)
+  }
+
+  //////////////////////////////////////// listen socket
+
+  // [student] submit quiz/poll/survey data!
+  socket.on(EVENT.STUDENT_SUBMIT_QUIZ, (actData) => {
+    console.log(EVENT.STUDENT_SUBMIT_QUIZ, actData)
+
+    $action[actData.act] = actData.data
+  })
 </script>
 
 <div class="container">
@@ -25,7 +42,7 @@
               <span class="txt_s16cBrown">참여인원  30명</span>
             </li>
             <li class="item_cont">
-              <span class="txt_s16cBrown">응답인원  <b class="cRed">11</b>명</span>
+              <span class="txt_s16cBrown">응답인원  <b class="cRed">{resUserTotal}</b>명</span>
             </li>
           </ul>
         </div>
@@ -49,7 +66,7 @@
               <span class="gWrap">
                   <i class="gBar" style="width:{percent(item)}%;"></i>
               </span>
-                <span class="txt_s16cDGray"><b class="cRed">{percent(item)}/ {item.vote}</b> 명</span>
+                <span class="txt_s16cDGray"><b class="cRed">{item.vote}</b> 명</span>
               </div>
             </li>
           {/each}
@@ -58,11 +75,11 @@
 
         {#if role === ROLE.TUTOR}
           <div class="items_btn_single">
-            <button type="button" class="btn_brownh50">
+            <button type="button" class="btn_brownh50" on:click={share}>
               <span class="txt_s16">결과 공유하기</span>
             </button>
           </div>
-        {/if}}
+        {/if}
 
 
       </div>

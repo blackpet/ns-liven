@@ -8,42 +8,41 @@
 
 <script>
   import {onMount} from 'svelte'
-  import {stores} from '@sapper/app'
+  import {stores, goto} from '@sapper/app'
   import LivenService, {ROLE, EVENT} from '../../service/liven-service'
   import {listenOnStudent} from '../../service/student-service'
-  import {action} from '../../store/action'
+  import {action, LivenSocket} from '../../store/action'
+
+  import Standby from '../../components/Standby'
+
+  const standbyMessage = {
+    message: '강사의 요청을 기다려 주세요.',
+    label: '대기중'
+  }
 
   const {session} = stores()
   let socket;
 
   onMount(() => {
     socket = LivenService.connectServer($session.ns, $session.userId, ROLE.STUDENT)
-    console.log($session)
 
-    listenOnStudent(socket, $action)
+    // store socket
+    LivenSocket.set(socket)
+
+    listenOnStudent(socket)
+
+    // standby for [tutor] start
+    socket.on(EVENT.TUTOR_START_LIVEN, data => {
+      console.log(`student on ${EVENT.TUTOR_START_LIVEN}`, data, $action);
+      // store action data
+      $action[data.act] = data.data
+
+      goto(`student/${data.act}`)
+    })
+
   });
 
 
 </script>
 
-<div class="container">
-  <section class="content">
-
-    <div class="contBox_NLive">
-
-      <div class="cb_inner">
-
-        <span class="txt_s18cDGray_ready">강사의 요청을 기다려 주세요.</span>
-        <div class="nl_loading_w">
-          <div class="nl_progress">
-            <span class="txt_s18cWhite">대기중</span>
-          </div>
-          <i class="nlp_circle_01"></i>
-          <i class="nlp_circle_02"></i>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-</div>
+<Standby {...standbyMessage} />

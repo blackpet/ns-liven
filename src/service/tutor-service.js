@@ -9,10 +9,11 @@ export function listenOnTutor(socket) {
   // 학습자 접속
   socket.on(EVENT.EVERYONE_CONNECT, userId => {
     console.log(EVENT.EVERYONE_CONNECT, userId)
-  });
+  })
 
   // 학습자 접속 종료
   socket.on(EVENT.EVERYONE_DISCONNECT, userId => {
     console.log(EVENT.EVERYONE_DISCONNECT, userId)
-  });
+  })
+
 }

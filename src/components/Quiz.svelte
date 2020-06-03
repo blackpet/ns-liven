@@ -8,9 +8,16 @@
    */
   export let data, role
 
+  import {stores} from '@sapper/app'
   import {onMount, createEventDispatcher} from 'svelte'
-  import LivenService, {ROLE} from '../service/liven-service'
+  import LivenService, {ROLE, EVENT} from '../service/liven-service'
   import {submitQuiz} from '../service/student-service'
+  import {action, LivenSocket} from '../store/action'
+
+  const {session} = stores()
+  const socket = LivenSocket.get()
+
+  ////////////////////////////////////////////////// 강사 전용
 
   // 강사는 문항을 선택할 수 없다! (readonly)
   let disabled = false
@@ -19,9 +26,11 @@
   });
 
   // event를 상위 component 로 전파하자!
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
+
+  // [tutor] Live.N 시작!
   function start() {
-    dispatch('start', {act: 'quiz'})
+    dispatch('submit', {})
   }
 
   // 정답
@@ -29,6 +38,24 @@
   // 강사인 경우만 답안을 표시한다! (default checked)
   if (role === ROLE.TUTOR) {
     answer = data.items.find(i => !!i.answer)
+  }
+  ////////////////////////////////////////////////// end of 강사 전용
+
+
+
+  ////////////////////////////////////////////////// 학생 전용
+  let shareMode = false
+
+  if (!!socket) {
+    // [tutor] quiz 결과 보러가자!
+    socket.on(EVENT.TUTOR_SHARE_RESULT, (actData) => {
+      console.log(EVENT.TUTOR_SHARE_RESULT, actData)
+
+      $action[actData.act] = actData.data
+
+      // 대기? 결과 공유?
+      standbyOrShare(false)
+    });
   }
 
   // 답안(문항) 선택
@@ -41,10 +68,40 @@
   // [student] [제출하기]btn
   function submit() {
     confirm('제출 후에는 답안을 변경할 수 없습니다.<br>제출하시겠습니까?', function () {
-      submitQuiz(data.id, userAnswerId)
+
+      // insert to DB!
+      submitQuiz({
+        ns: $session.ns,
+        userId: $session.userId,
+        quizId: data.id,
+        itemId: userAnswerId
+      })
+
+      // submit!
+      socket.emit(EVENT.STUDENT_SUBMIT_QUIZ, {actId: data.id, itemId: userAnswerId});
+
+      // close confirm!
       this.close()
+
+      // 대기? 결과 공유?
+      standbyOrShare(true)
     });
   }
+
+  // 이미 "결과 공유하기" 이면 바로 결과 화면으로! 아니면 대기하자!
+  function standbyOrShare(answered) {
+    if (shareMode) {
+      dispatch('share')
+    } else {
+      shareMode = !shareMode
+
+      // 답안 제출했니?
+      if (answered) {
+        dispatch('standby');
+      }
+    }
+  }
+  ////////////////////////////////////////////////// end of 학생 전용
 
 </script>
 

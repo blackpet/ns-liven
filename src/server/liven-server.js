@@ -28,6 +28,8 @@ function createLivenServer(server) {
       socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data)
     }
 
+    ////////////////////////////////////////////// listen
+
     // [tutor] Live.N 공유 시작!
     socket.on(EVENT.TUTOR_START_LIVEN, data => {
       console.log(EVENT.TUTOR_START_LIVEN, data);
@@ -62,6 +64,14 @@ function createLivenServer(server) {
       // ns의 모든 사용자(강사, 학습자)에 broadcast!!
       socket.nsp.emit(EVENT.STUDENT_SUBMIT_QUIZ, act)
     });
+
+    // [tutor] "결과 공유하기"
+    socket.on(EVENT.TUTOR_SHARE_RESULT, () => {
+      // ns의 모든 사용자(강사, 학습자)에 broadcast!!
+      socket.nsp.emit(EVENT.TUTOR_SHARE_RESULT, ServerStorage.activeActionData(ns))
+    });
+
+    ////////////////////////////////////////////// end of listen
   }
 
   const middlewareNs = (socket, next) => {

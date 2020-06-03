@@ -22,34 +22,44 @@
   import {stores} from '@sapper/app'
   import LivenService, {ROLE, EVENT} from '../../service/liven-service'
   import {listenOnTutor} from '../../service/tutor-service'
-  import {action} from '../../store/action'
+  import {action, LivenSocket} from '../../store/action'
 
   const {session} = stores()
+
+  let componentAct = act
+
+  // store action
+  $action[act] = data
 
   // [출제하기]btn real-time Live.N 시작!
   function start(e) {
     const socket = LivenService.connectServer($session.ns, $session.userId, ROLE.TUTOR)
 
-    // store action
-    $action[e.detail.act] = data
-
-    console.log('tutor start', $action)
+    // store socket
+    LivenSocket.set(socket)
 
     // send action data to server
-    socket.emit(EVENT.TUTOR_START_LIVEN, {
-      act: e.detail.act,
-      data: data
-    })
+    socket.emit(EVENT.TUTOR_START_LIVEN, {act, data})
 
-    listenOnTutor(socket)
+    listenOnTutor(socket, $action)
 
     // 결과 페이지로 화면 전환하자!
-    act = 'quiz-result'
+    componentAct = 'quiz-result'
+  }
+
+  // action data를 실시간 갱신하자!
+  function refresh(e) {
+    const actData = e.detail.actData
+    $action[actData.act] = actData.data
+
+    console.log('student refresh', $action)
   }
 
 </script>
 
 <h1>Tutor : {act}</h1>
 
-<svelte:component this="{LivenService.actionComponent(act)}" {data} role="{ROLE.TUTOR}" on:start={start} />
+<svelte:component this="{LivenService.actionComponent(componentAct)}"
+                  data={$action[act]} role="{ROLE.TUTOR}"
+                  on:submit={start} on:refresh={refresh} />
 

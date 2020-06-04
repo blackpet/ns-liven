@@ -89,7 +89,14 @@ function createLivenServer(server) {
 
   // global socket listening
   const listenOnDefault = (socket) => {
-    console.log('a user connected', socket.id, socket.nsp.name);
+    console.log('a user connected', socket.id);
+
+    socket.on('admin:server-storage', () => {
+      // 관리 콘솔에 ServerStorage 전송
+      const storage = ServerStorage.getStorage()
+      console.log('admin:server-storage', storage)
+      socket.server.to(socket.id).emit('admin:server-storage', storage)
+    });
 
 
     // 접속한 수강생에게 설문을 전송하자!

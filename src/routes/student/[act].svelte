@@ -41,7 +41,7 @@
 
 </script>
 
-<h1>Student Action</h1>
+<h1>Student: {act}</h1>
 
 {#if componentAct === 'standby'}
   <Standby {...standbyMessage}/>

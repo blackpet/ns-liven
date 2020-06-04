@@ -39,7 +39,7 @@
         <div class="nl_result_top">
           <ul class="items_cont_double">
             <li class="item_cont">
-              <span class="txt_s16cBrown">참여인원  30명</span>
+              <span class="txt_s16cBrown">참여인원  n명</span>
             </li>
             <li class="item_cont">
               <span class="txt_s16cBrown">응답인원  <b class="cRed">{resUserTotal}</b>명</span>

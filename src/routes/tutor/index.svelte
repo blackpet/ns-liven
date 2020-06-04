@@ -24,9 +24,9 @@
   <title>Live.N Tutor</title>
 </svelte:head>
 
-<h1>new Tutor</h1>
+<h1>Tutor Contents List</h1>
 
-<h2>[TEST] subjCd=ON1234 과정</h2>
+<!--<h2>[TEST] subjCd=ON1234 과정</h2>-->
 
 <ul>
   {#each acts as {id, name, act}}

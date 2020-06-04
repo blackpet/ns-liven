@@ -1,18 +1,20 @@
 <script context="module">
+  import {env} from '../../env'
+
   export async function preload({params, query}) {
     // TODO blackpet: 실서버에 연결할 것! ?id=query.id
-    const api = '//localhost:4004'
-    let data;
+    let data
 
     // Action Data 조회하자!
-    const res = await this.fetch(`${api}/${params.act}`)
+    const res = await this.fetch(`${env.api}/${params.act}`)
     if (res.ok) {
-      data = await res.json();
+      data = await res.json()
+      console.log('tutor[act] preload', data)
     } else {
-      data = [];
+      data = []
     }
 
-    return {act: params.act, data};
+    return {act: params.act, data}
   }
 </script>
 

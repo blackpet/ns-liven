@@ -1,2 +1,4 @@
 
-export const apiServerHost = 'http://localhost:4004'
+export const env = {
+  api: 'http://localhost:4004'
+}

@@ -4,15 +4,15 @@ import * as _ from 'lodash';
 /**** action components ****/
 import Quiz from '../components/Quiz.svelte'
 import QuizResult from '../components/QuizResult.svelte'
+import PollList from '../components/PollList.svelte'
 
 const acts = [
   {act: 'quiz', component: Quiz},
   {act: 'quiz-result', component: QuizResult},
+  {act: 'poll', component: PollList},
 ]
 
 let socket;
-
-const api = 'http://localhost:4004';
 
 function createService() {
 

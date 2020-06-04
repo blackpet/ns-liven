@@ -84,6 +84,7 @@ function alert(message, fn) {
     title: '',
     closeable: true,
     buttons: ['ok'],
+    className: 'small',
     data: {
       message: message
     }
@@ -104,6 +105,7 @@ function confirm(message, fnOk, fnCancel) {
     title: '',
     closeable: false,
     buttons: ['ok', 'cancel'],
+    className: 'small',
     data: {
       message: message
     }

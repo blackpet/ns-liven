@@ -121,7 +121,7 @@
 
         /* 카테고리 - 소분류 */
         .ctsDepth_02 {}
-            .ctsDepth_02 .cts_scroll {padding:14px 0 14px 100px;}
+            .ctsDepth_02 .cts_scroll {padding:14px 0 14px 130px;}
             .ctsDepth_02 .cdt_lists_w {overflow:hidden; position:relative; left:-10px; width:100%;}
                 .ctsDepth_02 .cdt_list {float:left; margin-left:20px; padding:5px; height:50px;}
                     .ctsDepth_02 .cdt_list .inp_chk {width:100%;}
@@ -137,6 +137,10 @@
     .cthk_scroll {overflow:auto; margin-top:25px; width:100%;}
         .cthk_lists_w {overflow:hidden; width:100%;}
             .cthk_list {display:inline-block; padding:15px 10px; vertical-align:top;}
+            .cthk_list .inp_chk_keywordT3 .btn_h50 {min-width:160px;}
+
+.ct_hotKeyowrd_w + .result_btn_w .btn_lGray2h50 {width:310px;}
+
 
 .title_wrap {}
     .title_wrap .categori_map_w {display:inline-block; vertical-align:middle;}
@@ -158,8 +162,10 @@
     .popup_w620_filter .formGroup_chk {margin-top:10px;}
         .popup_w620_filter .formGroup_chk [class^="inp_chk"] {margin:0 10px 10px 0;}
         .popup_w620_filter .formGroup_chk [class^="inp_chk"]:last-child {margin:0 0 10px 0;}
+        .popup_w620_filter .inp_chk_keywordT4 .btn_h40 {padding-left:30px; padding-right:30px;}
 
 /* 카테고리 - 상세 */
+.contBox_categori .low_cont {line-height:2.11;}
 .lists_wrap_curriculum {border-top:0;}
     .list_curri {position:relative; padding:0 0 40px 60px; border:0;}
         .list_curri:before, .list_curri:after {display:block; content:''; overflow:hidden; position:absolute; top:0;}
@@ -209,7 +215,7 @@
                 .starScore_total .formGroup_rdStar {margin-top:20px;}
                 .starScore_total .icon_star_left, .starScore_total .icon_star_right {width:12px; height:24px;}
         .review_chart_w {display:inline-block; position:relative; width:100%; height:250px;}
-            .review_chart_w canvas {display:block; width:100%; height:250px;}
+            .review_chart_w canvas {display:block; position:relative; z-index:2; width:100%; height:250px;}
             .total_big_w {position:absolute; left:50%; top:0; z-index:1; margin-left:-125px; width:250px; height:250px; letter-spacing:-5px; text-align:center;}
                 .total_big_w .align_maker {margin-left:-1px; height:100%;}
                 .total_big_w .tb_inner {display:inline-block; width:100%; letter-spacing:-0.5px; vertical-align:middle;}
@@ -234,11 +240,12 @@
 .thumb_lists_study {margin-top:20px; }
 
 /* 카텍리 상세 - 사외위탁교육 */
-.items_cont_float > .item_cont_process {position:relative; padding-left:24px; width:33.3%; text-align:center;}
-    .items_cont_float > .item_cont_process:before {display:block; content:''; position:absolute; left:0; top:50%; margin-top:-12px; width:24px; height:24px; background:url('../images/common/arrow_right.png') no-repeat; background-size:100% auto;}
-.items_cont_float > .item_cont_process:first-child {padding-left:0;}
-    .items_cont_float > .item_cont_process:first-child:before {display:none;}
-    [class^="icon_process"] {width:155px; height:100px;}
+.items_cont_float > .item_cont_process {position:relative; padding-top:10px; padding-left:24px; width:33.3%; text-align:center;}
+    .items_cont_float > .item_cont_process:before {display:block; content:''; position:absolute; left:0; top:70px; width:30px; height:30px; background:url('../images/common/arrow_right_bold.png') no-repeat; background-size:auto 100%;}
+    .items_cont_float > .item_cont_process:first-child {padding-top:10px; padding-left:0;}
+        .items_cont_float > .item_cont_process:first-child:before {display:none;}
+    .items_cont_float > .item_cont_process:last-child {padding-top:10px;}
+    [class^="icon_process"] {width:155px; height:100px; background-position:center center;}
     .icon_process_01 {background-image:url('../images/categori/img_ct_01.png');}
     .icon_process_02 {background-image:url('../images/categori/img_ct_02.png');}
     .icon_process_03 {background-image:url('../images/categori/img_ct_03.png');}
@@ -246,15 +253,14 @@
     .icon_process_apply02 {background-image:url('../images/categori/img_ctApply_02.png');}
     .icon_process_apply03 {background-image:url('../images/categori/img_ctApply_03.png');}
     .item_cont_process [class^="tit_"] {display:block; margin-top:25px;}
-    .item_cont_process [class^="txt_"] {margin-top:10px;}
+    .item_cont_process [class^="txt_"] {display:block; margin-top:10px; padding:0 80px; line-height:1.5;}
 
 /* 카테고리 상세 - 사외위탁굥규 검색 */
-.ctSearch_box {overflow:hidden; margin-top:80px; padding:20px; width:100%; text-align:center; background-color:#f7f7f7;}
+.ctSearch_box {overflow:hidden; margin-top:80px; padding:50px 20px; width:100%; text-align:center; background-color:#f7f7f7;}
     .ctSearch_box .inp_txt_search_line {float:left; width:637px;}
     .ctSearch_box .btn_grayh50_newApply {float:right; width:126px;}
 
 .tableWrap_bbsList_edu {margin-top:50px; border-top:1px solid #898989;}
-    .table_bbsList_edu th, .table_bbsList_edu td {padding:15px;}
     .table_bbsList_edu th {background-color:#f7f7f7; border-bottom:0;}
     .table_bbsList_edu thead th:nth-child(1) {width:28.4%;}
     .table_bbsList_edu thead th:nth-child(2) {width:14.4%;}
@@ -263,16 +269,19 @@
     .table_bbsList_edu thead th:nth-child(5) {width:11.9%;}
     .table_bbsList_edu thead th:nth-child(6) {width:12.9%;}
 
+    .table_bbsList_edu td [class^="btn_"] {min-width:90px;}
+
 /* 카타고리 상세 - 수강신청 - 약관동의 */
 .guide_msg_ctApply {margin-top:80px;}
 
 .title_wrap_ctApply {}
     .title_wrap_ctApply [class^="tit_"] {display:block;}
-    .title_wrap_ctApply [class^="txtIcon_star_"] {display:block; margin-top:5px;}
+    .title_wrap_ctApply [class^="txtIcon_star_"] {display:block; margin-top:15px;}
 
-.agreement_box {overflow-x:hidden; overflow-y:auto; margin-top:30px; padding:20px; width:100%; height:272px; border:1px solid #e6e6e6; border-radius:5px;}
+.agreement_box {overflow-x:hidden; overflow-y:auto; margin-top:30px; padding:20px; width:100%; height:272px; border:1px solid #979797; border-radius:5px;}
 
 .agreement_box + .inp_chk_surely {margin-top:15px;}
+    .agreement_box + .inp_chk_surely [class^="txt_"] {font-weight:500;}
 
 .agr_bottom_w {margin-top:60px; text-align:center;}
     .agr_bottom_w .items_btn_double {margin:0 auto; width:630px;}
@@ -283,6 +292,7 @@
 /* 카테고리 상세 - 수강신청 - 신청정보 입력 */
 .fake_table_ctApply {margin-top:80px;}
     .fake_table_ctApply .ft_cell_th {width:160px;}
+        .fake_table_ctApply .ft_cell_th [class^="txt_"] {font-weight:500;}
     .fake_table_ctApply .ft_cell_td {width:calc(100% - 160px);}
 
 .ctApply_calendar_w {margin-top:30px; width:375px;}
@@ -294,20 +304,24 @@
         .inp_chk_ctApply {display:block; z-index:1; height:100%;}
             .inp_chk_ctApply .txt_s12 {display:block; height:100%; border-width:2px; border-style:solid; border-color:transparent; color:#414141; line-height:55px; letter-spacing:-0.5px; border-radius:5px; transition-property:border-color, color; transition-duration:.2s; transition-timing-function:ease;}
             .inp_chk_ctApply input[type="checkbox"]:disabled + .txt_s12 {color:#898989;}
-            .inp_chk_ctApply input[type="checkbox"]:checked + .txt_s12 {border-color:#ff5452; color:#ff5452; font-weight:500;}
+            .inp_chk_ctApply input[type="checkbox"]:checked + .txt_s12 {border-color:#ff5452; color:#ff5452; font-weight:700;}
 
 /*  카테고리 상세 - 수강신청 완료 */
 .ctApply_complate_box {position:relative; overflow:hidden; margin-top:80px; padding:40px; width:100%; background-color:#414141; border-radius:5px;}
     .ctApply_complate_box .thumbCol_stInfo {float:left; padding:0; width:calc(100% - 340px); min-height:auto;}
+        .ctApply_complate_box .thumbCol_stInfo .thumb_label + [class^="txt_"] {font-weight:700;}
     .ctApply_complate_box .stInfo_view_w {float:right;}
         .ctApply_complate_box .list_stInfo:last-child {border-bottom:0;}
 .inp_chk_complate {margin-top:20px;}
+    .inp_chk_complate [class^="txt_"] {font-weight:500;}
 
 /* 사외위탁교육 신청 */
 .tableWrap_edu {margin-top:20px;}
 .tableWrap_edu .items_btn_autoWidth {width:auto; text-align:left;}
 .tableWrap_edu .msg_w {margin-top:10px;}
 .inp_txt_className {width:473px;}
+
+.tableWrap_edu .item_list .btn_lGrayh40 {width:135px;}
 
 /* 카테고리 -= 사외위탁교육 신청 - 구성원 선택 팝업 */
 .popup_w710_memSelect {}
@@ -328,7 +342,7 @@
                     .msf_list:nth-child(4) {clear:left;}
                         .inp_txt_ms {width:100%;}
                         .inp_select_gray_mem {width:100%;}
-                        .btn_grayh50_ms {margin-top:5px; width:100%}
+                        .btn_grayh50_ms {margin-top:5px; width:100%; background-color:#9b9b9b;}
             .ms_result_w {margin-top:10px; width:100%;}
                 .msr_list {margin-top:10px;}
                 .msr_list:first-child {margin-top:0;}
@@ -343,7 +357,7 @@
                     .inp_chk_member input[type="checkbox"]:checked + .mInfo_box {box-shadow:0 1px 4px 0 rgba(0, 0, 0, 0.1); background-color:#f8f8f8;}
                     .inp_chk_member input[type="checkbox"]:checked + .mInfo_box [class^="txt_"] {color:#414141;}
 
-    .ms_inner.open {height:180px;}
+    .ms_inner.open {height:150px;}
     
     .title_wrap_ms {margin-top:20px; }
 
@@ -388,7 +402,7 @@
             .formGroup_price .inp_txt_price {width:219px;}
                 .formGroup_price .inp_txt_price input[type="text"] {text-align:right;}
             .formGroup_price .inp_txt_price + [class^="txt_"] {margin-left:10px;}
-            .formGroup_price [class^="txt_"] + .inp_txt_price {margin-left:10px;}
+            .formGroup_price [class^="txt_"] + .inp_txt_price {margin-left:10px; width:calc(100% - 87px)}
 
 
         .formGroup_cashBack {}
@@ -1445,13 +1459,18 @@
                 .txtIcon_jsLGray:before {background-color:#898989;}
                 .txtIcon_jsGGray:before {background-color:#d8d8d8;}
     .myBox_schedule .calendar {color:#414141;}
-        .myBox_schedule .fc-center button, .myBox_schedule .fc-center h2 {display:inline-block; font-size:1.000em; vertical-align:middle;}
+        .myBox_schedule .fc-toolbar.fc-header-toolbar {height:48px;}
+        .myBox_schedule .fc-toolbar .fc-right {float:none; position:absolute; right:30px; top:20px;}
+        .myBox_schedule .fc-center button, .myBox_schedule .fc-center h2 {float:none; display:inline-block; font-size:1.000em; vertical-align:middle;}
         .myBox_schedule .fc-center h2 {padding:0 20px;}
         .myBox_schedule .fc-center button {width:40px; height:40px; background-color:transparent; background-repeat:no-repeat; background-position:center center; background-size:20px auto; border:0; box-shadow:none;}
             .myBox_schedule .fc-center button > span {display:none;}
         .myBox_schedule .fc-prev-button {background-image:url('../images/common/btn_pg_prev_black.png');}
         .myBox_schedule .fc-next-button {background-image:url('../images/common/btn_pg_next_black.png');}
         .myBox_schedule .fc-view {overflow:hidden; box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1);}
+        .myBox_schedule .fc-state-default.fc-corner-right.btn_lineBrownh50 {position:relative; right:auto; top:auto; width:184px; height:50px; background:transparent; border:1px solid #c19988;}
+            .myBox_schedule .fc-state-default.fc-corner-right.btn_lineBrownh50 .txt_s16 {color:#c19988; font-weight:700;}
+
             [class^="jsIcon_"] {display:inline-block; margin:10px; width:12px; height:12px; border-radius:50%;}
             .jsIcon_brown {background-color:#c19988;}
             .jsIcon_red {background-color:#ff5452;}
@@ -1945,6 +1964,7 @@
                     [class^="btn_type"] .txt_s18 {display:block; color:#c19988;}
                 [class^="btn_type"].active {background-color:#c19988;}
                     [class^="btn_type"].active .txt_s18 {color:#fff; font-weight:500;}
+                [class^="btn_type"].disabled {opacity:.5;}
 
                 .btn_type_video:before {background-image:url('../images/creator/btn_video_off.png');}
                 .btn_type_video.active:before {background-image:url('../images/creator/btn_video_on.png');}
@@ -2397,9 +2417,27 @@
                 .history_info_left [class^="hi_info"] {text-align:left;}
             .history_info_right {left:calc(100% + 25px);}
                 .hi_line_right {margin-right:30px; background-image:url('../images/about/img_right_line.png'); background-position:right 0;}
+/* 약관 */
+.contBox_agreement {}
+    .contBox_agreement .cb_inner > [class^="tit_"] {display:block;}
+    .contBox_agreement .cb_inner > [class^="tit_"] + [class^="tit_"] {margin-top:40px;}
+    .contBox_agreement .cb_inner > .low_cont + [class^="tit_"] {margin-top:80px;}
 
+    .contBox_agreement .low_cont + .low_cont {margin-top:40px;}
 
-            
+    .contBox_agreement [class^="txtIcon_dot"]:before {width:4px; height:4px;}
+
+    .agr_lists_w {margin-top:20px;}
+        .agr_lists_w .agr_list {margin-top:10px; padding:0; border:0;}
+        .agr_lists_w .agr_list:first-child {margin-top:0;}
+
+    .agr_table_w {margin-top:10px; width:100%;}
+    .low_cont .agr_table_w + [class^="txt_"] {margin-top:10px; padding-left:10px;}
+
+    [class^="txtIcon_dot"]  + .agr_lists_w {padding-left:10px;}
+    [class^="txtIcon_dot"]  + .agr_table_w {padding:0 10px;}
+
+    
 
 
 /* PC 작은 해상도 (ipad pro 가로 모드) */
@@ -2539,6 +2577,9 @@
     .ctApply_complate_box {padding:30px;}
         .ctApply_complate_box .thumbCol_stInfo {width:calc(100% - 320px);}
         .ctApply_complate_box .stInfo_view_w {margin:0; padding:0; width:310px;}
+
+    /* 카테고리 -외부위탁교육 */
+    .item_cont_process [class^="txt_"] {padding:0 20px;}
    
     /* 시험/과제/설문 목록 */
     .tableWrap_line_studylist {overflow:auto; width:100%;}
@@ -2801,6 +2842,9 @@
         .thumb_lists_book .th_list {margin:0; padding:5px 5px 5px 0; border:0;}
         .thumb_lists_book .th_list:nth-child(even) {padding:5px 0 5px 5px;}
 
+
+
+    .item_cont_process [class^="txt_"] {padding:0 20px;}
 
     /* 카테고리 상세 - 사외위탁굥규 검색 */
     .ctSearch_box {margin-top:80px; padding:20px; width:100%; text-align:center; background-color:#f7f7f7;}
@@ -3130,6 +3174,7 @@
         .myBox_schedule .btn_lineBrownh50 {width:124px;}
         .join_status_w {left:0; top:auto; bottom:14px; width:100%; text-align:center;}
     .myBox_schedule .fc-basic-view .fc-body .fc-row {height:100px; }
+    .myBox_schedule .fc-state-default.fc-corner-right.btn_lineBrownh50 {width:124px; height:40px;}
     .myBox_event_list {display:block; margin-top:20px;}
         .myBox_event_list .link_sbj {padding-right:54px; width:100%;}
             .myBox_event_list .link_sbj:after {display:inline-block; content:''; position:absolute; right:10px; top:5px; width:10px; height:10px; border-width:1px 1px 0 0; border-style:solid; border-color:#898989; transform:rotate(45deg);}
@@ -3353,8 +3398,11 @@
         .ctDepth1_w {display:inline-block; margin-left:10px; margin-right:10px; width:auto;}
             .cdt1_lists_w {display:inline-block; overflow:hidden; width:auto; white-space:nowrap; letter-spacing:-5px; vertical-align:top;}
                 .cdt1_list {float:none; display:inline-block; width:auto; letter-spacing:-0.5px;}
+                    .cdt1_list .inp_chk_keyword .btn_h60 {height:60px;}
 
-    [class^="ctsDepth"] {padding-bottom:40px;}
+
+    
+    [class^="ctsDepth"] {/*padding-bottom:40px;*/}
         [class^="ctsDepth"] .button_w {left:0; top:auto; bottom:0; width:100%; text-align:center;}
             [class^="ctsDepth"] .btnIcon_toggleh40 {width:100px; border:1px solid #ccc; border-radius:0 0 5px 5px; background-position:90% center;}
         [class^="btnIcon_depth"] {position:absolute; left:auto; right:0; top:5px; width:auto; height:40px; border:0; border-radius:5px; box-shadow:none;}
@@ -3372,10 +3420,14 @@
     /* 소분류 */
     .ctsDepth_02 .cdt_list {/*width:33.3%;*/}
 
+    .result_btn_w {margin-top:30px;}
+
     /* 선택한 hot 키워드 */
-    .cthk_scroll {position:relative; left:-10px; width:calc(100% + 20px); text-align:left;}
-    .cthk_lists_w {display:inline-block; width:200%; }
-        .cthk_list {padding:10px 5px;}
+    .ct_hotKeyowrd_w {margin-top:40px;}
+        .ct_hotKeyowrd_w [class^="tit_"] {text-align:left;}
+            .cthk_scroll {position:relative; left:-10px; margin-top:10px; width:calc(100% + 20px); text-align:left;}
+                .cthk_lists_w {display:inline-block; width:200%; }
+                    .cthk_list {padding:10px 5px;}
 
     .title_wrap .right_w .items_btn_autoWidth.categori .item_list {width:95px;} 
     .title_wrap .right_w .items_btn_autoWidth.categori .item_list:first-child {width:calc(100% - 105px); text-align:left;}
@@ -3386,6 +3438,7 @@
 
     /* 필터 팝업 */
     .popup_w620_filter .pop_header {border-bottom:0;}
+    .popup_w620_filter .formGroup_chk .align_maker {display:inline-block;}
 
     /*  커리큘럼 */
     .list_curri {padding: 0 0 20px 30px;}
@@ -3401,16 +3454,19 @@
             .lists_wrap_stNumber [class^="list_"] > [class^="item_"] {padding:5px 10px; text-align:left;}
                 .lists_wrap_stNumber [class^="txt_"] > span.cRed {font-size:inherit;}
             .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(1) {width:50%;}
+            .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(2) {padding-top:25px;}
             .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(2), .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(3), .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(4) {width:100%; background-color:#f7f7f7;}
+            .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(4) {padding-bottom:25px;}
             .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(5), .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(7) {position:absolute; top:5px; width:25%;}
             .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(5) {right:80px; padding-right:0; text-align:right;}
             .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(7) {right:0; padding-left:0; width:auto; text-align:left;}
+                .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(7) [class^="btn_"] {display:none;}
             .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(6) {width:100%;}
                 .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(6) .btnIconLine_h40stView {width:100%;}
                 .lists_wrap_stNumber [class^="list_"] > [class^="item_"]:nth-child(6) .btnIconLine_h40stView .txt_s16:before {content:'수료기준 ';}
 
             .lists_wrap_stNumber .list_body {border-color:#898989;}
-            .lists_wrap_stNumber .list_body > .item_body:before {display:inline-block; content:''; width:70px; font-size:0.889em; color:#414141; vertical-align:middle;}
+            .lists_wrap_stNumber .list_body > .item_body:before {display:inline-block; content:''; width:70px; font-size:0.889em; color:#414141; font-weight:500; vertical-align:middle;}
             .lists_wrap_stNumber .list_body > .item_body:nth-child(1):before {content:'차수명';}
             .lists_wrap_stNumber .list_body > .item_body:nth-child(2):before {content:'신청기간';} 
             .lists_wrap_stNumber .list_body > .item_body:nth-child(3):before {content:'취소기간';} 
@@ -3427,6 +3483,8 @@
                     .item_info_box .tableWrap_info th {background-color:#ededed;}
             .lists_wrap_stNumber .list_body > .item_info_box.show {display:block;}
 
+    /* 카테고리 상세 */
+    .contBox_categori .low_cont {margin-top:20px; line-height:2;}
     /* 카테고리 상세 - 수강후기 */
     .review_total_w {padding:0 0 20px 0; width:100%}
         .review_total_w .items_cont_double .item_cont {width:100%; }
@@ -3454,26 +3512,41 @@
     .items_cont_float > .item_cont_process:first-child:before {display:block;}
     .items_cont_float > .item_cont_process:last-child {margin-bottom:0;}
     .items_cont_float > .item_cont_process:last-child:before {display:none;}
-        .items_cont_float > .item_cont_process:before {display:block; content:''; position:absolute; left:50%; top:auto; bottom:-24px; margin:0 0 0 -12px; width:24px; height:24px; transform:rotate(90deg)}
+        .items_cont_float > .item_cont_process:before {display:block; content:''; position:absolute; left:50%; top:auto; bottom:-28px; margin:0 0 0 -8px; width:16px; height:16px; transform:rotate(90deg)}
         [class^="icon_process"] {position:absolute; left:5px; top:50%; margin-top:-50px;}
         .item_cont_process [class^="tit_"] {margin-top:0;}
+        .item_cont_process [class^="txt_"] {padding:0;}
 
      /* 카테고리 상세 - 사외위탁굥규 검색 */
      .ctSearch_box {margin-top:40px; padding:0; background-color:transparent;}
         .ctSearch_box .inp_txt_search_line {width:calc(100% - 100px);}
         .ctSearch_box .btn_grayh50_newApply {margin-left:8px; width:80px;}
 
-    .table_bbsList_edu tr {position:relative; padding:5px 0; border-bottom:1px solid #e6e6e6;}
+    .table_bbsList_edu tr {position:relative; padding:15px 0; border-bottom:1px solid #e6e6e6;}
     .table_bbsList_edu th, .table_bbsList_edu td {padding:5px 10px; border:0;}
     .table_bbsList_edu td:nth-child(1) {padding-right:20%;}
-    .table_bbsList_edu td:nth-child(2) {position:absolute; right:0; top:5px; width:auto;}
+    .table_bbsList_edu td:nth-child(2) {position:absolute; right:0; top:15px; width:auto;}
 
 
     /* 카테고리 상세 - 수강신청 - 신청정보 입력 */
+    .guide_msg_ctApply {margin-top:40px;}
+
+    .title_wrap_ctApply [class^="txtIcon_star_"] {margin-top:10px;}
+
+    .agreement_box {margin-top:20px;}
+    .agreement_box + .inp_chk_surely {margin-top:10px;}
+
     .fake_table_ctApply {margin-top:40px; border-top:0;}
     .fake_table_ctApply .ft_cell_th, .fake_table_ctApply .ft_cell_td {width:100%;}
+        .fake_table_ctApply .formGroup_chk .inp_chk {margin:0; width:100%;}
+        .fake_table_ctApply .formGroup_chk .inp_chk + .inp_chk {margin-top:10px;}
 
     .ctApply_calendar_w {width:100%;}
+
+    .tableWrap_edu .items_btn_autoWidth {width:100%; white-space:normal;}
+    .tableWrap_edu .items_btn_autoWidth > .item_list {float:none; width:100%;}
+    .tableWrap_edu .items_btn_autoWidth > .item_list + .item_list {margin:10px 0 0 0;}
+        .tableWrap_edu .items_btn_autoWidth > .item_list [class^="btn_"] {width:100%;}
 
     .agr_bottom_w {margin-top:30px;}
         .agr_bottom_w .items_btn_double {width:100%;}
@@ -3484,25 +3557,31 @@
                 .agr_bottom_w .items_btn_autoWidth .item_list [class^="btn_"] {width:100%;}
 
     /*  카테고리 상세 - 수강신청 완료 */
-    .ctApply_complate_box {margin-top:40px; padding:20px;}
+    .ctApply_complate_box {position:relative; left:-20px; margin-top:40px; padding:20px 20px 0; width:100vw;}
         .ctApply_complate_box .thumbCol_stInfo, .ctApply_complate_box .stInfo_view_w {float:none; width:100%;}
-        .ctApply_complate_box .stInfo_view_w {margin:20px 0 0 0; padding:0; border-top:1px solid #e6e6e6;}
+        .ctApply_complate_box .thumbCol_stInfo .thumb_label + [class^="txt_"] {margin-top:5px; font-size:1.222em; font-weight:700;}
+        .ctApply_complate_box .stInfo_view_w {position:relative; left:-20px; margin:20px 0 0 0; padding:20px; width:calc(100% + 40px); border-top:1px solid #e6e6e6; background-color:#f7f7f7;}
+        .ctApply_complate_box .stInfo_view_w [class^="tit_"], .ctApply_complate_box .stInfo_view_w [class^="txt_"] {color:#414141;}
+
+    .inp_chk_complate {margin-top:30px;}
     
     .tableWrap_eduApply {border-top:0;}
     .table_col_eduApply, .table_col_eduApply tbody, .table_col_eduApply tr, .table_col_eduApply th, .table_col_eduApply td {display:block; height:auto; border:0;}
-    .table_col_eduApply th {margin-top:10px; padding-bottom:0; background-color:transparent; text-align:left;}
+    .table_col_eduApply th {margin-top:10px; padding-bottom:0; padding-left:0; background-color:transparent; text-align:left;}
     .table_col_eduApply tr:first-child th {margin-top:0;}
         .inp_txt_className {width:100%;}
+    .table_col_eduApply td {padding-right:0; padding-left:0;}
 
     /* 카테고리 사외위탁교육 */
     .formGroup_eduTime {width:100%;}
         .fget_list {margin:10px 0 0 0; width:100%;}
             .fget_list .inp_txt_eduTime {width:calc(100% - 50px);}
+        .fget_list:first-child {margin:0;}
     
     .inp_txt_eduCompany {width:100%;}
 
     .formGroup_price {width:100%;}
-        .formGroup_price .inp_txt_price {width:50%;}
+        .formGroup_price .inp_txt_price {width:calc(100% - 30px);}
 
     .formGroup_cashBack .formGroup_radio, .formGroup_cashBack .formGroup_price {width:100%;}
     .formGroup_cashBack .formGroup_price {margin:10px 0 0 0;}
@@ -4025,6 +4104,7 @@
             .swfs_li .period_list {position:relative; padding-left:20px; width:50%;}
                 .swfs_li .period_list:last-child {float:right; position:relative; margin-top:0;}
                 .swfs_li .period_list:last-child:after {position:absolute; top:50%; left:5px; margin-top:-12px; content:'~';}
+        .swfs_li .inp_txt_search + .formGroup_period {left:0;}
         .swfs_btn_w {width:100%; margin-left:0; padding-top:20px; text-align:center;}            
             .swfs_btn_w .btn_grayh50_srch {width:120px;}
     
@@ -4082,6 +4162,8 @@
         
     .faclass_wrap {display:none;}
     .faclass_wrap + .fac_sh_w {width:100%; margin-top:0;}
+
+    .fac_sh_w .myBox_schedule .calendar {margin-top:0;}
     
     .table_col_schdetail {display:inline-table; text-align:left;}
         .table_col_schdetail tr:last-child td {border-bottom:0;}
@@ -4321,6 +4403,7 @@
             .myBox_msi_list .title_wrap {padding-top:10px; padding-bottom:10px;}
                 .myBox_msi_list .title_wrap .right_w {position:absolute; margin-top:0;}
                     .myBox_msi_list .title_wrap .btn_brownh40 {width:auto;}
+            .title_wrap + .top_total_w {margin-top:20px; padding-bottom:10px; border-bottom:1px solid #898989;}
             .tableWrap_info_myStudy {margin-top:0; border-top:0;}
             .table_infoList_myStudy thead {display:none;}
             .table_infoList_myStudy tbody, .table_infoList_myStudy tr, .table_infoList_myStudy th, .table_infoList_myStudy td {display:block; width:100%;}
@@ -4509,9 +4592,12 @@
         .bottom_btn_w .items_btn_autoWidth > .item_list:nth-child(3) {padding-left:5px;}
 
     /* 마이페이지 - 나의일정 */
-    .myBox_schedule {padding-left:0; padding-right:0; padding-bottom:43px;}
-        .myBox_schedule .btn_lineBrownh50 {position:relative; left:20px; right:auto; top:0; width:calc(100% - 40px);}
+    .myBox_schedule {padding-top:50px; padding-left:0; padding-right:0; padding-bottom:43px;}
+        .myBox_schedule .btn_lineBrownh50 {position:absolute; left:20px; right:auto; top:20px; width:calc(100% - 40px);}
         .myBox_schedule .calendar {margin-top:20px;}
+        .myBox_schedule .fc-toolbar .fc-right {top:20px; right:20px; width:100%; padding:0 20px}
+        .myBox_schedule .fc-state-default.fc-corner-right.btn_lineBrownh50 {position:relative; right:auto; top:auto; width:100%; height:40px; background:transparent; border:1px solid #c19988;}
+        
         .join_status_w {left:0; top:auto; bottom:12px; width:100%; text-align:center;}
         .myBox_schedule .fc-unthemed th {padding:9px 0;}
         .myBox_schedule .fc-basic-view .fc-body .fc-row {height:50px; }
@@ -4521,6 +4607,8 @@
         .myBox_schedule .fc-day-grid-event {padding:3px 5px;}
         .myBox_schedule .fc-event-container .blue, .myBox_schedule .fc-event-container .red, .myBox_schedule .fc-event-container .orange, .myBox_schedule .fc-event-container .green {padding-left:10px;}
         .myBox_schedule .fc-event-container .blue:before, .myBox_schedule .fc-event-container .red:before, .myBox_schedule .fc-event-container .orange:before, .myBox_schedule .fc-event-container .green:before {width:5px;}
+
+        
 
     .myBox_event_list {display:block; margin-top:20px;}
         
@@ -4700,7 +4788,7 @@
             .tab_wrap_view .tabCont_w {padding:40px 20px 0; height:auto;}
 
                 .vc_list {border-bottom:1px solid #d9d9d9;}
-                    .vc_list .thumbCol_stInfo {padding:0 155px 0 0; min-height:81px; vertical-align:top;}
+                    .vc_list .thumbCol_stInfo {padding:0 155px 0 0; width:100%; min-height:81px; vertical-align:top;}
                         .vc_list .thumbCol_stInfo .img_w {position:absolute; left:auto; right:0; top:0; margin-top:0; width:135px;}
 
                 .tab_wrap_view .tabCont_w .bookmark_now_w {padding-top:0;}
@@ -4863,7 +4951,7 @@
         .version_info_w .items_btn_single {margin-top:40px; width:100%;}
 
 
-    /* N-Live */
+     /* N-Live */
     .beamMode .header {display:block;}
     .beamMode .container {padding-top:60px;}
 
@@ -4938,6 +5026,22 @@
                         .hi_info_row .txt_s14cGGray_date + [class^="txt_"] {margin-top:5px; white-space:normal;}
 
                     [class^="hi_line"] {display:none;}
+
+
+    /* 약관 */
+    .contBox_agreement [class*="s30"] {font-size:1.333em;}
+    .contBox_agreement [class*="s24"] {font-size:1.111em;}
+    .contBox_agreement .cb_inner > [class^="tit_"] + [class^="tit_"] {margin-top:30px;}
+    .contBox_agreement .cb_inner > .low_cont + [class^="tit_"] {margin-top:40px;}
+    .contBox_agreement .low_cont + .low_cont {margin-top:30px;}
+    .contBox_agreement [class^="txtIcon_dot"]:before {width:4px; height:4px;}
+    .agr_lists_w {margin-top:10px;}
+        .agr_lists_w .agr_list {margin-top:5px; padding:0; border:0;}
+        .agr_lists_w .agr_list:first-child {margin-top:0;}
+    .agr_table_w {margin-top:10px; width:100%;}
+    .low_cont .agr_table_w + [class^="txt_"] {margin-top:10px; padding-left:10px;}
+    [class^="txtIcon_dot"]  + .agr_lists_w {padding-left:10px;}
+    [class^="txtIcon_dot"]  + .agr_table_w {padding:0 10px;}
         
 }
 

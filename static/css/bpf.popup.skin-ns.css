@@ -31,3 +31,9 @@
 .pop_footer.bp-footer {
   padding: 20px 0 40px 0;
 }
+
+@media screen and (max-width: 767px) and (min-width: 360px) {
+  .pop_footer.bp-footer {
+    padding: 20px 0;
+  }
+}

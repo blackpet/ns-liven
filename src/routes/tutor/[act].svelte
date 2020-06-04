@@ -33,10 +33,7 @@
 
   // [출제하기]btn real-time Live.N 시작!
   function start(e) {
-    const socket = LivenService.connectServer($session.ns, $session.userId, ROLE.TUTOR)
-
-    // store socket
-    LivenSocket.set(socket)
+    const socket = LivenSocket.get()
 
     // send action data to server
     socket.emit(EVENT.TUTOR_START_LIVEN, {act, data})

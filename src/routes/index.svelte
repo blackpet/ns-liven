@@ -1,43 +1,23 @@
-<style>
-	h1, figure, p {
-		text-align: center;
-		margin: 0 auto;
+
+<script>
+	import {goto} from '@sapper/app'
+	import {ROLE} from '../service/liven-service'
+	import {LivenSocket} from '../store/action'
+	import LivenService from '../service/liven-service'
+
+	let role, userId, subjCd
+
+	// 연결된 socket 이 있으면 끊어놓고 시작하자!
+	const socket = LivenSocket.get()
+	if (!!socket) {
+		socket.close()
 	}
 
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
+
+	function start() {
+		goto(`${role}?ns=${subjCd}&userId=${userId}`)
 	}
-
-	figure {
-		margin: 0 0 1em 0;
-	}
-
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
-	}
-
-	p {
-		margin: 1em auto;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
-	}
-
-	div {color: red;}
-
-	.ac {text-align: center; }
-
-	.scenario {padding: 20px;}
-
-</style>
+</script>
 
 <svelte:head>
 	<title>Sapper project template</title>
@@ -48,6 +28,29 @@
 
 <div class="ac">
 	DB 연결이 되지 않은 샘플 프로그램 입니다.
+</div>
+
+<div class="dummy">1. 어떤 역할 인가요?</div>
+<label class="inp_radio_nl">
+	<input type="radio" bind:group={role} value="{ROLE.TUTOR}">
+	<span class="txt_s18cDGray">강사</span>
+	<i class="icon_rd_nl"></i>
+</label>
+
+<label class="inp_radio_nl">
+	<input type="radio" bind:group={role} value="{ROLE.STUDENT}">
+	<span class="txt_s18cDGray">학생</span>
+	<i class="icon_rd_nl"></i>
+</label>
+
+
+<div class="dummy">2. 사용자 아이디: <input type="text" bind:value={userId}></div>
+<div class="dummy">3. 과정코드: <input type="text" bind:value={subjCd}></div>
+
+<div class="items_btn_single dummy">
+	<button type="button" class="btn_brownh50" on:click={start}>
+		<span class="txt_s18">자! 한번 시작해 볼까요?</span>
+	</button>
 </div>
 
 <ol class="scenario">
@@ -71,3 +74,26 @@
 	</li>
 </ol>
 
+<style>
+	h1 {
+		text-align: center;
+		margin: 0 auto;
+		font-size: 2.8em;
+		text-transform: uppercase;
+		font-weight: 700;
+		margin: 0 0 0.5em 0;
+	}
+
+	@media (min-width: 480px) {
+		h1 {
+			font-size: 4em;
+		}
+	}
+
+	div {color: red;}
+	.ac {text-align: center; }
+	.scenario {padding: 20px;}
+
+	.inp_radio_nl {width:49%}
+	.dummy {margin-top: 30px;}
+</style>

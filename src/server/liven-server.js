@@ -71,6 +71,12 @@ function createLivenServer(server) {
       socket.nsp.emit(EVENT.TUTOR_SHARE_RESULT, ServerStorage.activeActionData(ns))
     });
 
+    // [tutor] "종료하기"
+    socket.on(EVENT.TUTOR_END_LIVEN, () => {
+      // ns의 모든 사용자(강사, 학습자)에 broadcast!!
+      socket.nsp.emit(EVENT.TUTOR_END_LIVEN)
+    });
+
     ////////////////////////////////////////////// end of listen
   }
 

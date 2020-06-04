@@ -12,4 +12,5 @@ function livenSocket() {
   return {set, get}
 }
 
+// node socket
 export const LivenSocket = new livenSocket()

@@ -1,35 +1,43 @@
 <script context="module">
+  import {ROLE} from '../../service/liven-service'
+
   export function preload({query}, session) {
     // TODO blackpet: set {namespace, userId} to session
-    session.ns = !!query.ns ? query.ns : 'ON1234';
-    session.userId = !!query.userId ? query.userId : 'user01';
+    session.ns = !!query.ns ? query.ns : 'ON1234'
+    session.userId = !!query.userId ? query.userId : 'user01'
+    session.role = ROLE.STUDENT
+
+    // TODO blackpet: DB Select~!
+    session.course = {
+      subjCd: 'ON1234',
+      seqCd: '12',
+      type: '집합교육',
+      title: '누구나~! 따라하면 유통이 원활해지는 핵공감 유통 마스터 과정',
+      cnt: 10,
+      start: '2020.01.04',
+      end: '2020.01.07'
+    }
   }
 </script>
 
 <script>
-  import {onMount} from 'svelte'
+
   import {stores, goto} from '@sapper/app'
-  import LivenService, {ROLE, EVENT} from '../../service/liven-service'
-  import {listenOnStudent} from '../../service/student-service'
-  import {action, LivenSocket} from '../../store/action'
+  import LivenService, {EVENT} from '../../service/liven-service'
+  import {LivenSocket} from '../../store/action'
+  import {action} from '../../store/action'
 
-  import Standby from '../../components/Standby'
-
-  const standbyMessage = {
-    message: '강사의 요청을 기다려 주세요.',
-    label: '대기중'
-  }
+  import List from '../../components/List.svelte'
 
   const {session} = stores()
-  let socket;
 
-  onMount(() => {
-    socket = LivenService.connectServer($session.ns, $session.userId, ROLE.STUDENT)
+  // 최초 접속, socket 연결이 안되어 있는 경우만 연결하자!
+  if (!LivenSocket.get()) {
+    // connect to node server
+    const socket = LivenService.connectServer($session.ns, $session.userId, ROLE.STUDENT)
 
     // store socket
     LivenSocket.set(socket)
-
-    listenOnStudent(socket)
 
     // standby for [tutor] start
     socket.on(EVENT.TUTOR_START_LIVEN, data => {
@@ -39,10 +47,14 @@
 
       goto(`student/${data.act}`)
     })
-
-  });
-
+  }
 
 </script>
 
-<Standby {...standbyMessage} />
+<svelte:head>
+  <title>Live.N</title>
+</svelte:head>
+
+<h1>Student (index)</h1>
+
+<List />

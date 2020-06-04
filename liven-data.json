@@ -52,104 +52,99 @@
   "poll": [
     {
       "id": 2001,
-      "subject": "당신의 농심 최고의 라면은 무엇인가요?",
+      "subject": "개그맨들이 찾아서 헤매는 거리는?",
       "items": [
         {
           "id": 1,
-          "subject": "짜빠구리는 드셔보셨나요?",
+          "subject": "텅빈거리",
           "vote": 3
         },
         {
           "id": 2,
-          "subject": "삼양라면 vs 신라면! 당신은 신라면파 입니까?",
+          "subject": "웃음거리",
           "vote": 0
         },
         {
           "id": 3,
-          "subject": "스낵은 새우깡이 갑이지요!",
-          "vote": 0
-        },
-        {
-          "id": 4,
-          "subject": "농심 제품이 짱입니다!",
+          "subject": "충무로거리",
           "vote": 0
         }
       ]
     },
     {
       "id": 2002,
-      "subject": "당신의 농심 최고의 라면은 무엇인가요?",
+      "subject": "하늘에서 애 낳으면?",
       "items": [
         {
           "id": 1,
-          "subject": "짜빠구리는 드셔보셨나요?",
+          "subject": "하이마트",
           "vote": 3
         },
         {
           "id": 2,
-          "subject": "삼양라면 vs 신라면! 당신은 신라면파 입니까?",
+          "subject": "하이웨이",
           "vote": 0
         },
         {
           "id": 3,
-          "subject": "스낵은 새우깡이 갑이지요!",
+          "subject": "하이애나",
           "vote": 0
         },
         {
           "id": 4,
-          "subject": "농심 제품이 짱입니다!",
+          "subject": "옴메 나죽어",
           "vote": 0
         }
       ]
     },
     {
       "id": 2003,
-      "subject": "당신의 농심 최고의 라면은 무엇인가요?",
+      "subject": "세상 사람들의 머리카락 수를 모두 곱하면?",
       "items": [
         {
           "id": 1,
-          "subject": "짜빠구리는 드셔보셨나요?",
+          "subject": "불계",
           "vote": 3
         },
         {
           "id": 2,
-          "subject": "삼양라면 vs 신라면! 당신은 신라면파 입니까?",
+          "subject": "계산불가",
           "vote": 0
         },
         {
           "id": 3,
-          "subject": "스낵은 새우깡이 갑이지요!",
+          "subject": "무한대",
           "vote": 0
         },
         {
           "id": 4,
-          "subject": "농심 제품이 짱입니다!",
+          "subject": "0",
           "vote": 0
         }
       ]
     },
     {
       "id": 2004,
-      "subject": "당신의 농심 최고의 라면은 무엇인가요?",
+      "subject": "정말 멋진 신사가 자기 소개하는 것은?",
       "items": [
         {
           "id": 1,
-          "subject": "짜빠구리는 드셔보셨나요?",
+          "subject": "신사정장",
           "vote": 3
         },
         {
           "id": 2,
-          "subject": "삼양라면 vs 신라면! 당신은 신라면파 입니까?",
+          "subject": "신사참배",
           "vote": 0
         },
         {
           "id": 3,
-          "subject": "스낵은 새우깡이 갑이지요!",
+          "subject": "신사임당",
           "vote": 0
         },
         {
           "id": 4,
-          "subject": "농심 제품이 짱입니다!",
+          "subject": "신사도",
           "vote": 0
         }
       ]

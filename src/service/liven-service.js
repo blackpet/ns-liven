@@ -93,7 +93,8 @@ export const EVENT = {
   'EVERYONE_CONNECT': 'everyone:connect',
   'EVERYONE_DISCONNECT': 'everyone:disconnect',
   'TUTOR_START_LIVEN': 'tutor:start-liven',
-  'TUTOR_SHARE_RESULT': 'tutor:show-result',
+  'TUTOR_SHARE_RESULT': 'tutor:show-result', // 결과 공유하기
+  'TUTOR_END_LIVEN': 'tutor:end-liven', // 종료하기
   'STUDENT_SUBMIT_QUIZ': 'student:submit-quiz' // quiz / poll / survey submit
 };
 

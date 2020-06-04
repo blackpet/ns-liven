@@ -2,10 +2,14 @@
   export let data, role
   console.log('QuizResult', data)
 
+  import {stores, goto} from '@sapper/app'
   import {action, LivenSocket} from '../store/action'
   import {ROLE, EVENT} from '../service/liven-service'
 
+  const {session} = stores()
+
   const socket = LivenSocket.get()
+  let shared = false; // 결과 공유 여부 (default: false)
 
   // total attendee user count
   let resUserTotal = 1
@@ -15,8 +19,15 @@
     return Math.round(item.vote / resUserTotal * 100)
   }
 
+  // [결과 공유하기]
   function share() {
     socket.emit(EVENT.TUTOR_SHARE_RESULT)
+    shared = true
+  }
+
+  // [종료하기]
+  function end() {
+    socket.emit(EVENT.TUTOR_END_LIVEN)
   }
 
   //////////////////////////////////////// listen socket
@@ -27,6 +38,11 @@
 
     $action[actData.act] = actData.data
   })
+
+  // [종료하기] 시작 페이지로 이동하자!
+  socket.on(EVENT.TUTOR_END_LIVEN, () => {
+    goto(`/${$session.role}`)
+  });
 </script>
 
 <div class="container">
@@ -74,11 +90,21 @@
         </ul>
 
         {#if role === ROLE.TUTOR}
+          {#if !shared}
           <div class="items_btn_single">
             <button type="button" class="btn_brownh50" on:click={share}>
               <span class="txt_s16">결과 공유하기</span>
             </button>
           </div>
+
+          {:else}
+          <div class="items_btn_single">
+            <button type="button" class="btn_brownh50" on:click={end}>
+              <span class="txt_s16">종료하기</span>
+            </button>
+          </div>
+
+          {/if}
         {/if}
 
 

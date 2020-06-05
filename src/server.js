@@ -21,7 +21,7 @@ polka({server})
 			})
 		})
 	)
-	.listen(PORT, err => {
+	.listen(PORT || 5000, err => {
 		if (err) console.log('error', err);
 	});
 

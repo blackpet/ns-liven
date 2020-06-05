@@ -46,18 +46,8 @@
     // send action data to server
     socket.emit(EVENT.TUTOR_START_LIVEN, {act, data})
 
-    listenOnTutor(socket, $action)
-
     // 결과 페이지로 화면 전환하자!
-    componentAct = 'quiz-result'
-  }
-
-  // action data를 실시간 갱신하자!
-  function refresh(e) {
-    const actData = e.detail.actData
-    $action[actData.act] = actData.data
-
-    console.log('student refresh', $action)
+    componentAct = `${act}-result`
   }
 
 </script>
@@ -70,7 +60,7 @@
 
       <svelte:component this="{LivenService.actionComponent(componentAct)}"
                         data={$action[act]} role="{ROLE.TUTOR}" {act} {submitStatus}
-                        on:submit={start} on:refresh={refresh}/>
+                        on:submit={start} />
 
     </div>
   </section>

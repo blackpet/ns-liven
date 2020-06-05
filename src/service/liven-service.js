@@ -10,6 +10,7 @@ const acts = [
   {act: 'quiz', component: Quiz},
   {act: 'quiz-result', component: QuizResult},
   {act: 'poll', component: PollList},
+  {act: 'poll-result', component: PollList},
 ]
 
 let socket;

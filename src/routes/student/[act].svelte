@@ -49,8 +49,18 @@
 
 {#if componentAct === 'standby'}
   <Standby {...standbyMessage}/>
+
 {:else}
-  <svelte:component this="{LivenService.actionComponent(componentAct)}"
-                    data={$action[act]} role="{ROLE.STUDENT}" {act} {submitStatus}
-                    on:standby={standby} on:share={share}/>
+  <div class="container">
+    <section class="content">
+      <div class="contBox_NLive">
+
+        <svelte:component this="{LivenService.actionComponent(componentAct)}"
+                          data={$action[act]} role="{ROLE.STUDENT}" {act} {submitStatus}
+                          on:standby={standby} on:share={share}/>
+
+      </div>
+    </section>
+  </div>
+
 {/if}

@@ -11,15 +11,15 @@
   export let data, role, act
   export let submitStatus
 
+  console.log('QuizQuizQuiz', data)
+
   // 답안(문항) 선택
   let myAnswer = -1
 
   // quiz인 경우는 [제출하기]btn 무조건 보여주면 된다!
   if (act === 'quiz') {
-    $: submitStatus.can = myAnswer === -1
+    $: submitStatus.can = myAnswer == -1
   }
-
-  console.log('Quiz act :' + act);
 
   import {stores} from '@sapper/app'
   import {onMount, createEventDispatcher} from 'svelte'
@@ -43,20 +43,25 @@
 
   // [tutor] Live.N 시작!
   function start() {
-    dispatch('submit', {})
+    dispatch('submit')
   }
 
   // 정답
   let answer = {id: -1}
   // 강사인 경우만 답안을 표시한다! (default checked)
-  if (act === 'quiz' && role === ROLE.TUTOR) {
-    answer = data.items.find(i => !!i.answer)
+  if (role === ROLE.TUTOR) {
+    const answerItem = data.items.find(i => !!i.answer);
+    answer = !answerItem ? answer : answerItem
+  } else {
+    // 선택한 값이 있으면 default check를 해주자!
+    answer.id = !data.myAnswer ? -1 : data.myAnswer
+    console.log('polllllllllllllllllllll answer', answer)
   }
   ////////////////////////////////////////////////// end of 강사 전용
 
 
   ////////////////////////////////////////////////// 학생 전용
-  let shareMode = false
+  let shareMode = false;
 
   if (!!socket) {
     // [tutor] quiz 결과 보러가자!

@@ -6,10 +6,12 @@
   import {stores} from '@sapper/app'
   import {ROLE} from '../service/liven-service'
   import Quiz from './Quiz.svelte'
+  import QuizResult from './QuizResult.svelte'
 
   const {session} = stores()
   const dispatch = createEventDispatcher()
 
+  let componentAct = act
   let idx = 0
   let direction = 1
 
@@ -39,12 +41,19 @@
   }
 
   function checkAnswer(e) {
-    console.log('PollList checkAnswer', e.detail)
+    // 정답을 저장하자!
+    data[idx].myAnswer = parseInt(e.detail.itemId)
+
+    console.log('PollList checkAnswer', e.detail, data)
   }
 
   // [tutor] Live.N 시작!
   function start() {
-    dispatch('submit', {})
+    dispatch('submit')
+
+    // 결과 페이지로 화면 전환하자!
+    componentAct = `${act}-result`
+    idx = 0 // 결과 페이지는 1번 문항부터 보여주자~
   }
 
   function submit() {
@@ -54,10 +63,17 @@
 
 
 <ul>
-  {#each data as poll, i}
+  {#each data as poll, i (poll.id)}
     {#if idx === i}
     <li in:fly={{ x: direction * 300, duration: 500 }}>
-      <Quiz data={poll} role="{$session.role}" {act} {submitStatus} on:checkAnswer={checkAnswer}/>
+
+      {#if componentAct === 'poll-result'}
+      <QuizResult data="{poll}" role="{$session.role}" {act} />
+      {:else}
+      <Quiz data={poll} role="{$session.role}" {act} {submitStatus}
+            on:submit={start} on:checkAnswer={checkAnswer}/>
+      {/if}
+
     </li>
     {/if}
   {/each}

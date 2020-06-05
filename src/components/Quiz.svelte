@@ -4,14 +4,27 @@
 -->
 <script>
   /**
-   * data {id, items[{id, subject, vote}] }
+   * @data {id, items[{id, subject, vote}] }
+   * @submitStatus {can: bool, show: bool}
+   *  - [제출하기]btn 제어용 / 학생전용
    */
-  export let data, role
+  export let data, role, act
+  export let submitStatus
+
+  // 답안(문항) 선택
+  let myAnswer = -1
+
+  // quiz인 경우는 [제출하기]btn 무조건 보여주면 된다!
+  if (act === 'quiz') {
+    $: submitStatus.can = myAnswer === -1
+  }
+
+  console.log('Quiz act :' + act);
 
   import {stores} from '@sapper/app'
   import {onMount, createEventDispatcher} from 'svelte'
   import LivenService, {ROLE, EVENT} from '../service/liven-service'
-  import {submitQuiz} from '../service/student-service'
+  import {insertAct} from '../service/student-service'
   import {action, LivenSocket} from '../store/action'
 
   const {session} = stores()
@@ -36,11 +49,10 @@
   // 정답
   let answer = {id: -1}
   // 강사인 경우만 답안을 표시한다! (default checked)
-  if (role === ROLE.TUTOR) {
+  if (act === 'quiz' && role === ROLE.TUTOR) {
     answer = data.items.find(i => !!i.answer)
   }
   ////////////////////////////////////////////////// end of 강사 전용
-
 
 
   ////////////////////////////////////////////////// 학생 전용
@@ -58,27 +70,41 @@
     });
   }
 
-  // 답안(문항) 선택
-  let userAnswerId = -1
   function checkAnswer(e) {
-    console.log('checkAnswer', e, e.target)
-    userAnswerId = e.target.value
+    // quiz 는 단일 문제로 Quiz component 안에서 동작한다!
+    if (act === 'quiz') {
+      myAnswer = e.target.value
+    }
+
+    // poll 은 다항 문제로 상위 PollList component 에서 제어한다!
+    else if (act === 'poll') {
+      dispatch('checkAnswer', {actId: data.id, itemId: e.target.value})
+    }
   }
 
   // [student] [제출하기]btn
   function submit() {
+    if (act === 'quiz') {
+      submitQuiz()
+    } else if (act === 'poll') {
+      dispatch('submit')
+    }
+  }
+
+  // [student] Quiz 제출하기!
+  function submitQuiz() {
     confirm('제출 후에는 답안을 변경할 수 없습니다.<br>제출하시겠습니까?', function () {
 
       // insert to DB!
-      submitQuiz({
+      insertAct({
         ns: $session.ns,
         userId: $session.userId,
         quizId: data.id,
-        itemId: userAnswerId
+        itemId: myAnswer
       })
 
       // submit!
-      socket.emit(EVENT.STUDENT_SUBMIT_QUIZ, {actId: data.id, itemId: userAnswerId});
+      socket.emit(EVENT.STUDENT_SUBMIT_QUIZ, {actId: data.id, itemId: myAnswer});
 
       // close confirm!
       this.close()
@@ -101,6 +127,7 @@
       }
     }
   }
+
   ////////////////////////////////////////////////// end of 학생 전용
 
 </script>
@@ -111,51 +138,45 @@
 {:else}
 
   <!-- Quiz 출력 -->
-  <div class="container">
-    <section class="content">
+  <div class="cb_inner">
 
-      <div class="contBox_NLive">
-
-        <div class="cb_inner">
-
-          <div class="question_w">
+    <div class="question_w">
             <span class="icon_qRed">
                 <span class="txt_s30cWhiteFB">Q</span>
             </span>
-            <span class="txt_s18cDGrayFB">{@html data.subject}</span>
-          </div>
+      <span class="txt_s18cDGrayFB">{@html data.subject}</span>
+    </div>
 
-          <ul class="quize_lists_w">
-            {#each data.items as item, i}
-              <li class="q_list">
-                <label class="inp_radio_nl">
-                  <input type="radio" name="q1" bind:group={answer.id} value="{item.id}" {disabled} on:click={checkAnswer}>
-                  <span class="txt_s18cDGray">{i}. {@html item.subject}</span>
-                  <i class="icon_rd_nl"></i>
-                </label>
-              </li>
-            {/each}
-          </ul>
+    <ul class="quize_lists_w">
+      {#each data.items as item, i}
+        <li class="q_list">
+          <label class="inp_radio_nl">
+            <input type="radio" name="q1" bind:group={answer.id} value="{item.id}" {disabled} on:click={checkAnswer}>
+            <span class="txt_s18cDGray">{i}. {@html item.subject}</span>
+            <i class="icon_rd_nl"></i>
+          </label>
+        </li>
+      {/each}
+    </ul>
 
-          <!-- tutor private -->
-          {#if role === ROLE.TUTOR}
-            <div class="items_btn_single">
-              <button type="button" class="btn_brownh50" on:click={start}>
-                <span class="txt_s18">출제하기</span>
-              </button>
-            </div>
-          {:else}
-            <div class="items_btn_single">
-              <button type="button" class="btn_brownh50" on:click={submit} disabled="{userAnswerId === -1}">
-                <span class="txt_s18">제출하기</span>
-              </button>
-            </div>
-          {/if}
-
+      {#if role === ROLE.TUTOR}
+      <!-- tutor only -->
+        <div class="items_btn_single">
+          <button type="button" class="btn_brownh50" on:click={start}>
+            <span class="txt_s18">출제하기</span>
+          </button>
         </div>
-      </div>
-    </section>
-  </div>
+
+      {:else if submitStatus.show}
+      <!-- student only -->
+        <div class="items_btn_single">
+          <button type="button" class="btn_brownh50" on:click={submit} disabled="{!submitStatus.can}">
+            <span class="txt_s18">제출하기</span>
+          </button>
+        </div>
+      {/if}
+    </div>
+
   <!-- // Quiz 출력 -->
 
 {/if}

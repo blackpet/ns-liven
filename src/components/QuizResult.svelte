@@ -1,5 +1,5 @@
 <script>
-  export let data, role
+  export let data, role, act
   console.log('QuizResult', data)
 
   import {stores, goto} from '@sapper/app'
@@ -27,7 +27,7 @@
 
   // [종료하기]
   function end() {
-    socket.emit(EVENT.TUTOR_END_LIVEN)
+    socket.emit(EVENT.TUTOR_END_LIVEN, act)
   }
 
   //////////////////////////////////////// listen socket

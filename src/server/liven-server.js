@@ -19,8 +19,11 @@ function createLivenServer(server) {
   // socket listening for namespace [subject]
   const listenOnNsp = (socket) => {
     console.log(`a user connected on [namespace: ${socket.nsp.name}] (socket.id: ${socket.id}`)
-    const ns = ServerStorage.parseNamespace(socket.nsp)
+    const ns = socket.nsp.name
     console.log(`real namespace ${ns}`)
+
+    // generate namespace data structure
+    ServerStorage.namespace(ns)
 
     // [student] broadcast active data to all student (강사가 시작 후 접속한 수강생이 있으면 즉시 시작하자!)
     const data = ServerStorage.activeActionData(ns)
@@ -34,7 +37,7 @@ function createLivenServer(server) {
     socket.on(EVENT.TUTOR_START_LIVEN, data => {
       console.log(EVENT.TUTOR_START_LIVEN, data);
 
-      // generate namespace data structure
+      // store namespace data
       ServerStorage.namespace(ns, data)
 
       socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data);
@@ -72,7 +75,11 @@ function createLivenServer(server) {
     });
 
     // [tutor] "종료하기"
-    socket.on(EVENT.TUTOR_END_LIVEN, () => {
+    socket.on(EVENT.TUTOR_END_LIVEN, (act) => {
+      console.log('asdfasdfadsfa', socket.nsp.name, act)
+      // 서버의 데이터 삭제하자!
+      ServerStorage.removeActionData(socket.nsp.name, act)
+
       // ns의 모든 사용자(강사, 학습자)에 broadcast!!
       socket.nsp.emit(EVENT.TUTOR_END_LIVEN)
     });
@@ -82,7 +89,7 @@ function createLivenServer(server) {
 
   const middlewareNs = (socket, next) => {
     const {userId, role} = socket.handshake.query
-    const ns = ServerStorage.parseNamespace(socket.nsp)
+    const ns = socket.nsp.name
 
     return next()
   }

@@ -1,5 +1,5 @@
 <script>
-  export let message = '강사의 요청을 기다려 주세요.', label = '대기중'
+  export let message = '진행중인 실시간 강의가 없습니다.<br>강사의 요청을 기다려 주세요.', label = '대기중'
 
 </script>
 

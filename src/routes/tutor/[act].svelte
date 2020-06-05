@@ -30,6 +30,12 @@
 
   let componentAct = act
 
+  // [제출하기]btn 제어용 / 학생전용
+  const submitStatus = {
+    can: false,
+    show: false
+  }
+
   // store action
   $action[act] = data
 
@@ -58,7 +64,14 @@
 
 <h1>Tutor : {act}</h1>
 
-<svelte:component this="{LivenService.actionComponent(componentAct)}"
-                  data={$action[act]} role="{ROLE.TUTOR}"
-                  on:submit={start} on:refresh={refresh} />
+<div class="container">
+  <section class="content">
+    <div class="contBox_NLive">
 
+      <svelte:component this="{LivenService.actionComponent(componentAct)}"
+                        data={$action[act]} role="{ROLE.TUTOR}" {act} {submitStatus}
+                        on:submit={start} on:refresh={refresh}/>
+
+    </div>
+  </section>
+</div>

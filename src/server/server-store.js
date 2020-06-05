@@ -12,13 +12,15 @@ function createStorage() {
     if (!Object.keys(_storage).includes(ns)) {
       _storage[ns] = {}
     }
-    debugger;
-    _storage[ns][data.act] = data
-    // active Action
-    _storage[ns].act = data.act
 
-    // TODO blackpet: debugging
-    console.log('namespace', JSON.stringify(_storage))
+    if (!!data.act) {
+      _storage[ns][data.act] = data
+      // active Action
+      _storage[ns].act = data.act
+
+      // TODO blackpet: debugging
+      console.log('namespace', JSON.stringify(_storage))
+    }
   }
 
   // parse real namespace name
@@ -29,13 +31,18 @@ function createStorage() {
   // get active Action data
   function activeActionData(ns) {
     if (!Object.keys(_storage).includes(ns) || !_storage[ns].act) {
-      return null;
+      return null
     }
-    return _storage[ns][_storage[ns].act];
+    return _storage[ns][_storage[ns].act]
   }
 
   function getStorage() {
-    return _storage;
+    return _storage
+  }
+
+  function removeActionData(ns, act) {
+    _storage[ns][act] = null
+    delete _storage[ns].act
   }
 
   return {
@@ -43,6 +50,7 @@ function createStorage() {
     parseNamespace,
     activeActionData,
     getStorage,
+    removeActionData,
   }
 }
 

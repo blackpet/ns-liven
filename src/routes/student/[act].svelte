@@ -15,21 +15,25 @@
   import Standby from '../../components/Standby'
 
   let componentAct = act
+  let standbyMessage
 
-  // action data를 실시간 갱신하자!
-  function refresh(e) {
-    const actData = e.detail.actData
-    $action[actData.act] = actData.data
-
-    console.log('student refresh', $action)
+  // [제출하기]btn 제어용 / 학생전용
+  const submitStatus = {
+    can: false,
+    show: true
   }
 
-  // Quiz: [student] 제출 후에는 [tutor]의 "결과 공유하기"를 대기하자!
-  const standbyMessage = {
-    message: '답안이 정상적으로 제출됐습니다.<br>집계하는 동안 잠시만 기다려 주세요.',
-    label: '집계중'
+  // 공유받은 데이터가 없으면 대기모드다!
+  if ($action[act] === undefined) {
+    componentAct = 'standby';
   }
+
   function standby(e) {
+    // Quiz: [student] 제출 후에는 [tutor]의 "결과 공유하기"를 대기하자!
+    standbyMessage = {
+      message: '답안이 정상적으로 제출됐습니다.<br>집계하는 동안 잠시만 기다려 주세요.',
+      label: '집계중'
+    }
     // 대기 화면으로 전환!
     componentAct = 'standby'
   }
@@ -47,6 +51,6 @@
   <Standby {...standbyMessage}/>
 {:else}
   <svelte:component this="{LivenService.actionComponent(componentAct)}"
-                    data={$action[act]} role="{ROLE.STUDENT}"
-                    on:refresh={refresh} on:standby={standby} on:share={share}/>
+                    data={$action[act]} role="{ROLE.STUDENT}" {act} {submitStatus}
+                    on:standby={standby} on:share={share}/>
 {/if}

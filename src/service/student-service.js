@@ -9,7 +9,7 @@ export function listenOnStudent() {
 }
 
 // [student] submit quiz/poll/survey data!
-export function submitQuiz(data) {
+export function insertAct(data) {
   console.log('service > studentSubmit', data)
 
   // TODO blackpet: DB에 저장하자!

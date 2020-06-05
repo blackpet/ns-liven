@@ -172,10 +172,10 @@
           </button>
         </div>
 
-      {:else if submitStatus.show}
+      {:else if act === 'quiz'}
       <!-- student only -->
         <div class="items_btn_single">
-          <button type="button" class="btn_brownh50" on:click={submit} disabled="{!submitStatus.can}">
+          <button type="button" class="btn_brownh50" on:click={submit} disabled="{answer.id === -1}">
             <span class="txt_s18">제출하기</span>
           </button>
         </div>

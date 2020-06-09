@@ -11,8 +11,6 @@
   export let data, role, act
   export let submitStatus
 
-  console.log('QuizQuizQuiz', data)
-
   // 답안(문항) 선택
   let myAnswer = -1
 
@@ -89,15 +87,6 @@
 
   // [student] [제출하기]btn
   function submit() {
-    if (act === 'quiz') {
-      submitQuiz()
-    } else if (act === 'poll') {
-      dispatch('submit')
-    }
-  }
-
-  // [student] Quiz 제출하기!
-  function submitQuiz() {
     confirm('제출 후에는 답안을 변경할 수 없습니다.<br>제출하시겠습니까?', function () {
 
       // insert to DB!
@@ -128,7 +117,7 @@
 
       // 답안 제출했니?
       if (answered) {
-        dispatch('standby');
+        dispatch('submit');
       }
     }
   }

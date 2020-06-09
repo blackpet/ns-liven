@@ -8,14 +8,25 @@
 <script>
   export let act;
 
-  import {ROLE} from '../../service/liven-service'
-  import LivenService from '../../service/liven-service'
+  import {goto, stores} from '@sapper/app'
+  import {beforeUpdate} from 'svelte'
+  import LivenService, {ROLE, goList} from '../../service/liven-service'
   import {action, LivenSocket} from '../../store/action'
 
   import Standby from '../../components/Standby'
 
+  const {session} = stores()
+
   let componentAct = act
   let standbyMessage
+
+  beforeUpdate(() => {
+    // 공유받은 데이터가 있으면 시작하자!
+    if (componentAct === 'standby' && $action[act] !== undefined) {
+      componentAct = act
+    }
+    console.log('beforeUpdate', componentAct)
+  });
 
   // [제출하기]btn 제어용 / 학생전용
   const submitStatus = {
@@ -23,19 +34,21 @@
     show: true
   }
 
+  console.log(act, $action)
   // 공유받은 데이터가 없으면 대기모드다!
   if ($action[act] === undefined) {
     componentAct = 'standby';
   }
 
-  function standby(e) {
+  function submit(e) {
     // Quiz: [student] 제출 후에는 [tutor]의 "결과 공유하기"를 대기하자!
     standbyMessage = {
       message: '답안이 정상적으로 제출됐습니다.<br>집계하는 동안 잠시만 기다려 주세요.',
       label: '집계중'
     }
-    // 대기 화면으로 전환!
-    componentAct = 'standby'
+    // 제출용 대기 화면으로 전환!
+    componentAct = 'submit'
+    console.log('standby after submit', componentAct)
   }
 
   // [tutor] quiz 결과 보러가자!
@@ -45,19 +58,22 @@
 
 </script>
 
-<h1>Student: {act}</h1>
+<h1>
+  Student: {act}:{componentAct}
+  <span><button class="btn_lGray" on:click={() => goList($session.role)}>List</button></span>
+</h1>
 
-{#if componentAct === 'standby'}
+{#if componentAct === 'standby' || componentAct === 'submit'}
   <Standby {...standbyMessage}/>
 
-{:else}
+{:else if componentAct !== 'standby'}
   <div class="container">
     <section class="content">
       <div class="contBox_NLive">
 
         <svelte:component this="{LivenService.actionComponent(componentAct)}"
                           data={$action[act]} role="{ROLE.STUDENT}" {act} {submitStatus}
-                          on:standby={standby} on:share={share}/>
+                          on:submit={submit} on:share={share}/>
 
       </div>
     </section>

@@ -13,7 +13,7 @@
 
   // total attendee user count
   let resUserTotal = 1
-  $: resUserTotal = data.items.reduce((sum, i) => sum + i.vote, 0)
+  $: resUserTotal = !!data && !!data.items ? data.items.reduce((sum, i) => sum + i.vote, 0) : 1
 
   function percent(item) {
     return Math.round(item.vote / resUserTotal * 100)
@@ -40,8 +40,11 @@
   })
 
   // [종료하기] 시작 페이지로 이동하자!
-  socket.on(EVENT.TUTOR_END_LIVEN, () => {
-    goto(`/${$session.role}`)
+  socket.on(EVENT.TUTOR_END_LIVEN, (act) => {
+    // 데이터 제거하자!
+    $action[act] = {}
+
+    location.replace(`/${$session.role}`)
   });
 </script>
 

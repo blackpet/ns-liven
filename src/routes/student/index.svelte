@@ -45,7 +45,8 @@
       // store action data
       $action[data.act] = data.data
 
-      goto(`student/${data.act}`)
+      console.log('goto > replaceState: true!!')
+      goto(`student/${data.act}`, { replaceState: true })
     })
   }
 

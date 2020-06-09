@@ -2,14 +2,17 @@
   export let data, role, act
 
   import {createEventDispatcher} from 'svelte'
-  import {fade, fly} from 'svelte/transition'
+  import {fly} from 'svelte/transition'
   import {stores} from '@sapper/app'
-  import {ROLE} from '../service/liven-service'
+  import {ROLE, EVENT} from '../service/liven-service'
+  import {LivenSocket} from '../store/action'
+
   import Quiz from './Quiz.svelte'
   import QuizResult from './QuizResult.svelte'
 
   const {session} = stores()
   const dispatch = createEventDispatcher()
+  const socket = LivenSocket.get()
 
   let componentAct = act
   let idx = 0
@@ -64,7 +67,12 @@
   }
 
   function submit() {
-    alert('TODO')
+    const allAnswers = data.map(p => {
+      return {actId: p.id, itemId:p.myAnswer}
+    })
+
+    // submit
+    socket.emit(EVENT.STUDENT_SUBMIT_POLL, allAnswers)
   }
 </script>
 

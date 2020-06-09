@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import * as _ from 'lodash';
+import {goto} from '@sapper/app'
 
 /**** action components ****/
 import Quiz from '../components/Quiz.svelte'
@@ -90,13 +91,18 @@ function listenOnEveryone() {
 const LivenService = new createService();
 export default LivenService;
 
+export function goList(role) {
+  goto(role)
+}
+
 export const EVENT = {
   'EVERYONE_CONNECT': 'everyone:connect',
   'EVERYONE_DISCONNECT': 'everyone:disconnect',
   'TUTOR_START_LIVEN': 'tutor:start-liven',
   'TUTOR_SHARE_RESULT': 'tutor:show-result', // 결과 공유하기
   'TUTOR_END_LIVEN': 'tutor:end-liven', // 종료하기
-  'STUDENT_SUBMIT_QUIZ': 'student:submit-quiz' // quiz / poll / survey submit
+  'STUDENT_SUBMIT_QUIZ': 'student:submit-quiz', // quiz [제출하기]
+  'STUDENT_SUBMIT_POLL': 'student:submit-poll' // poll [제출하기]
 };
 
 export const ROLE = {

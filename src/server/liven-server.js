@@ -43,30 +43,44 @@ function createLivenServer(server) {
       socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data);
     })
 
-    // [student] submit quiz/poll/survey
+    /**
+     * [student] submit quiz
+     * @userData {actId, itemId}
+     */
     socket.on(EVENT.STUDENT_SUBMIT_QUIZ, userData => {
       console.log(EVENT.STUDENT_SUBMIT_QUIZ, ns, userData)
 
-      /**
-       * Action Data
-       * @full {act, data}
-       * @data [...quiz] or {quiz}
-       * @quiz {id, subject, items[]}
-       * @items {id, subject, vote, answer?}
-       */
       const act = ServerStorage.activeActionData(ns)
-      let actData
-      if (act.data.length && act.data.length > 1) {
-        actData = act.data.find(d => d.id == userData.actId);
-      } else {
-        actData = act.data;
-      }
+      let actData = act.data;
       const item = actData.items.find(i => i.id == userData.itemId)
       item.vote++
 
       // ns의 모든 사용자(강사, 학습자)에 broadcast!!
       socket.nsp.emit(EVENT.STUDENT_SUBMIT_QUIZ, act)
     });
+
+    /**
+     * [student] submit poll
+     * @userData [{actId, itemId}]
+     */
+    socket.on(EVENT.STUDENT_SUBMIT_POLL, userData => {
+      console.log(EVENT.STUDENT_SUBMIT_POLL, ns, userData)
+
+      const act = ServerStorage.activeActionData(ns)
+      console.log(JSON.stringify(act, null, 2))
+      // 문제별/보기별 투표내역 갱신하자!
+      act.data.map(p => {
+        const item = p.items.find(i => i.id == userData.find(ud => ud.actId == p.id).itemId)
+        item.vote++
+        return p
+      })
+      console.log(JSON.stringify(act, null, 2))
+
+      // ns의 모든 사용자(강사, 학습자)에 broadcast!!
+      socket.nsp.emit(EVENT.STUDENT_SUBMIT_POLL, act)
+    })
+
+
 
     // [tutor] "결과 공유하기"
     socket.on(EVENT.TUTOR_SHARE_RESULT, () => {
@@ -81,7 +95,7 @@ function createLivenServer(server) {
       ServerStorage.removeActionData(socket.nsp.name, act)
 
       // ns의 모든 사용자(강사, 학습자)에 broadcast!!
-      socket.nsp.emit(EVENT.TUTOR_END_LIVEN)
+      socket.nsp.emit(EVENT.TUTOR_END_LIVEN, act)
     });
 
     ////////////////////////////////////////////// end of listen

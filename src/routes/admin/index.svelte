@@ -1,5 +1,8 @@
 <script>
   import io from 'socket.io-client'
+  import {stores} from '@sapper/app'
+
+  const {session} = stores()
 
   const socket = io('/?userId=admin')
   let serverStorage;
@@ -14,6 +17,11 @@
 
 <h1>Live.N Management Console</h1>
 
+<h2>session</h2>
+
+<pre>{JSON.stringify($session, null, 4)}</pre>
+
+<h2>serverStorage</h2>
 {#if !serverStorage}
   <div>Loading...</div>
 {:else}

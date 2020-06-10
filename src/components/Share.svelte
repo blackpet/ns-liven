@@ -5,11 +5,26 @@
 
 <script>
   import {onMount} from 'svelte'
+  import {stores} from '@sapper/app'
   import Glide from '@glidejs/glide'
-  import IconButton, {Icon} from '@smui/icon-button'
+  import {EVENT, ROLE} from '../service/liven-service'
+  import {LivenSocket} from '../store/action.js'
+
+  const {session} = stores()
+  const socket = LivenSocket.get()
 
   onMount(() => {
-    new Glide('.glide').mount()
+    const glide = new Glide('.glide')
+
+    // handle event
+    glide.on('run', () => {
+      // navigate slider by tutor
+      if ($session.role == ROLE.TUTOR) {
+        socket.emit(EVENT.TUTOR_NAVIGATE_SHARE, glide.index)
+      }
+      console.log(glide.index);
+    });
+    glide.mount()
   });
 </script>
 
@@ -19,9 +34,7 @@
   <section class="content">
     <div class="contBox_NLive_share">
       <div class="pop_wrap_cards">
-        <i class="dim"></i>
-
-        <IconButton class="material-icons" on:click={close}>close</IconButton>
+<!--        <i class="dim"></i>-->
 
         <div class="glide">
           <div class="ts_wrap" data-glide-el="track">
@@ -105,5 +118,9 @@
   .sld_list img {
     max-width: 100vw;
     max-height: 100vh;
+  }
+
+  .contBox_NLive_share .dim {
+    z-index: unset;
   }
 </style>

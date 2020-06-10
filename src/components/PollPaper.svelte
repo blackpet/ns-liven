@@ -5,7 +5,7 @@
   import {fly} from 'svelte/transition'
   import {stores} from '@sapper/app'
   import {ROLE, EVENT} from '../service/liven-service'
-  import {LivenSocket} from '../store/action'
+  import {action, LivenSocket} from '../store/action'
 
   import Quiz from './Quiz.svelte'
   import QuizResult from './QuizResult.svelte'
@@ -46,12 +46,9 @@
   function checkAnswer(e) {
     // 정답을 저장하자!
     data[idx].myAnswer = parseInt(e.detail.itemId)
-
-    // TODO blackpet: 모든 문항에 답을 입력하면 [제출하기] btn 활성화 하자!
-
-    console.log('PollList checkAnswer', e.detail, data)
   }
 
+  // 모든 답을 입력했니?
   $: allAnswers = () => {
     console.log('allAnswers', data.filter(d => !!d.myAnswer).length, data.length)
     return data.filter(d => !!d.myAnswer).length === data.length
@@ -64,16 +61,47 @@
     // 결과 페이지로 화면 전환하자!
     componentAct = `${act}-result`
     idx = 0 // 결과 페이지는 1번 문항부터 보여주자~
+
+    // listen! (제출 후 결과화면부터 실시간 반영을 시작하자!)
+    socket.on(EVENT.STUDENT_SUBMIT_POLL, actData => {
+      $action[actData.act] = actData.data
+    })
   }
 
+  // [tutor] [종료하기]
+  function end() {
+    socket.emit(EVENT.TUTOR_END_LIVEN, act)
+  }
+
+  // [student] [제출하기]
   function submit() {
     const allAnswers = data.map(p => {
-      return {actId: p.id, itemId:p.myAnswer}
+      return {actId: p.id, itemId: p.myAnswer}
+    })
+
+    // listen! (제출 후 결과화면부터 실시간 반영을 시작하자!)
+    socket.on(EVENT.STUDENT_SUBMIT_POLL, actData => {
+      $action[actData.act] = actData.data
     })
 
     // submit
     socket.emit(EVENT.STUDENT_SUBMIT_POLL, allAnswers)
+
+    // 결과화면으로 이동!
+    componentAct = 'poll-result'
+    idx = 0 // 결과 페이지는 1번 문항부터 보여주자~
   }
+
+  //////////////////////////////////////// listen socket
+
+  // [종료하기] 시작 페이지로 이동하자!
+  socket.on(EVENT.TUTOR_END_LIVEN, (act) => {
+    // 데이터 제거하자!
+    $action[act] = {}
+
+    location.replace(`/${$session.role}`)
+  });
+
 </script>
 
 
@@ -94,13 +122,35 @@
   {/each}
 </ul>
 
-{#if role === ROLE.STUDENT}
-  <!-- student only -->
-  <div class="items_btn_single">
-    <button type="button" class="btn_brownh50" on:click={submit} disabled="{!allAnswers()}">
-      <span class="txt_s18">제출하기</span>
-    </button>
-  </div>
+{#if componentAct === 'poll'}
+  <!-- poll paper -->
+  {#if role === ROLE.TUTOR}
+    <!-- tutor only -->
+    <div class="items_btn_single">
+      <button type="button" class="btn_brownh50" on:click={start}>
+        <span class="txt_s18">출제하기</span>
+      </button>
+    </div>
+
+  {:else}
+    <!-- student only -->
+    <div class="items_btn_single">
+      <button type="button" class="btn_brownh50" on:click={submit} disabled="{!allAnswers()}">
+        <span class="txt_s18">제출하기</span>
+      </button>
+    </div>
+  {/if}
+
+{:else}
+  <!-- poll-result paper -->
+  {#if role === ROLE.TUTOR}
+    <!-- tutor only -->
+    <div class="items_btn_single">
+      <button type="button" class="btn_brownh50" on:click={end}>
+        <span class="txt_s18">종료하기</span>
+      </button>
+    </div>
+  {/if}
 {/if}
 
 <ul class="items_btn_double">
@@ -117,5 +167,7 @@
 </ul>
 
 <style>
-  .items_btn_single {margin-bottom: 20px;}
+  .items_btn_single {
+    margin-bottom: 20px;
+  }
 </style>

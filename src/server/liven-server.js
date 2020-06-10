@@ -90,7 +90,6 @@ function createLivenServer(server) {
 
     // [tutor] "종료하기"
     socket.on(EVENT.TUTOR_END_LIVEN, (act) => {
-      console.log('asdfasdfadsfa', socket.nsp.name, act)
       // 서버의 데이터 삭제하자!
       ServerStorage.removeActionData(socket.nsp.name, act)
 

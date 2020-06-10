@@ -1,5 +1,9 @@
 <script>
 	export let segment;
+
+	import {stores} from '@sapper/app'
+
+	const {session} = stores()
 </script>
 
 <style>
@@ -51,6 +55,9 @@
 <nav>
 	<ul>
 		<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>home</a></li>
+		{#if $session.role}
+		<li><a aria-current='{segment === $session.role ? "page" : undefined}' href='{$session.role}'>{$session.role}</a></li>
+		{/if}
 		<li><a aria-current='{segment === "admin" ? "page" : undefined}' href='admin'>admin</a></li>
 <!--		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>about</a></li>-->
 

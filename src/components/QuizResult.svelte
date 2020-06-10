@@ -92,21 +92,24 @@
 
         </ul>
 
-        {#if role === ROLE.TUTOR}
-          {#if !shared}
-          <div class="items_btn_single">
-            <button type="button" class="btn_brownh50" on:click={share}>
-              <span class="txt_s16">결과 공유하기</span>
-            </button>
-          </div>
+        {#if act === 'quiz'}
+          <!-- quiz only -->
+          {#if role === ROLE.TUTOR}
+            {#if !shared}
+              <div class="items_btn_single">
+                <button type="button" class="btn_brownh50" on:click={share}>
+                  <span class="txt_s16">결과 공유하기</span>
+                </button>
+              </div>
 
-          {:else}
-          <div class="items_btn_single">
-            <button type="button" class="btn_brownh50" on:click={end}>
-              <span class="txt_s16">종료하기</span>
-            </button>
-          </div>
+            {:else}
+              <div class="items_btn_single">
+                <button type="button" class="btn_brownh50" on:click={end}>
+                  <span class="txt_s16">종료하기</span>
+                </button>
+              </div>
 
+            {/if}
           {/if}
         {/if}
 

@@ -17,6 +17,7 @@ polka({server})
 		sapper.middleware({
 			session: (req, res) => ({
 				ns: undefined,
+				role: undefined,
 				user: req.user
 			})
 		})

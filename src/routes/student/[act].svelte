@@ -10,10 +10,10 @@
 
   import {goto, stores} from '@sapper/app'
   import {beforeUpdate} from 'svelte'
-  import LivenService, {ROLE, goList} from '../../service/liven-service'
+  import LivenService, {ROLE} from '../../service/liven-service'
   import {action, LivenSocket} from '../../store/action'
 
-  import Standby from '../../components/Standby'
+  import Standby from '../../components/Standby.svelte'
 
   const {session} = stores()
 
@@ -58,10 +58,7 @@
 
 </script>
 
-<h1>
-  Student: {act}:{componentAct}
-  <span><button class="btn_lGray" on:click={() => goList($session.role)}>List</button></span>
-</h1>
+<h1>Student: {act}:{componentAct}</h1>
 
 {#if componentAct === 'standby' || componentAct === 'submit'}
   <Standby {...standbyMessage}/>

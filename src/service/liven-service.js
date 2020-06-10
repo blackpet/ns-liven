@@ -5,13 +5,13 @@ import {goto} from '@sapper/app'
 /**** action components ****/
 import Quiz from '../components/Quiz.svelte'
 import QuizResult from '../components/QuizResult.svelte'
-import PollList from '../components/PollList.svelte'
+import PollPaper from '../components/PollPaper.svelte'
 
 const acts = [
   {act: 'quiz', component: Quiz},
   {act: 'quiz-result', component: QuizResult},
-  {act: 'poll', component: PollList},
-  {act: 'poll-result', component: PollList},
+  {act: 'poll', component: PollPaper},
+  {act: 'poll-result', component: PollPaper},
 ]
 
 let socket;
@@ -21,7 +21,6 @@ function createService() {
   // Live.N 서버 접속
   const connectServer = (namespace, userId, role) => {
     socket = io(`/liven-${namespace}?userId=${userId}&role=${role}`);
-    console.log(`[client] ${userId} (${role}) connected!!`, socket);
     listenOnEveryone();
 
     return socket;
@@ -102,7 +101,9 @@ export const EVENT = {
   'TUTOR_SHARE_RESULT': 'tutor:show-result', // 결과 공유하기
   'TUTOR_END_LIVEN': 'tutor:end-liven', // 종료하기
   'STUDENT_SUBMIT_QUIZ': 'student:submit-quiz', // quiz [제출하기]
-  'STUDENT_SUBMIT_POLL': 'student:submit-poll' // poll [제출하기]
+  'STUDENT_SUBMIT_POLL': 'student:submit-poll', // poll [제출하기]
+
+  'TUTOR_NAVIGATE_SHARE': 'tutor:navigate-share', // share [페이지 이동]
 };
 
 export const ROLE = {

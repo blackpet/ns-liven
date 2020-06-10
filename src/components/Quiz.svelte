@@ -53,7 +53,6 @@
   } else {
     // 선택한 값이 있으면 default check를 해주자!
     answer.id = !data.myAnswer ? -1 : data.myAnswer
-    console.log('polllllllllllllllllllll answer', answer)
   }
   ////////////////////////////////////////////////// end of 강사 전용
 
@@ -68,8 +67,8 @@
 
       $action[actData.act] = actData.data
 
-      // 대기? 결과 공유?
-      standbyOrShare(false)
+      // 아직 응시 전이라도 무조건 결과화면으로 이동한다!
+      dispatch('share')
     });
   }
 
@@ -103,23 +102,8 @@
       // close confirm!
       this.close()
 
-      // 대기? 결과 공유?
-      standbyOrShare(true)
+      dispatch('submit');
     });
-  }
-
-  // 이미 "결과 공유하기" 이면 바로 결과 화면으로! 아니면 대기하자!
-  function standbyOrShare(answered) {
-    if (shareMode) {
-      dispatch('share')
-    } else {
-      shareMode = !shareMode
-
-      // 답안 제출했니?
-      if (answered) {
-        dispatch('submit');
-      }
-    }
   }
 
   ////////////////////////////////////////////////// end of 학생 전용
@@ -153,23 +137,25 @@
       {/each}
     </ul>
 
+    {#if act === 'quiz'}
       {#if role === ROLE.TUTOR}
-      <!-- tutor only -->
+        <!-- tutor only -->
         <div class="items_btn_single">
           <button type="button" class="btn_brownh50" on:click={start}>
             <span class="txt_s18">출제하기</span>
           </button>
         </div>
 
-      {:else if act === 'quiz'}
-      <!-- student only -->
+      {:else}
+        <!-- student only -->
         <div class="items_btn_single">
           <button type="button" class="btn_brownh50" on:click={submit} disabled="{answer.id === -1}">
             <span class="txt_s18">제출하기</span>
           </button>
         </div>
       {/if}
-    </div>
+    {/if}
+  </div>
 
   <!-- // Quiz 출력 -->
 

@@ -8,8 +8,9 @@ function livenSocket() {
 
   const set = s => {socket = s}
   const get = () => socket
+  const reset = () => {socket = null}
 
-  return {set, get}
+  return {set, get, reset}
 }
 
 // node socket

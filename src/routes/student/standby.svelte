@@ -2,7 +2,7 @@
 <script>
   import {stores} from '@sapper/app'
 
-  import Standby from '../../components/Standby'
+  import Standby from '../../components/Standby.svelte'
 
   const standbyMessage = {
     message: '강사의 요청을 기다려 주세요.',

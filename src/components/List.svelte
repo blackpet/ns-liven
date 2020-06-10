@@ -13,6 +13,16 @@
     {name: 'Survey', act: 'survey', id: 1},
   ];
 
+  function getUrl(act) {
+    let url = ''
+    if (['quiz', 'poll'].includes(act.act)) {
+      url = `${$session.role}/`
+    }
+    url += act.act
+
+    return url
+  }
+
 </script>
 
 
@@ -31,10 +41,10 @@
       <div class="cb_inner">
 
         <ul class="live_lists_w">
-          {#each acts as {id, name, act}}
+          {#each acts as item}
           <li class="live_list">
-            <a href="{$session.role}/{act}?id={id}" class="link_live_{act}">
-              <span class="txt_s24cDGray">{name}</span>
+            <a href="{getUrl(item)}" class="link_live_{item.act}">
+              <span class="txt_s24cDGray">{item.name}</span>
             </a>
           </li>
           {/each}

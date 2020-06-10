@@ -97,6 +97,12 @@ function createLivenServer(server) {
       socket.nsp.emit(EVENT.TUTOR_END_LIVEN, act)
     });
 
+    // [tutor] Live Share > Navigate Slide
+    socket.on(EVENT.TUTOR_NAVIGATE_SHARE, data => {
+      // ns의 모든 사용자에 broadcast!!
+      socket.nsp.emit(EVENT.TUTOR_NAVIGATE_SHARE, data)
+    });
+
     ////////////////////////////////////////////// end of listen
   }
 

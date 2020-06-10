@@ -9,7 +9,7 @@
 
     // TODO blackpet: DB Select~!
     session.course = {
-      subjCd: 'ON1234',
+      subjCd: session.ns,
       seqCd: '12',
       type: '집합교육',
       title: '누구나~! 따라하면 유통이 원활해지는 핵공감 유통 마스터 과정',

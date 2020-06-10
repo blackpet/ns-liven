@@ -1,4 +1,8 @@
-GET http://localhost:4004/users
+GET http://localhost:4004/share
+
+###
+
+GET http://localhost:4004/share/125
 
 ###
 

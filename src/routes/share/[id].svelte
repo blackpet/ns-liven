@@ -1,68 +1,82 @@
 <script context="module">
+  import {env} from '../../env'
 
+  export async function preload({params}) {
+    // TODO blackpet: 실 DB 에서 조회할 것!
+    let data
 
+    const res = await this.fetch(`${env.api}/share/${params.id}`)
+    if (res.ok) {
+      data = await res.json();
+    } else {
+      throw new Error('cannot retrieve share slide')
+    }
+
+    return {data}
+  }
 </script>
 
 <script>
+  export let data
+
   import {onMount} from 'svelte'
   import {stores} from '@sapper/app'
   import Glide from '@glidejs/glide'
-  import {EVENT, ROLE} from '../service/liven-service'
-  import {LivenSocket} from '../store/action.js'
+  import {EVENT, ROLE} from '../../service/liven-service'
+  import {LivenSocket} from '../../store/action'
 
   const {session} = stores()
   const socket = LivenSocket.get()
 
+  let autoPlay = true // (강사의 제어에) 자동재생
+  $: page = 1
+  let glide
   onMount(() => {
-    const glide = new Glide('.glide')
+    glide = new Glide('.glide')
 
     // handle event
     glide.on('run', () => {
+      page = glide.index + 1
       // navigate slider by tutor
-      if ($session.role == ROLE.TUTOR) {
-        socket.emit(EVENT.TUTOR_NAVIGATE_SHARE, glide.index)
+      if ($session.role === ROLE.TUTOR) {
+        socket.emit(EVENT.TUTOR_NAVIGATE_SHARE, {shareId: data.id, index: glide.index})
       }
       console.log(glide.index);
     });
     glide.mount()
   });
+
+  if ($session.role === ROLE.STUDENT) {
+    // [student] listen on navigate slide by tutor
+    socket.on(EVENT.TUTOR_NAVIGATE_SHARE, res => {
+      // 같은 자료실에 들어와 있고 && [자동모드] 인 경우에만 navigation 하자!
+      if (data.id == res.shareId && autoPlay) {
+        glide.go(`=${res.index}`);
+      }
+    });
+  }
+
+
 </script>
 
 <!--#############################################-->
 
 <div class="container">
-  <section class="content">
-    <div class="contBox_NLive_share">
+  <section class="content contBox_NLive_share">
+    <div class="thumbSlider_cardView">
       <div class="pop_wrap_cards">
-<!--        <i class="dim"></i>-->
+        <i class="dim"></i>
 
         <div class="glide">
           <div class="ts_wrap" data-glide-el="track">
             <ul id="liveSlider" class="slider_lists_card">
-              <li class="sld_list">
-                <img src="http://placehold.it/1024x580" alt="임시이미지">
-              </li>
-              <li class="sld_list">
-                <img src="http://placehold.it/640x360" alt="임시이미지">
-              </li>
-              <li class="sld_list">
-                <img src="http://placehold.it/360x640" alt="임시이미지">
-              </li>
-              <li class="sld_list">
-                <img src="http://placehold.it/640x640" alt="임시이미지">
-              </li>
-              <li class="sld_list">
-                <img src="http://placehold.it/1024x768" alt="임시이미지">
-              </li>
-              <li class="sld_list">
-                <img src="http://placehold.it/768x1024" alt="임시이미지">
-              </li>
-              <li class="sld_list">
-                <img src="http://placehold.it/1024x1024" alt="임시이미지">
-              </li>
-              <li class="sld_list">
-                <img src="http://placehold.it/1024x1440" alt="임시이미지">
-              </li>
+
+              {#each data.slides as slide}
+                <li class="sld_list">
+                  <img src="{slide.img}" alt="">
+                </li>
+              {/each}
+
             </ul>
           </div>
 
@@ -72,15 +86,18 @@
               <span class="ir">이전</span>
             </button>
             <div class="count_w">
-              <span class="txt_s14cWhite_count"></span>
-              <span class="txt_s14cWhite_total"></span>
+              <span class="txt_s14cWhite_count">{page}</span>
+              <span class="txt_s14cWhite_total">{data.slides.length}</span>
             </div>
             <button type="button" class="btnIcon_slide_next" data-glide-dir=">">
               <span class="ir">다음</span>
             </button>
-            <button type="button" class="btnIcon_autoPlay">
+
+            {#if $session.role === ROLE.STUDENT}
+            <button type="button" class="btnIcon_autoPlay" class:pause={autoPlay} on:click={() => autoPlay = !autoPlay}>
               <span class="ir">자동 플레이</span>
             </button>
+            {/if}
           </div>
 
           <div class="slide_screen">

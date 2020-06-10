@@ -196,7 +196,7 @@
   "share": [
     {
       "id": 123,
-      "subject": "Front-end Framework Svelte",
+      "subject": "[1교시] Front-end Framework Svelte",
       "date": 1591770413939,
       "slides": [
         {
@@ -223,7 +223,7 @@
     },
     {
       "id": 124,
-      "subject": "Back-end Spring Boot",
+      "subject": "[2교시] Back-end Spring Boot",
       "date": 1591597613939,
       "slides": [
         {
@@ -250,7 +250,7 @@
     },
     {
       "id": 125,
-      "subject": "Front-end Framework Svelte",
+      "subject": "[3교시] Advenced Svelte",
       "date": 1591475213939,
       "slides": [
         {

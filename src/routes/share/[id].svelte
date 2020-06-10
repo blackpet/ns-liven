@@ -56,6 +56,29 @@
     });
   }
 
+  //////////////////////////////// lazy loading image
+  const loaded = new Map();
+
+  export const lazy = (node, data) => {
+    if (loaded.has(data.src)) {
+      node.setAttribute('src', data.src);
+    } else {
+      // simulate slow loading network
+      setTimeout(() => {
+        const img = new Image();
+        img.src = data.src;
+        img.onload = () => {
+          loaded.set(data.src, img);
+          node.setAttribute('src', data.src);
+        };
+      }, 50);
+    }
+
+    return {
+      destroy() {
+      } // noop
+    };
+  }
 
 </script>
 
@@ -73,7 +96,7 @@
 
               {#each data.slides as slide}
                 <li class="sld_list">
-                  <img src="{slide.img}" alt="">
+                  <img src="" alt="" use:lazy="{{src: slide.img}}">
                 </li>
               {/each}
 
@@ -94,9 +117,10 @@
             </button>
 
             {#if $session.role === ROLE.STUDENT}
-            <button type="button" class="btnIcon_autoPlay" class:pause={autoPlay} on:click={() => autoPlay = !autoPlay}>
-              <span class="ir">자동 플레이</span>
-            </button>
+              <button type="button" class="btnIcon_autoPlay" class:pause={autoPlay}
+                      on:click={() => autoPlay = !autoPlay}>
+                <span class="ir">자동 플레이</span>
+              </button>
             {/if}
           </div>
 

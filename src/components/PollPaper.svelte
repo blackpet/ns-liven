@@ -62,7 +62,7 @@
     componentAct = `${act}-result`
     idx = 0 // 결과 페이지는 1번 문항부터 보여주자~
 
-    // listen! (제출 후 결과화면부터 실시간 반영을 시작하자!)
+    // listen!
     socket.on(EVENT.STUDENT_SUBMIT_POLL, actData => {
       $action[actData.act] = actData.data
     })

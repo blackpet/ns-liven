@@ -1,68 +1,47 @@
 <script>
-  import {
-    getFilesFromDropEvent,
-    getFilesFromInputEvent
-  } from "./_file-input-utils.mjs";
-  import { createEventDispatcher } from "svelte";
+  import FileUploader from './Uploader.svelte'
 
-  export let multiple = true;
+  $: files = []
 
-  let dragging = false;
-  const dispatch = createEventDispatcher();
-
-  function startDragging() {
-    dragging = true;
+  let myFiles = []
+  $: {
+    console.log(myFiles)
   }
 
-  function stopDragging() {
-    dragging = false;
-  }
+  function foo(e) {
+    console.log(e.detail)
+    files = e.detail.files
 
-  const onFile = getFilesFunction => event => {
-    stopDragging();
-    const files = getFilesFunction(event);
-    if (files.length) {
-      dispatch("input", { files: multiple ? files : files[0] });
-    }
-  };
+    myFiles = files.map(f => {
+      const fr = new FileReader()
+      fr.onload = (e) => {
+        f.src = e.target.result
+        console.log(e.target.result)
+      };
+      fr.readAsDataURL(f)
+
+      return f
+    })
+    // console.log(myFiles)
+  }
 </script>
 
-<style>
-  input {
-    position: absolute !important;
-    height: 1px;
-    width: 1px;
-    overflow: hidden;
-    clip: rect(1px 1px 1px 1px);
-    clip: rect(1px, 1px, 1px, 1px);
-    white-space: nowrap;
-  }
-  div {
-    width: 30vw;
-    height: 10vw;
-    background-color: #ffb8a9;
-    border: 1px solid #808080;
-  }
 
-  label:hover {
-    cursor: pointer;
-  }
+<h1>file upload test</h1>
 
-  .dragging {
-    background-color: #ff6e4e;
-  }
-</style>
+<FileUploader on:input={foo}/>
 
-<label
-  class:dragging
-  on:drop|preventDefault={onFile(getFilesFromDropEvent)}
-  on:dragover|preventDefault={startDragging}
-  on:dragleave|preventDefault={stopDragging}>
-  <slot {dragging}>
-    <div class:dragging={dragging}>
-      Drag &amp; Drop your file(s) or
-      <strong>browse.</strong>
-    </div>
-  </slot>
-  <input type="file" {multiple} on:input={onFile(getFilesFromInputEvent)} />
-</label>
+{#if files.length === 0}
+  <div>no file(s) attached..</div>
+
+{:else}
+  <ul>
+    {#each myFiles as f (f.lastModified)}
+      <li>
+        <img src="{f.src}" alt="">
+        <div>{f.name} ({f.size})</div>
+      </li>
+    {/each}
+  </ul>
+
+{/if}

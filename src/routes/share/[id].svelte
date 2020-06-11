@@ -22,7 +22,7 @@
   import {onMount} from 'svelte'
   import {stores} from '@sapper/app'
   import Glide from '@glidejs/glide'
-  import {EVENT, ROLE} from '../../service/liven-service'
+  import {EVENT, ROLE, goList} from '../../service/liven-service'
   import {LivenSocket} from '../../store/action'
 
   const {session} = stores()
@@ -125,11 +125,8 @@
           </div>
 
           <div class="slide_screen">
-            <button type="button" class="btnIcon_screen_full">
-              <span class="ir">크게보기</span>
-            </button>
-            <button type="button" class="btnIcon_screen_win">
-              <span class="ir">작게보기</span>
+            <button type="button" class="btnIcon_close_gray" on:click={() => goList($session.role)}>
+              <span class="ir">닫기</span>
             </button>
           </div>
 

@@ -1,10 +1,23 @@
 <script>
   import {stores, goto} from '@sapper/app'
+  import {onMount} from 'svelte'
+  import moment from 'moment'
   import {ROLE} from '../service/liven-service'
   import {LivenSocket} from '../store/action'
   import LivenService, {goList} from '../service/liven-service'
+  import db from '../service/firebase-data'
 
-  let role, userId, subjCd
+  let role, userId
+
+  const course = {
+    subjCd: '',
+    subjSeq: '',
+    type: '',
+    title: '',
+    start: null,
+    end: null,
+    cnt: 0
+  }
 
   const {session} = stores()
   let socket = LivenSocket.get()
@@ -23,9 +36,36 @@
     session.set({})
   }
 
+  let selectedCourse
+
   function start() {
-    goto(`${role}?ns=${subjCd}&userId=${userId}`)
+    if (!selectedCourse) {
+      alert('Live.N 과정을 선택해 주세요')
+      return;
+    }
+    goto(`${role}?ns=${selectedCourse.subjCd}&seq=${selectedCourse.subjSeq}&userId=${userId}`);
   }
+
+  async function saveCourse() {
+    await db.setCourse(course)
+
+    initCourseList()
+  }
+
+  let courses = [] // 과정목록
+  async function initCourseList() {
+    courses = await db.getCourseList()
+    console.log('initCourseList', courses)
+  }
+
+  onMount(() => {
+    initCourseList()
+
+    // session 이 비어 있으면 disconnect 하자!
+    if (!$session.userId) {
+      disconnect()
+    }
+  });
 </script>
 
 <svelte:head>
@@ -65,7 +105,16 @@
 
 
   <div class="dummy">2. 사용자 아이디: <input type="text" bind:value={userId}></div>
-  <div class="dummy">3. 과정코드: <input type="text" bind:value={subjCd}></div>
+  <div class="dummy course-list">
+    <div>3. Live.N 과정을 선택해 주세요</div>
+    <ul>
+      {#each courses as c}
+      <li on:click={() => selectedCourse = c} class:selected={c === selectedCourse}>
+        [{c.subjCd}-{c.subjSeq}] {c.title} ({c.start} ~ {c.end})
+      </li>
+      {/each}
+    </ul>
+  </div>
 
   <div class="items_btn_single dummy">
     <button class="btn_brownh50" on:click={start}>
@@ -73,6 +122,19 @@
     </button>
   </div>
 
+  <div class="dummy">
+    <div>4. 새로운 Live.N 과정을 만들어 볼까요?</div>
+    <ul>
+      <li>과정코드: <input type="text" bind:value={course.subjCd} placeholder="OFF567"></li>
+      <li>차수: <input type="text" bind:value={course.subjSeq} placeholder="1"></li>
+      <li>교육방식: <input type="text" bind:value={course.type} placeholder="집합교육"></li>
+      <li>과정명: <input type="text" bind:value={course.title} placeholder="과정명을 입력해주세요"></li>
+      <li>시작일: <input type="text" bind:value={course.start} placeholder="2020.x.y"></li>
+      <li>종료일: <input type="text" bind:value={course.end} placeholder="2020.x.z"></li>
+      <li>수강생 수: <input type="text" bind:value={course.cnt} placeholder="10"></li>
+      <li><button on:click={saveCourse}>과정 등록</button></li>
+    </ul>
+  </div>
 {/if}
 
 <ol class="scenario">
@@ -114,6 +176,17 @@
 
   div {
     color: red;
+  }
+
+  div.course-list li {
+    color: #303030;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid #bdbdbd;
+  }
+  div.course-list li.selected {
+    background-color: #2cd9c5;
+    font-weight: bold;
   }
 
   .ac {

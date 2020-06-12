@@ -44,7 +44,7 @@
     // 데이터 제거하자!
     $action[act] = {}
 
-    location.replace(`/${$session.role}`)
+    goto(`/${$session.role}`)
   });
 </script>
 

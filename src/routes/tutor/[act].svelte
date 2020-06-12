@@ -1,17 +1,18 @@
 <script context="module">
   import {env} from '../../env'
+  import db from '../../service/firebase-data'
 
-  export async function preload({params, query}) {
-    // TODO blackpet: 실서버에 연결할 것! ?id=query.id
+  export async function preload({params, query}, session) {
     let data
 
     // Action Data 조회하자!
-    const res = await this.fetch(`${env.api}/${params.act}`)
-    if (res.ok) {
-      data = await res.json()
-    } else {
-      data = []
-    }
+    data = await db.getActionData(params.act, session.ns, '1') // TODO blackpet: actId 연결하기!
+    // const res = await this.fetch(`${env.api}/${params.act}`)
+    // if (res.ok) {
+    //   data = await res.json()
+    // } else {
+    //   data = []
+    // }
 
     return {act: params.act, data}
   }

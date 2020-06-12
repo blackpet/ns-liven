@@ -1,4 +1,5 @@
 <script>
+  import Subject from '../../components/Subject.svelte'
 
 </script>
 
@@ -6,6 +7,7 @@
 <div class="container">
   <section class="content">
 
+    <Subject />
 
     <div class="contBox_NLive">
 

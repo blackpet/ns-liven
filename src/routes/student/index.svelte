@@ -1,22 +1,32 @@
 <script context="module">
   import {ROLE} from '../../service/liven-service'
+  import db from '../../service/firebase-data'
 
-  export function preload({query}, session) {
+  export async function preload({query}, session) {
+    // 이미 session 생성 이후이면 초기화 할 필요 없다!
+    if (session.userId) {
+      return;
+    }
     // TODO blackpet: set {namespace, userId} to session
-    session.ns = !!query.ns ? query.ns : 'ON1234'
-    session.userId = !!query.userId ? query.userId : 'user01'
+    const ns = session.ns = query.ns
+    const seq = query.seq
+    session.userId = query.userId
     session.role = ROLE.STUDENT
 
-    // TODO blackpet: DB Select~!
-    session.course = {
-      subjCd: session.ns,
-      seqCd: '12',
-      type: '집합교육',
-      title: '누구나~! 따라하면 유통이 원활해지는 핵공감 유통 마스터 과정',
-      cnt: 10,
-      start: '2020.01.04',
-      end: '2020.01.07'
+    // TODO blackpet: nsedu DB Select~!
+    let course = await db.getCourseInfo(ns, seq)
+    if (!course) {
+      course = {
+        subjCd: 'ON1234',
+        subjSeq: '12',
+        type: '집합교육',
+        title: '없는 과정이네요? 걱정마세요. 제가 임의로 생성해 줄게요~',
+        cnt: 10,
+        start: '2020.01.04',
+        end: '2020.01.07'
+      }
     }
+    session.course = course
   }
 </script>
 
@@ -46,7 +56,7 @@
       $action[data.act] = data.data
 
       console.log('goto > replaceState: true!!')
-      goto(`student/${data.act}`, { replaceState: true })
+      goto(`student/${data.act}`, {replaceState: true})
     })
   }
 
@@ -58,4 +68,4 @@
 
 <h1>Student (index)</h1>
 
-<List />
+<List/>

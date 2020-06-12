@@ -3,7 +3,7 @@
 
   import {createEventDispatcher} from 'svelte'
   import {fly} from 'svelte/transition'
-  import {stores} from '@sapper/app'
+  import {stores, goto} from '@sapper/app'
   import {ROLE, EVENT} from '../service/liven-service'
   import {action, LivenSocket} from '../store/action'
 
@@ -99,7 +99,7 @@
     // 데이터 제거하자!
     $action[act] = {}
 
-    location.replace(`/${$session.role}`)
+    goto(`/${$session.role}`)
   });
 
 </script>

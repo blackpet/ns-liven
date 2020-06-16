@@ -1,27 +1,19 @@
 <script context="module">
-  import {env} from '../../env'
+  import LivenService from '../../service/liven-service'
 
   export async function preload({params, query}) {
-    // TODO blackpet: 실서버에 연결할 것! ?id=query.id
-    let data
-
     // Action Data 조회하자!
-    const res = await this.fetch(`${env.api}/${params.act}`)
-    if (res.ok) {
-      data = await res.json()
-    } else {
-      data = []
-    }
+    const data = await LivenService.retrieveActionData(params.act)
 
     return {act: params.act, data}
   }
 </script>
 
 <script>
-  export let act, data;
+  export let act, data
 
   import {stores} from '@sapper/app'
-  import LivenService, {ROLE, EVENT} from '../../service/liven-service'
+  import {ROLE, EVENT} from '../../service/liven-service'
   import {listenOnTutor} from '../../service/tutor-service'
   import {action, LivenSocket} from '../../store/action'
 

@@ -150,6 +150,35 @@
       ]
     }
   ],
+  "qna": [
+    {
+      "nickname": "앵그리너구리RtA",
+      "date": "2020-06-16 15:30",
+      "star": 4.5,
+      "imageSrc": "http://172.26.10.101:8080/fileUpDownload/download.do?p_masterseq=SUBJ-THUMBNAIL&p_seq=OF221532&p_fileseq=1&p_secure=20200604104438",
+      "content": "머리속에 쏙쏙 박히는 기깔나는 강의 입니다!<br>혹시 강의 내용을 실제 업무 사례에 적용한 케이스가 있나요?<br><br>나도 좀 써먹게요~!",
+      "like": 123,
+      "reply": 777
+    },
+    {
+      "nickname": "너(누)구릐?",
+      "date": "2020-06-15 6:18",
+      "star": 1.5,
+      "imageSrc": "http://172.26.10.101:8080/fileUpDownload/download.do?p_masterseq=SUBJ-THUMBNAIL&p_seq=MX221557&p_fileseq=1&p_secure=20200608153540",
+      "content": "너구리는 몇도씨 물에서, 몇분동안 끓이고, 스프는 언제 투척해야 맛있나요!?",
+      "like": 3,
+      "reply": 9876
+    },
+    {
+      "nickname": "나에겐(새우)깡이있지!",
+      "date": "2020-06-15 17:51",
+      "star": 5,
+      "imageSrc": "http://172.26.10.101:8080/fileUpDownload/download.do?p_masterseq=SUBJ-THUMBNAIL&p_seq=MX221410&p_fileseq=1&p_secure=20200514151716",
+      "content": "너에겐 무슨 깡이 있니? 난 새우깡이 있어.<br>세상엔 참 많은 깡이 있지. 양파깡, 감자깡, 비 RAIN 깡, 뒤질깡? ...",
+      "like": 87,
+      "reply": 51
+    }
+  ],
   "survey": {
     "id": 1002,
     "subject": "당신의 농심 최고의 라면은 무엇인가요?",

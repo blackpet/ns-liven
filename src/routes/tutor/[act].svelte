@@ -1,9 +1,9 @@
 <script context="module">
   import LivenService from '../../service/liven-service'
 
-  export async function preload({params, query}) {
+  export async function preload({params, query}, session) {
     // Action Data 조회하자!
-    const data = await LivenService.retrieveActionData(params.act)
+    const data = await LivenService.retrieveActionData(params.act, session.course, query.id)
 
     return {act: params.act, data}
   }

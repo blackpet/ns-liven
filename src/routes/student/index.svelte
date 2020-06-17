@@ -1,22 +1,20 @@
 <script context="module">
   import {ROLE} from '../../service/liven-service'
 
-  export function preload({query}, session) {
-    // TODO blackpet: set {namespace, userId} to session
-    session.ns = !!query.ns ? query.ns : 'ON1234'
-    session.userId = !!query.userId ? query.userId : 'user01'
+  export async function preload({query}, session) {
+    // 이미 session 생성 이후이면 초기화 할 필요 없다!
+    if (session.userId && session.course.subjCd) {
+      return;
+    }
+
+    session.ns = query.ns
+    session.seq = query.seq
+    session.userId = query.userId
     session.role = ROLE.STUDENT
 
-    // TODO blackpet: DB Select~!
-    session.course = {
-      subjCd: session.ns,
-      seqCd: '12',
-      type: '집합교육',
-      title: `[${query.ns}] [${query.userId}]누구나~! 따라하면 유통이 원활해지는 핵공감 유통 마스터 과정`,
-      cnt: 10,
-      start: '2020.01.04',
-      end: '2020.01.07'
-    }
+    const course = await LivenService.retrieveSubjSummaryInfo(query.ns, query.seq)
+
+    session.course = course
   }
 </script>
 
@@ -45,7 +43,6 @@
       // store action data
       $action[data.act] = data.data
 
-      console.log('goto > replaceState: true!!')
       goto(`student/${data.act}`, { replaceState: true })
     })
   }

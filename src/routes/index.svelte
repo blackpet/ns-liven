@@ -4,7 +4,7 @@
   import {LivenSocket} from '../store/action'
   import LivenService, {goList} from '../service/liven-service'
 
-  let role, userId, subjCd
+  let role, userId, subjCd = 'OF221530', subjSeq = '0001'
 
   const {session} = stores()
   let socket = LivenSocket.get()
@@ -24,7 +24,7 @@
   }
 
   function start() {
-    goto(`${role}?ns=${subjCd}&userId=${userId}`)
+    goto(`${role}?ns=${subjCd}&seq=${subjSeq}&userId=${userId}`)
   }
 </script>
 
@@ -66,6 +66,7 @@
 
   <div class="dummy">2. 사용자 아이디: <input type="text" bind:value={userId}></div>
   <div class="dummy">3. 과정코드: <input type="text" bind:value={subjCd}></div>
+  <div class="dummy">4. 차수: <input type="text" bind:value={subjSeq}></div>
 
   <div class="items_btn_single dummy">
     <button class="btn_brownh50" on:click={start}>

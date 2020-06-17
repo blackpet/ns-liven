@@ -5,7 +5,7 @@
   const {session} = stores()
 
   const acts = [
-    {name: 'Live Quiz', act: 'quiz', id: 1},
+    {name: 'Live Quiz', act: 'quizList', class: 'quiz'},
     {name: 'Live Poll', act: 'poll', id: 2},
     {name: 'Live Q&A', act: 'qna'},
     {name: 'Live Share', act: 'share'},
@@ -14,7 +14,7 @@
 
   function getUrl(act) {
     let url = ''
-    if (['quiz', 'poll'].includes(act.act)) {
+    if (['quizList', 'poll'].includes(act.act)) {
       url = `${$session.role}/`
     }
     url += act.act
@@ -37,7 +37,7 @@
         <ul class="live_lists_w">
           {#each acts as item}
           <li class="live_list">
-            <a href="{getUrl(item)}" class="link_live_{item.act}">
+            <a href="{getUrl(item)}" class="link_live_{item.class ? item.class : item.act}">
               <span class="txt_s24cDGray">{item.name}</span>
             </a>
           </li>

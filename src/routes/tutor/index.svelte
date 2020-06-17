@@ -2,9 +2,14 @@
   import {ROLE} from '../../service/liven-service'
 
   export async function preload({query}, session) {
-    // TODO blackpet: set {namespace, userId} to session
-    session.ns = !!query.ns ? query.ns : 'ON1234'
-    session.userId = !!query.userId ? query.userId : 'tutor01'
+    // 이미 session 생성 이후이면 초기화 할 필요 없다!
+    if (session.userId && session.course.subjCd) {
+      return;
+    }
+
+    session.ns = query.ns
+    session.seq = query.seq
+    session.userId = query.userId
     session.role = ROLE.TUTOR
 
     const course = await LivenService.retrieveSubjSummaryInfo(query.ns, query.seq)

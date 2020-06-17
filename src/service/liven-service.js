@@ -36,11 +36,13 @@ function createService() {
   ///////////////////////////////// Live.N 데이터 조회 (from nsedu)
   // TODO blackpet: 실 서버에 연결할 것!
 
+  // 과정 정보 조회
   const retrieveSubjSummaryInfo = async (ns, seq) => {
     let data = {}
+    const query = objectToQuerystring({ns, seq})
 
     try {
-      const url = `http://localhost:8080/liven/subjSummaryInfo.do?ns=${ns}&seq=${seq}`
+      const url = `${env.api}/subjSummaryInfo.do${query}`
       const param = {
         mode: 'cors'
       }
@@ -56,11 +58,32 @@ function createService() {
     return data
   };
 
-  const retrieveActionData = async (act) => {
+  // quiz list
+  const retrieveQuizList = async (course) => {
+    const {subjCd, subjSeq} = course
     let data = []
+    const query = objectToQuerystring({subjCd, subjSeq})
 
     try {
-      const res = await fetch(`${env.api}/${act}`)
+      const res = await fetch(`${env.api}/quizList.do${query}`)
+      if (res.ok) {
+        data = await res.json()
+      }
+    } catch (e) {
+      console.error('retrieveQuizList error occur!')
+    }
+
+    return data
+  };
+
+  // Action data 조회
+  const retrieveActionData = async (act, course, id) => {
+    const {subjCd, subjSeq} = course
+    let data = []
+    const query = objectToQuerystring({subjCd, subjSeq, id})
+
+    try {
+      const res = await fetch(`${env.api}/${act}.do${query}`)
       if (res.ok) {
         data = await res.json()
       }
@@ -133,6 +156,7 @@ function createService() {
     retrieveActionData,
     retrieveQnaList,
     retrieveSubjSummaryInfo,
+    retrieveQuizList,
 
 
 
@@ -146,6 +170,16 @@ function createService() {
 // listen on server
 function listenOnEveryone() {
   // TODO blackpet: 공통으로 Listen 할게 있으면 요기요기~
+}
+
+function objectToQuerystring (obj) {
+  return Object.keys(obj).reduce(function (str, key, i) {
+    let delimiter, val
+    delimiter = (i === 0) ? '?' : '&'
+    key = encodeURIComponent(key)
+    val = encodeURIComponent(obj[key])
+    return [str, delimiter, key, '=', val].join('')
+  }, '')
 }
 
 const LivenService = new createService();

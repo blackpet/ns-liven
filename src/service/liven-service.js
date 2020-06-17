@@ -35,6 +35,27 @@ function createService() {
 
   ///////////////////////////////// Live.N 데이터 조회 (from nsedu)
   // TODO blackpet: 실 서버에 연결할 것!
+
+  const retrieveSubjSummaryInfo = async (ns, seq) => {
+    let data = {}
+
+    try {
+      const url = `http://localhost:8080/liven/subjSummaryInfo.do?ns=${ns}&seq=${seq}`
+      const param = {
+        mode: 'cors'
+      }
+      const res = await fetch(url, param)
+      if (res.ok) {
+        data = await res.json()
+      }
+    } catch (e) {
+      console.error('retrieveSubjSummaryInfo error occur!')
+    }
+    console.log('retrieveSubjSummaryInfo', data)
+
+    return data
+  };
+
   const retrieveActionData = async (act) => {
     let data = []
 
@@ -111,6 +132,7 @@ function createService() {
 
     retrieveActionData,
     retrieveQnaList,
+    retrieveSubjSummaryInfo,
 
 
 

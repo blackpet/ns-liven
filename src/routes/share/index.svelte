@@ -18,6 +18,8 @@
 </script>
 
 <script>
+  import CourseSummary from "../../components/CourseSummary.svelte";
+
   export let data
 
   import moment from 'moment'
@@ -27,14 +29,7 @@
 <div class="container">
   <section class="content">
 
-    <div class="liveTop_box">
-      <span class="txtLabel_h22_s12Red">집합교육</span>
-      <strong class="tit_s20cWhiteFB">[TODO] 누구나 따라하면 유통이 원활해지는 핵공감 유통 마스터 과정</strong>
-      <p class="ltb_info">
-        <span class="txt_s16cWhite">신청 200 명</span>
-        <span class="txt_s16cWhite">2019.10.01 ~ 2019.12.31</span>
-      </p>
-    </div>
+    <CourseSummary />
 
     <div class="contBox_NLive">
       <div class="cb_inner">

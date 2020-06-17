@@ -12,7 +12,7 @@
       subjCd: session.ns,
       seqCd: '12',
       type: '집합교육',
-      title: '누구나~! 따라하면 유통이 원활해지는 핵공감 유통 마스터 과정',
+      title: `[${query.ns}] [${query.userId}]누구나~! 따라하면 유통이 원활해지는 핵공감 유통 마스터 과정`,
       cnt: 10,
       start: '2020.01.04',
       end: '2020.01.07'

@@ -44,8 +44,9 @@
     // 데이터 제거하자!
     $action[act] = {}
 
-    location.replace(`/${$session.role}`)
+    goto($session.role)
   });
+
 </script>
 
 <div class="container">
@@ -75,6 +76,7 @@
 
         <ul class="lists_wrap_result">
 
+          {#if data && data.items && data.items.length}
           {#each data.items as item, i}
             <li class="list_result">
               <span class="txt_s18cDGray">{i}. {@html item.subject}</span>
@@ -89,6 +91,7 @@
               </div>
             </li>
           {/each}
+          {/if}
 
         </ul>
 

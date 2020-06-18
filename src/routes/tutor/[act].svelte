@@ -12,7 +12,7 @@
 <script>
   export let act, data
 
-  import {stores} from '@sapper/app'
+  import {stores, goto} from '@sapper/app'
   import {ROLE, EVENT} from '../../service/liven-service'
   import {listenOnTutor} from '../../service/tutor-service'
   import {action, LivenSocket} from '../../store/action'
@@ -43,7 +43,7 @@
 
 </script>
 
-<h1>StudTutorent: {act}</h1>
+<h1>Tutor: {act}</h1>
 
 <div class="container">
   <section class="content">

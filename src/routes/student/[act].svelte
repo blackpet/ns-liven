@@ -70,7 +70,7 @@
 
         <svelte:component this="{LivenService.actionComponent(componentAct)}"
                           data={$action[act]} role="{ROLE.STUDENT}" {act} {submitStatus}
-                          on:submit={submit} on:share={share}/>
+                          on:submit={submit} on:share={share} />
 
       </div>
     </section>

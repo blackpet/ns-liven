@@ -5,6 +5,7 @@ import * as util from './utils'
  * Quiz Service
  */
 export default {
+
   // quiz list
   retrieveQuizList: async (course) => {
     const {subjCd, subjSeq} = course

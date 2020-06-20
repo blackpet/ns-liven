@@ -98,41 +98,6 @@ function createService() {
 
 
 
-
-  ///////////////////////////////////////////////////////
-
-  // 설문 조회
-  const serveSurvey = () => {
-    return fetch('tutor/survey-items.json').then((res) => {
-      if (res.ok) {
-        const data = res.json();
-        console.log('serveSurvey', data);
-        return data;
-      }
-      return null; // error
-    });
-  };
-
-  // 설문 시작 (request to server for broadcast survey)
-  const startSurvey = (type, data) => {
-    console.log("tutor > socket.emit('startSurvey')", type, data);
-    data.type = type;
-    socket.emit(EVENT.STUDENT_START_LIVEN, data);
-  };
-
-  // 설문 출력 (설문모드 | 결과모드)
-  const renderSurvey = (el, data) => {
-    const mode = data.mode === 'vote' ? 'vote' : 'result';
-    const tmplHtml = mode === 'result' ? surveyResultTmpl : surveyVoteTmpl;
-    // const tmpl = $.templates(tmplHtml);
-    // $(el).html(tmpl.render(data));
-  }
-
-  // 투표!
-  const vote = (voteId) => {
-    socket.emit('vote', voteId);
-  };
-
   return {
     connectServer,
     actionComponent,
@@ -140,13 +105,6 @@ function createService() {
     retrieveActionData,
     retrieveQnaList,
     retrieveSubjSummaryInfo,
-
-
-
-    serveSurvey,
-    startSurvey,
-    renderSurvey,
-    vote
   }
 }
 

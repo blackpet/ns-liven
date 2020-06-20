@@ -6,7 +6,7 @@
 
   const acts = [
     {name: 'Live Quiz', act: 'quizList', class: 'quiz'},
-    {name: 'Live Poll', act: 'poll', id: 2},
+    {name: 'Live Poll', act: 'pollList', class: 'poll'},
     {name: 'Live Q&A', act: 'qna'},
     {name: 'Live Share', act: 'share'},
     {name: 'Survey', act: 'survey', id: 1},
@@ -14,7 +14,7 @@
 
   function getUrl(act) {
     let url = ''
-    if (['quizList', 'poll'].includes(act.act)) {
+    if (['quizList', 'pollList'].includes(act.act)) {
       url = `${$session.role}/`
     }
     url += act.act

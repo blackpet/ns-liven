@@ -70,7 +70,7 @@ function createLivenServer(server) {
       console.log(JSON.stringify(act, null, 2))
       // 문제별/보기별 투표내역 갱신하자!
       act.data.map(p => {
-        const item = p.items.find(i => i.id == userData.find(ud => ud.actId == p.id).itemId)
+        const item = p.items.find(i => i.id == userData.find(ud => ud.pollId == p.id).itemId)
         item.vote++
         return p
       })

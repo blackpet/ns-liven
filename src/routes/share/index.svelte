@@ -1,16 +1,8 @@
 <script context="module">
-  import {env} from '../../env'
+  import ShareService from '../../service/share-service'
 
-  export async function preload() {
-    // TODO blackpet: 실 DB 에서 조회할 것!
-    let data
-
-    const res = await this.fetch(`${env.api}/share`)
-    if (res.ok) {
-      data = await res.json();
-    } else {
-      throw new Error('cannot retrieve share list')
-    }
+  export async function preload({}, session) {
+    const data = await ShareService.retrieveShareList(session.course)
 
     return {data}
   }
@@ -47,7 +39,7 @@
               <li class="list_live">
                 <a href="share/{item.id}" class="link_liveSt">
                   <span class="tit_s18cDGray">{item.subject}</span>
-                  <span class="txt_s16cLGray">{moment(item.date).format('YYYY.MM.DD')}</span>
+                  <span class="txt_s16cLGray">{moment(item.date, 'YYYYMMDDHHmmss').format('YYYY.MM.DD')}</span>
                 </a>
               </li>
           {/each}

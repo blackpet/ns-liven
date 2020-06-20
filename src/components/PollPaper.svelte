@@ -76,7 +76,7 @@
   // [student] [제출하기]
   function submit() {
     const allAnswers = data.map(p => {
-      return {actId: p.id, itemId: p.myAnswer}
+      return {pollId: p.id, itemId: p.myAnswer}
     })
 
     // listen! (제출 후 결과화면부터 실시간 반영을 시작하자!)

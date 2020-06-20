@@ -1,9 +1,8 @@
 <script context="module">
-  import LivenService from '../../service/liven-service'
+  import QuizService from '../../service/quiz-service'
 
   export async function preload(page, session) {
-    console.log(session.course)
-    const list = await LivenService.retrieveQuizList(session.course)
+    const list = await QuizService.retrieveQuizList(session.course)
 
     return {list}
   }

@@ -3,6 +3,7 @@
   import {ROLE} from '../service/liven-service'
   import {LivenSocket} from '../store/action'
   import LivenService, {goList} from '../service/liven-service'
+  import {env} from '../env'
 
   let role, userId, subjCd = 'OF221530', subjSeq = '0001'
 
@@ -26,6 +27,23 @@
   function start() {
     goto(`${role}?ns=${subjCd}&seq=${subjSeq}&userId=${userId}`)
   }
+
+  function goNsedu() {
+    location.href = env.nsedu
+  }
+
+
+  import QuizService from '../service/quiz-service'
+  function submitQuiz() {
+    QuizService.submitQuizAnswer({
+      subjCd: '1234',
+      subjSeq: '0001',
+      quizId: 1,
+      userId: 'testuser01',
+      answerId: '123',
+      myAnswer: '123'
+    })
+  }
 </script>
 
 <svelte:head>
@@ -39,6 +57,8 @@
   DB 연결이 되지 않은 샘플 프로그램 입니다.
 </div>
 
+<button class="btn_lGray" on:click={goNsedu}>nsedu로 돌아가자!</button>
+<button class="btn_lGray" on:click={submitQuiz}>submit quiz</button>
 {#if socket}
   <div>Live.N 서버에 연결되어 있습니다.</div>
   <button class="btn_brownh50" on:click={disconnect}>연결끊기</button>

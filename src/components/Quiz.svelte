@@ -15,14 +15,16 @@
   let myAnswer = -1
 
   // quiz인 경우는 [제출하기]btn 무조건 보여주면 된다!
-  if (act === 'quiz') {
-    $: submitStatus.can = myAnswer == -1
+  $: {
+    if (act === 'quiz') {
+      submitStatus.can = myAnswer == -1
+    }
   }
 
   import {stores} from '@sapper/app'
   import {onMount, createEventDispatcher} from 'svelte'
   import LivenService, {ROLE, EVENT} from '../service/liven-service'
-  import {insertAct} from '../service/student-service'
+  import QuizService from '../service/quiz-service'
   import {action, LivenSocket} from '../store/action'
 
   const {session} = stores()
@@ -88,12 +90,17 @@
   function submit() {
     confirm('제출 후에는 답안을 변경할 수 없습니다.<br>제출하시겠습니까?', function () {
 
+      const {subjCd, subjSeq} = $session.course
+      const answerId = data.items.find(i => !!i.answer).id
+      console.log('quiz submit!!', answerId, myAnswer)
       // insert to DB!
-      insertAct({
-        ns: $session.ns,
-        userId: $session.userId,
+      QuizService.submitQuizAnswer({
+        subjCd,
+        subjSeq,
         quizId: data.id,
-        itemId: myAnswer
+        userId: $session.userId,
+        answerId,
+        myAnswer: myAnswer
       })
 
       // submit!

@@ -28,8 +28,6 @@
 
   const {session} = stores()
 
-  console.log('tutor index!!!!!!!')
-
   // 최초 접속, socket 연결이 안되어 있는 경우만 연결하자!
   if (!LivenSocket.get()) {
     // connect to node server
@@ -44,7 +42,5 @@
 <svelte:head>
   <title>Live.N</title>
 </svelte:head>
-
-<h1>Tutor (index)</h1>
 
 <List />

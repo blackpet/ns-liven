@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import * as _ from 'lodash';
 import {goto} from '@sapper/app'
 import {env} from '../env'
+import * as util from './utils'
 
 /**** action components ****/
 import Quiz from '../components/Quiz.svelte'
@@ -39,7 +40,7 @@ function createService() {
   // 과정 정보 조회
   const retrieveSubjSummaryInfo = async (ns, seq) => {
     let data = {}
-    const query = objectToQuerystring({ns, seq})
+    const query = util.objectToQuerystring({ns, seq})
 
     try {
       const url = `${env.api}/subjSummaryInfo.do${query}`
@@ -58,29 +59,12 @@ function createService() {
     return data
   };
 
-  // quiz list
-  const retrieveQuizList = async (course) => {
-    const {subjCd, subjSeq} = course
-    let data = []
-    const query = objectToQuerystring({subjCd, subjSeq})
-
-    try {
-      const res = await fetch(`${env.api}/quizList.do${query}`)
-      if (res.ok) {
-        data = await res.json()
-      }
-    } catch (e) {
-      console.error('retrieveQuizList error occur!')
-    }
-
-    return data
-  };
 
   // Action data 조회
   const retrieveActionData = async (act, course, id) => {
     const {subjCd, subjSeq} = course
     let data = []
-    const query = objectToQuerystring({subjCd, subjSeq, id})
+    const query = util.objectToQuerystring({subjCd, subjSeq, id})
 
     try {
       const res = await fetch(`${env.api}/${act}.do${query}`)
@@ -156,7 +140,6 @@ function createService() {
     retrieveActionData,
     retrieveQnaList,
     retrieveSubjSummaryInfo,
-    retrieveQuizList,
 
 
 
@@ -172,15 +155,6 @@ function listenOnEveryone() {
   // TODO blackpet: 공통으로 Listen 할게 있으면 요기요기~
 }
 
-function objectToQuerystring (obj) {
-  return Object.keys(obj).reduce(function (str, key, i) {
-    let delimiter, val
-    delimiter = (i === 0) ? '?' : '&'
-    key = encodeURIComponent(key)
-    val = encodeURIComponent(obj[key])
-    return [str, delimiter, key, '=', val].join('')
-  }, '')
-}
 
 const LivenService = new createService();
 export default LivenService;

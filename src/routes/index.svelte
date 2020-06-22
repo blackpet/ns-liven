@@ -44,6 +44,11 @@
       myAnswer: '123'
     })
   }
+
+  async function retrieveSubj() {
+    // /liven/subjSummaryInfo.do?ns=OF221570&seq=0002
+    const info = await LivenService.retrieveSubjSummaryInfo('OF221570', '0002')
+  }
 </script>
 
 <svelte:head>
@@ -58,6 +63,7 @@
 </div>
 
 <button class="btn_lGray" on:click={goNsedu}>nsedu로 돌아가자!</button>
+<button class="btn_lGray" on:click={retrieveSubj}>retrieve subj</button>
 <button class="btn_lGray" on:click={submitQuiz}>submit quiz</button>
 {#if socket}
   <div>Live.N 서버에 연결되어 있습니다.</div>

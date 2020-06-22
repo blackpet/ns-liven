@@ -10,6 +10,7 @@
     session.ns = query.ns
     session.seq = query.seq
     session.userId = query.userId
+    session.comp = query.comp
     session.role = ROLE.STUDENT
 
     const course = await LivenService.retrieveSubjSummaryInfo(query.ns, query.seq)
@@ -52,7 +53,5 @@
 <svelte:head>
   <title>Live.N</title>
 </svelte:head>
-
-<h1>Student (index)</h1>
 
 <List />

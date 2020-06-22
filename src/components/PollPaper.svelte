@@ -5,6 +5,7 @@
   import {fly} from 'svelte/transition'
   import {stores} from '@sapper/app'
   import {ROLE, EVENT} from '../service/liven-service'
+  import PollService from '../service/poll-service'
   import {action, LivenSocket} from '../store/action'
 
   import Quiz from './Quiz.svelte'
@@ -75,9 +76,22 @@
 
   // [student] [제출하기]
   function submit() {
+    const {subjCd, subjSeq} = $session.course
+    const {userId, comp} = $session
+
     const allAnswers = data.map(p => {
-      return {pollId: p.id, itemId: p.myAnswer}
+      return {
+        subjCd, subjSeq, userId, comp,
+        pageId: p.pageId,
+        pollId: p.id,
+        myAnswer: p.myAnswer
+      }
     })
+
+    console.log('allAnswers', allAnswers)
+
+    // DB에 저장하자!
+    PollService.submitPollAnswer(allAnswers);
 
     // listen! (제출 후 결과화면부터 실시간 반영을 시작하자!)
     socket.on(EVENT.STUDENT_SUBMIT_POLL, actData => {

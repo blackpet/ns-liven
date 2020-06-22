@@ -30,17 +30,14 @@ export default {
       method: 'POST',
       mode: 'cors',
       headers: {
-        'Content-type': 'application/json',
-        'Origin': 'http://localhost:4003'
+        'Content-type': 'application/json'
       },
       body: JSON.stringify(data)
     }
     const uri = `${env.api}/submitQuizAnswer.do`
-    console.log(uri, param)
 
     try {
       const res = await fetch(uri, param)
-      console.log('fetched!!', res)
       if (res.ok) {
         return true;
       }

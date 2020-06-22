@@ -39,12 +39,12 @@
     LivenSocket.set(socket)
 
     // standby for [tutor] start
-    socket.on(EVENT.TUTOR_START_LIVEN, data => {
+    socket.on(EVENT.TUTOR_START_LIVEN, async data => {
       console.log(`student on ${EVENT.TUTOR_START_LIVEN}`, data, $action);
       // store action data
       $action[data.act] = data.data
 
-      goto(`student/${data.act}`, { replaceState: true })
+      await goto(`student/${data.act}`, { replaceState: true })
     })
   }
 

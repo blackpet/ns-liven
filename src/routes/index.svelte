@@ -24,8 +24,8 @@
     session.set({})
   }
 
-  function start() {
-    goto(`${role}?ns=${subjCd}&seq=${subjSeq}&userId=${userId}`)
+  async function start() {
+    await goto(`${role}?ns=${subjCd}&seq=${subjSeq}&userId=${userId}`)
   }
 
   function goNsedu() {

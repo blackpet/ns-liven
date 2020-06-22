@@ -40,11 +40,11 @@
   })
 
   // [종료하기] 시작 페이지로 이동하자!
-  socket.on(EVENT.TUTOR_END_LIVEN, (act) => {
+  socket.on(EVENT.TUTOR_END_LIVEN, async (act) => {
     // 데이터 제거하자!
     $action[act] = {}
 
-    goto($session.role)
+    await goto($session.role)
   });
 
 </script>

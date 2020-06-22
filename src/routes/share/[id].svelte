@@ -1,16 +1,8 @@
 <script context="module">
-  import {env} from '../../env'
+  import ShareService from '../../service/share-service'
 
-  export async function preload({params}) {
-    // TODO blackpet: 실 DB 에서 조회할 것!
-    let data
-
-    const res = await this.fetch(`${env.api}/share/${params.id}`)
-    if (res.ok) {
-      data = await res.json();
-    } else {
-      throw new Error('cannot retrieve share slide')
-    }
+  export async function preload({params}, session) {
+    const data = await ShareService.retrieveShareDetail(session.course.subjCd, params.id)
 
     return {data}
   }
@@ -25,6 +17,7 @@
   import {lazy} from '../../util/lazy-loading'
   import {EVENT, ROLE, goList} from '../../service/liven-service'
   import {LivenSocket} from '../../store/action'
+  import {env} from '../../env'
 
   const {session} = stores()
   const socket = LivenSocket.get()
@@ -57,6 +50,10 @@
     });
   }
 
+  function imgSrc(img) {
+    return `${env.resource}/fileUpDownload/download.do?p_savefile=${img}&p_realfile=liven&p_type=mime`
+  }
+
 </script>
 
 <!--#############################################-->
@@ -73,7 +70,7 @@
 
               {#each data.slides as slide}
                 <li class="sld_list">
-                  <img src="" alt="" use:lazy="{{src: slide.img}}">
+                  <img src="" alt="" use:lazy="{{src: imgSrc(slide.savefile)}}">
                 </li>
               {/each}
 

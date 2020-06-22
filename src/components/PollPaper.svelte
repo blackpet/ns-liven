@@ -4,7 +4,7 @@
   import {createEventDispatcher} from 'svelte'
   import {fly} from 'svelte/transition'
   import {stores} from '@sapper/app'
-  import {ROLE, EVENT} from '../service/liven-service'
+  import {ROLE, EVENT, goList} from '../service/liven-service'
   import PollService from '../service/poll-service'
   import {action, LivenSocket} from '../store/action'
 
@@ -109,17 +109,20 @@
   //////////////////////////////////////// listen socket
 
   // [종료하기] 시작 페이지로 이동하자!
-  socket.on(EVENT.TUTOR_END_LIVEN, (act) => {
+  socket.on(EVENT.TUTOR_END_LIVEN, async (act) => {
+    // 화면 이동 후~
+    await goList($session.role)
+
     // 데이터 제거하자!
     $action[act] = {}
 
-    location.replace(`/${$session.role}`)
   });
 
 </script>
 
 
 <ul>
+  {#if data && data.length}
   {#each data as poll, i (poll.id)}
     {#if idx === i}
       <li in:fly={{ x: direction * 300, duration: 500 }}>
@@ -134,6 +137,7 @@
       </li>
     {/if}
   {/each}
+  {/if}
 </ul>
 
 {#if componentAct === 'poll'}
@@ -155,7 +159,7 @@
     </div>
   {/if}
 
-{:else}
+{:else} <!-- else componentAct === 'poll' -->
   <!-- poll-result paper -->
   {#if role === ROLE.TUTOR}
     <!-- tutor only -->

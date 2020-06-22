@@ -118,8 +118,8 @@ const LivenService = new createService();
 export default LivenService;
 
 // 목록으로 가기
-export function goList(role) {
-  goto(role)
+export async function goList(role) {
+  return await goto(role)
 }
 
 // Event Type

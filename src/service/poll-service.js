@@ -10,9 +10,12 @@ export default {
     const {subjCd, subjSeq} = course
     let data = []
     const query = util.objectToQuerystring({subjCd, subjSeq})
+    const param = {
+      mode: 'cors'
+    }
 
     try {
-      const res = await fetch(`${env.api}/pollList.do${query}`)
+      const res = await fetch(`${env.api}/pollList.do${query}`, param)
       if (res.ok) {
         data = await res.json()
       }

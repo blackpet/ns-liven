@@ -1,8 +1,8 @@
 <script>
 	export let segment;
 
+	import {env} from '../env'
 	import {stores} from '@sapper/app'
-
 	const {session} = stores()
 </script>
 
@@ -59,6 +59,7 @@
 		<li><a aria-current='{segment === $session.role ? "page" : undefined}' href='{$session.role}'>{$session.role}</a></li>
 		{/if}
 		<li><a aria-current='{segment === "admin" ? "page" : undefined}' href='admin'>admin</a></li>
+		<li><a href='{env.nsedu}'>nsedu</a></li>
 <!--		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>about</a></li>-->
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches

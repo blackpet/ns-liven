@@ -1,8 +1,8 @@
 <script>
-	import GotoListButton from "../components/GotoListButton.svelte";
 
 	export let segment;
 
+	import GotoListButton from "../components/GotoListButton.svelte";
 	import Nav from '../components/Nav.svelte';
 	import {goto, stores} from '@sapper/app'
 

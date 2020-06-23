@@ -20,12 +20,14 @@
   }
 
   .home-btn {
-    background-color: #2cd9c5;
+    background-color: rgba(44, 217, 197, 0.5);
+    color: rgba(18, 18, 18, 0.7);
     border-radius: 50%;
     display: block;
     width: 50px;
     height: 50px;
   }
+
 </style>
 
 {#if isSubpage}

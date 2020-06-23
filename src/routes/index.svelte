@@ -28,11 +28,6 @@
     await goto(`${role}?ns=${subjCd}&seq=${subjSeq}&userId=${userId}`)
   }
 
-  function goNsedu() {
-    location.href = env.nsedu
-  }
-
-
   //////////////////// TEST DEBUG ///////////////////////
   import QuizService from '../service/quiz-service'
 
@@ -64,7 +59,6 @@
   DB 연결이 되지 않은 샘플 프로그램 입니다.
 </div>
 
-<button class="btn_lGray" on:click={goNsedu}>nsedu로 돌아가자!</button>
 <button class="btn_lGray" on:click={retrieveSubj}>retrieve subj</button>
 <button class="btn_lGray" on:click={submitQuiz}>submit quiz</button>
 {#if socket}

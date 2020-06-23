@@ -89,6 +89,30 @@ export default {
     }
 
     return false
+  },
+
+  // register reply
+  writeReply: async (data) => {
+    const param = {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+    const uri = `${env.api}/insertReply.do`
+
+    try {
+      const res = await fetch(uri, param)
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (e) {
+      console.error(e, 'writeQna error occur!!!', e)
+    }
+
+    return false
   }
 }
 

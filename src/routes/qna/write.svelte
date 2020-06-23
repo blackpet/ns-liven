@@ -13,7 +13,8 @@
   // [등록하기]btn
   async function write() {
     // validation
-    if (alert('내용을 입력해 주세요')) {
+    if (contents.length === 0) {
+      alert('내용을 입력해 주세요')
       return;
     }
 

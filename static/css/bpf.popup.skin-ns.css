@@ -36,4 +36,9 @@
   .pop_footer.bp-footer {
     padding: 20px 0;
   }
+
+  .bpp.small .bp-body {
+    width: 95vw;
+  }
 }
+

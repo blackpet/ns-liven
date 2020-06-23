@@ -1,8 +1,9 @@
 <script context="module">
-  import LivenService from '../../service/liven-service'
+  import QnaService from '../../service/qna-service'
+
 
   export async function preload({query, params}, session) {
-    const data = await LivenService.retrieveQnaList(session.course)
+    const data = await QnaService.retrieveQnaList(session.course, session.userId)
 
     return {data}
   }
@@ -12,10 +13,26 @@
 <script>
   export let data
 
+  import {goto} from '@sapper/app'
   import QnaItem from './QnaItem.svelte'
+
+  // [질문하기]btn
+  async function write() {
+    await goto('qna/write')
+  }
+
+  // [더보기 +]btn
+  function nextPage() {
+
+  }
 
 </script>
 
+<style>
+  .items_btn_single .btn_grayh50 {
+    background-color: #bbbbbb;
+  }
+</style>
 
 <div class="container">
   <section class="content">
@@ -26,7 +43,7 @@
       <div class="cb_inner">
 
         <div class="items_btn_single">
-          <button type="button" class="btn_lineBrownh50">
+          <button type="button" class="btn_lineBrownh50" on:click={write}>
             <span class="txt_s16">질문하기</span>
           </button>
         </div>
@@ -50,27 +67,12 @@
 
           </ul>
 
-          <div class="paging_w">
-            <buttoh type="button" class="btnIcon_pg_first">
-              <span class="ir">처음</span>
-            </buttoh>
-            <buttoh type="button" class="btnIcon_pg_prev">
-              <span class="ir">처음</span>
-            </buttoh>
-            <div class="page_number">
-              <a href="#none" class="link_s16 active">1</a>
-              <a href="#none" class="link_s16">2</a>
-              <a href="#none" class="link_s16">3</a>
-              <a href="#none" class="link_s16">4</a>
-              <a href="#none" class="link_s16">5</a>
-            </div>
-            <buttoh type="button" class="btnIcon_pg_next">
-              <span class="ir">처음</span>
-            </buttoh>
-            <buttoh type="button" class="btnIcon_pg_last">
-              <span class="ir">처음</span>
-            </buttoh>
+          <div class="items_btn_single">
+            <button type="button" class="btn_grayh50" on:click={nextPage}>
+              <span class="txt_s16">더보기 +</span>
+            </button>
           </div>
+
         {/if}
 
       </div>

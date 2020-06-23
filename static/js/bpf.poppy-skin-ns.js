@@ -80,7 +80,6 @@ function alert(message, fn) {
   var id = 'alert-' + Math.random().toString(36).substring(2, 10);
   var poppy = bpf.popup.create(id, {
     template: '<div>{{:message}}</div>',
-    width: 500,
     title: '',
     closeable: true,
     buttons: ['ok'],
@@ -101,7 +100,6 @@ function confirm(message, fnOk, fnCancel) {
   var id = 'confirm-' + Math.random().toString(36).substring(2, 10);
   var poppy = bpf.popup.create(id, {
     template: '<div>{{:message}}</div>',
-    width: 500,
     title: '',
     closeable: false,
     buttons: ['ok', 'cancel'],

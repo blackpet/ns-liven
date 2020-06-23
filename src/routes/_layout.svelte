@@ -8,15 +8,15 @@
 
 	const {page} = stores()
 
-	let indexes = ['/', '/tutor', '/student']
+	const popups = []
+	const indexes = ['/', '/tutor', '/student']
 	let here
-	$: isSubpage = !indexes.includes(here)
+	$: isPopup = popups.includes(here)
+	$: isSubpage = !isPopup && !indexes.includes(here)
 
 	if (typeof window !== 'undefined' && typeof document !== 'undefined') {
 		page.subscribe(({path, params, query}) => {
 			here = window.location.pathname
-
-
 			console.log('window.location.pathname', here)
 		});
 	}
@@ -35,7 +35,9 @@
 	}
 </style>
 
+{#if !isPopup}
 <Nav {segment}/>
+{/if}
 
 <main>
 	<slot></slot>

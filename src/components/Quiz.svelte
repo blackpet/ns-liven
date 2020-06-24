@@ -137,7 +137,7 @@
         <li class="q_list">
           <label class="inp_radio_nl">
             <input type="radio" name="q1" bind:group={answer.id} value="{item.id}" {disabled} on:click={checkAnswer}>
-            <span class="txt_s18cDGray">{i}. {@html item.subject}</span>
+            <span class="txt_s18cDGray">{i+1}. {@html item.subject}</span>
             <i class="icon_rd_nl"></i>
           </label>
         </li>

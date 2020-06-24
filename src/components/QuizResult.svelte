@@ -7,6 +7,7 @@
   import {ROLE, EVENT} from '../service/liven-service'
 
   const {session} = stores()
+  const course = $session.course
 
   const socket = LivenSocket.get()
   let shared = false; // 결과 공유 여부 (default: false)
@@ -59,7 +60,7 @@
         <div class="nl_result_top">
           <ul class="items_cont_double">
             <li class="item_cont">
-              <span class="txt_s16cBrown">참여인원  n명</span>
+              <span class="txt_s16cBrown">참여인원  {course.stdCnt}명</span>
             </li>
             <li class="item_cont">
               <span class="txt_s16cBrown">응답인원  <b class="cRed">{resUserTotal}</b>명</span>
@@ -79,7 +80,7 @@
           {#if data && data.items && data.items.length}
           {#each data.items as item, i}
             <li class="list_result">
-              <span class="txt_s18cDGray">{i}. {@html item.subject}</span>
+              <span class="txt_s18cDGray">{i+1}. {@html item.subject}</span>
               {#if item.answer}
                 <span class="txt_s18cBrown">정답</span>
               {/if}

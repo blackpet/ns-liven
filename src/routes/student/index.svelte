@@ -10,6 +10,7 @@
     session.ns = query.ns
     session.seq = query.seq
     session.userId = query.userId
+    session.nickname = query.nickname
     session.comp = query.comp
     session.role = ROLE.STUDENT
 

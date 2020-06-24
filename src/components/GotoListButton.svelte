@@ -5,6 +5,9 @@
   import {stores} from '@sapper/app'
   const {session} = stores()
 
+  function back() {
+    history.back()
+  }
 </script>
 
 
@@ -32,8 +35,8 @@
 
 {#if isSubpage}
 <div class="floating-navigation" class:show={isSubpage}>
-  <button class="home-btn" on:click={() => goList($session.role)}>
-    Main
+  <button class="home-btn" on:click={back}>
+    Back
   </button>
 </div>
 {/if}

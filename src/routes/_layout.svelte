@@ -2,7 +2,7 @@
 
 	export let segment;
 
-	import GotoListButton from "../components/GotoListButton.svelte";
+	import GotoButton from "../components/GotoButton.svelte";
 	import Nav from '../components/Nav.svelte';
 	import {goto, stores} from '@sapper/app'
 
@@ -43,4 +43,4 @@
 	<slot></slot>
 </main>
 
-<GotoListButton {isSubpage} />
+<GotoButton {isSubpage} />

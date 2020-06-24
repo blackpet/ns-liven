@@ -23,7 +23,13 @@
 
   // [더보기 +]btn
   function nextPage() {
+    // TODO blackpet
+  }
 
+  function deleteQna(e) {
+    const seq = e.detail.seq
+
+    data = data.filter(q => q.seq !== seq)
   }
 
 </script>
@@ -62,7 +68,9 @@
           <ul class="lists_wrap_comment">
 
             {#each data as item}
-              <QnaItem {item}/>
+              <li class="list_comment reply">
+                <QnaItem {item} on:deleteQna={deleteQna} />
+              </li>
             {/each}
 
           </ul>

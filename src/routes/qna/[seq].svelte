@@ -12,17 +12,18 @@
 
 <script>
 
-  import QnaItem from "./QnaItem.svelte";
 
   export let qnaSeq, qna, replies = []
   let contents = ''
 
-  import * as animationScroll from 'svelte-scrollto'
+  import QnaItem from "./QnaItem.svelte";
   import ReplyItem from "./ReplyItem.svelte";
+
+  import * as animationScroll from 'svelte-scrollto'
   import * as util from '../../service/utils'
   import {lazy} from '../../util/lazy-loading'
   import moment from 'moment'
-  import {stores} from '@sapper/app'
+  import {goto, stores} from '@sapper/app'
 
   const {session} = stores()
 
@@ -44,7 +45,7 @@
 
     const res = await QnaService.writeReply(data)
     data.seq = res.seq
-    data.groupSeq = res.groupSeq
+    data.groupSeq = res.seq
 
     // 입력 댓글은 초기화 하자!
     contents = ''
@@ -77,7 +78,7 @@
     animationScroll.scrollToBottom({
       onDone: () => {
         // 스크롤 후 'new' highlight를 없애자!
-        replies[replies.length-1].new = false
+        replies[replies.length - 1].new = false
       }
     })
   }
@@ -90,7 +91,7 @@
     }
 
     // case2. 그룹의 마지막 이냐?(다음 reply가 다른 그룹인 경우)
-    else if (replies[i+1].groupSeq !== groupSeq) {
+    else if (replies[i + 1].groupSeq !== groupSeq) {
       return true
     }
 
@@ -115,7 +116,7 @@
 
     // 순서에 맞게 삽입하자!
     console.log('before', replies)
-    replies.splice(prevIdx+1, 0, reply2)
+    replies.splice(prevIdx + 1, 0, reply2)
 
     // 부모 댓글 count 증가!
     replies.find(r => r.seq === reply2.groupSeq).replyCnt++
@@ -125,11 +126,17 @@
 
     // 'new' highlight 제거하자!
     setTimeout(() => {
-      replies[prevIdx+1].new = false
+      replies[prevIdx + 1].new = false
     }, 10);
   }
+
 </script>
 
+<style>
+  .comm_write .profile_img_w {
+    top: 18px;
+  }
+</style>
 
 <div class="container">
   <section class="content">
@@ -140,7 +147,10 @@
 
         <ul class="lists_wrap_comment detail_View">
 
-          <QnaItem item={qna} />
+          <li class="list_comment reply">
+            <QnaItem item={qna} on:deleteQna={() => goto('qna')} />
+          </li>
+
         </ul>
 
 
@@ -171,16 +181,16 @@
           </div>
 
           {#if replies.length > 0}
-          <ul class="lists_wrap_comment">
+            <ul class="lists_wrap_comment">
 
-            {#each replies as reply, i (reply.seq)}
+              {#each replies as reply, i (reply.seq)}
 
-              <ReplyItem {reply} idx={i} leafOfGroup={leafOfGroup(i, reply.groupSeq)}
-                         on:writeReply2={writeReply2} />
+                <ReplyItem {reply} idx={i} leafOfGroup={leafOfGroup(i, reply.groupSeq)}
+                           on:writeReply2={writeReply2}/>
 
-            {/each}
+              {/each}
 
-          </ul>
+            </ul>
           {/if}
 
         </div>

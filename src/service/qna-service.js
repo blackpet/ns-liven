@@ -143,6 +143,31 @@ export default {
     }
 
     return false
+  },
+
+  // delete qna / reply
+  deleteQna: async (data, like) => {
+    const param = {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+
+    let uri = `${env.api}/deleteQna.do`;
+
+    try {
+      const res = await fetch(uri, param)
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (e) {
+      console.error(e, 'toggleLike error occur!!!', e)
+    }
+
+    return false
   }
 }
 

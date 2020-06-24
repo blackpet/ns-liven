@@ -10,6 +10,7 @@
   const dispatch = createEventDispatcher()
 
   let like = reply.likeYn === 'Y'
+  let showTools = false // [수정/삭제] tools
 
   // like / cancel like
   async function toggleLike() {
@@ -30,12 +31,15 @@
       return;
     }
 
+    console.log('reply', reply)
+
     const userId = $session.userId
     const depth = 2 // 댓글의 답글은 depth=2
     const {qnaSeq, groupSeq} = reply
     let data = {
       qnaSeq, depth, groupSeq, contents, userId
     }
+    console.log('data', data)
 
     const res = await QnaService.writeReply(data)
     data.seq = res.seq
@@ -45,6 +49,13 @@
 
     // 입력한 답글을 dataset 에 반영하자! (rendering)
     dispatch('writeReply2', {reply2: data, prevIdx: idx})
+  }
+
+  async function deleteReply() {
+    const res = await QnaService.deleteQna({seq: reply.seq, type: 'R'})
+    reply.delYn = 'Y'
+
+    showTools = false
   }
 
 </script>
@@ -88,6 +99,10 @@
     border-color: #d0d0d0;
     padding-bottom: 20px;
   }
+
+  .deleted {
+    text-decoration: line-through;
+  }
 </style>
 
 <li id="reply-{reply.seq}" class="list_comment depth{reply.depth}" class:new={reply.new}>
@@ -101,7 +116,11 @@
     <span class="txt_s14cLGray">{reply.date}</span>
   </div>
   <div class="item_cont">
+    {#if reply.delYn === 'Y'}
+    <span class="txt_s16cGray deleted">삭제된 댓글 입니다.</span>
+    {:else}
     <span class="txt_s16cGray"><pre>{reply.contents}</pre></span>
+    {/if}
   </div>
 
   <div class="formGroup_chk">
@@ -122,9 +141,10 @@
 
   </div>
 
+  {#if reply.userId === $session.userId}
   <div class="tools_w">
     <div class="tools_btn_w">
-      <button type="button" class="btnIcon_tools">
+      <button type="button" class="btnIcon_tools" class:active={showTools} on:click={() => showTools = !showTools}>
         <span class="ir">버튼 열기/닫기</span>
       </button>
 
@@ -132,12 +152,14 @@
         <button type="button" class="btnIcon_h40Modify">
           <span class="txt_s16cDGray">수정</span>
         </button>
-        <button type="button" class="btnIcon_h40Delete">
+        <button type="button" class="btnIcon_h40Delete" on:click={deleteReply}>
           <span class="txt_s16cDGray">삭제</span>
         </button>
       </div>
     </div>
   </div>
+  {/if}
+
 </li>
 
 {#if leafOfGroup}

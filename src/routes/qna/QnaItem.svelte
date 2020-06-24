@@ -4,10 +4,14 @@
   import * as util from '../../service/utils'
   import {lazy} from '../../util/lazy-loading'
   import QnaService from '../../service/qna-service'
+  import {createEventDispatcher} from 'svelte'
   import {stores} from '@sapper/app'
+
   const {session} = stores()
+  const dispatch = createEventDispatcher()
 
   let like = item.likeYn === 'Y'
+  let showTools = false // [수정/삭제] tools
 
   // like / cancel like
   async function toggleLike() {
@@ -19,6 +23,17 @@
     item.likeYn = checked ? 'Y' : 'N'
     item.likeCnt += checked ? 1 : -1
   }
+
+  function deleteQna() {
+    confirm('질문과 모든 댓글이 삭제됩니다.<br>삭제하시겠습니까?', async function() {
+      const res = await QnaService.deleteQna({seq: item.seq, type: 'Q'})
+
+      showTools = false
+      this.close()
+
+      dispatch('deleteQna', {seq: item.seq})
+    });
+  }
 </script>
 
 <style>
@@ -28,7 +43,6 @@
   }
 </style>
 
-<li class="list_comment reply"><!-- 댓글 있을 때 reply 추가 -->
   <div class="profile_img_w">
     <i class="user_pic_comment">
       <img src="http://placehold.it/640x360" alt="임시이미지">
@@ -60,9 +74,10 @@
     </label>
   </div>
 
+  {#if item.userId === $session.userId}
   <div class="tools_w">
     <div class="tools_btn_w">
-      <button type="button" class="btnIcon_tools">
+      <button type="button" class="btnIcon_tools" class:active={showTools} on:click={() => showTools = !showTools}>
         <span class="ir">버튼 열기/닫기</span>
       </button>
 
@@ -70,12 +85,11 @@
         <button type="button" class="btnIcon_h40Modify">
           <span class="txt_s16cDGray">수정</span>
         </button>
-        <button type="button" class="btnIcon_h40Delete">
+        <button type="button" class="btnIcon_h40Delete" on:click={deleteQna}>
           <span class="txt_s16cDGray">삭제</span>
         </button>
       </div>
     </div>
   </div>
+  {/if}
 
-
-</li>

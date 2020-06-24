@@ -1,0 +1,12 @@
+
+/** overwrite CSSes **/
+
+.detail_View .list_comment .profile_img_w {
+    top: 5px;
+}
+.list_comment .tools_w {
+    top: 18px;
+}
+.detail_View .list_comment .tools_w {
+    top: 0px;
+}

@@ -11,6 +11,7 @@
     session.seq = query.seq
     session.userId = query.userId
     session.comp = query.comp
+    session.nickname = query.nickname
     session.role = ROLE.TUTOR
 
     const course = await LivenService.retrieveSubjSummaryInfo(query.ns, query.seq)

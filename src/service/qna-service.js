@@ -109,7 +109,37 @@ export default {
         return await res.json();
       }
     } catch (e) {
-      console.error(e, 'writeQna error occur!!!', e)
+      console.error(e, 'writeReply error occur!!!', e)
+    }
+
+    return false
+  },
+
+  // toggle like
+  toggleLike: async (data, like) => {
+    const param = {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+
+    let uri;
+    if (like) {
+      uri = `${env.api}/like.do`;
+    } else {
+      uri = `${env.api}/dislike.do`;
+    }
+
+    try {
+      const res = await fetch(uri, param)
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (e) {
+      console.error(e, 'toggleLike error occur!!!', e)
     }
 
     return false

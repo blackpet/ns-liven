@@ -3,8 +3,22 @@
 
   import * as util from '../../service/utils'
   import {lazy} from '../../util/lazy-loading'
+  import QnaService from '../../service/qna-service'
+  import {stores} from '@sapper/app'
+  const {session} = stores()
 
-  const starRating = Math.round(item.star * 10 / 5) * 5
+  let like = item.likeYn === 'Y'
+
+  // like / cancel like
+  async function toggleLike() {
+    const checked = this.checked
+    const data = {seq: item.seq, type: 'Q', userId: $session.userId}
+
+    const res = await QnaService.toggleLike(data, checked)
+
+    item.likeYn = checked ? 'Y' : 'N'
+    item.likeCnt += checked ? 1 : -1
+  }
 </script>
 
 <style>
@@ -36,12 +50,11 @@
 
   <div class="formGroup_chk">
     <label class="inp_chk_likeHand">
-      <input type="checkbox">
+      <input type="checkbox" bind:checked={like} on:click={toggleLike}>
       <i class="icon_chk"></i>
       <span class="txt_s14cLGray">{item.likeCnt}</span>
     </label>
     <label class="inp_chk_reply">
-      <input type="checkbox">
       <i class="icon_chk"></i>
       <span class="txt_s14cLGray">{item.replyCnt}</span>
     </label>

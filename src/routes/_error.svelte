@@ -33,6 +33,8 @@
 
 <h1>{status}</h1>
 
+<h2>Live.N은 실시간 서비스 입니다. 새로고침 시 서버와의 연결이 끊어집니다. 다시 접속 바랍니다.</h2>
+
 <p>{error.message}</p>
 
 {#if dev && error.stack}

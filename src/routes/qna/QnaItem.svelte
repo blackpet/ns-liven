@@ -16,7 +16,7 @@
   let editMode = false
   let contents = ''
   const placeholder =
-          `내용을 입력해주세요
+          `내용을 입력해주세요.
 Markdown 형식을 지원합니다`
 
   // like / cancel like
@@ -81,10 +81,6 @@ Markdown 형식을 지원합니다`
 </script>
 
 <style>
-  .item_cont pre, .item_cont code {
-    white-space: break-spaces;
-    text-align: justify;
-  }
   .items_btn_double > .item_list {
     padding: 0 0 0 5px;
     width: 50%;

@@ -3,18 +3,23 @@
 
 
   export async function preload({query, params}, session) {
-    const data = await QnaService.retrieveQnaList(session.course, session.userId)
+    const {subjCd, subjSeq} = session.course
+    const userId = session.userId
+    const order = 'new' // default '최신순'
+    const data = await QnaService.retrieveQnaList({subjCd, subjSeq, userId, order})
 
-    return {data}
+    return {data, session}
   }
 </script>
 
 
 <script>
-  export let data
+  export let data, session
 
   import {goto} from '@sapper/app'
   import QnaItem from './QnaItem.svelte'
+
+  let order = 'new'
 
   // [질문하기]btn
   async function write() {
@@ -32,6 +37,13 @@
     data = data.filter(q => q.seq !== seq)
   }
 
+  // 정렬하기
+  async function reorder() {
+    const {subjCd, subjSeq} = session.course
+    const userId = session.userId
+
+    data = await QnaService.retrieveQnaList({subjCd, subjSeq, userId, order})
+  }
 </script>
 
 <style>
@@ -59,9 +71,9 @@
 
         {:else}
           <div class="inp_select_underline_live">
-            <select class="h50s16cDGray">
-              <option>최신순</option>
-              <option>공감순</option>
+            <select bind:value={order} class="h50s16cDGray" on:change={reorder}>
+              <option value="new">최신순</option>
+              <option value="like">공감순</option>
             </select>
           </div>
 
@@ -74,12 +86,6 @@
             {/each}
 
           </ul>
-
-          <div class="items_btn_single">
-            <button type="button" class="btn_grayh50" on:click={nextPage}>
-              <span class="txt_s16">더보기 +</span>
-            </button>
-          </div>
 
         {/if}
 

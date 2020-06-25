@@ -6,16 +6,15 @@ import * as util from './utils'
  */
 export default {
   // qna list
-  retrieveQnaList: async (course, userId) => {
-    const {subjCd, subjSeq} = course
+  retrieveQnaList: async (query) => {
     let data = []
-    const query = util.objectToQuerystring({subjCd, subjSeq, userId})
+    const q = util.objectToQuerystring(query)
     const param = {
       mode: 'cors'
     }
 
     try {
-      const res = await fetch(`${env.api}/qnaList.do${query}`, param)
+      const res = await fetch(`${env.api}/qnaList.do${q}`, param)
       if (res.ok) {
         data = await res.json()
       }
@@ -30,13 +29,13 @@ export default {
   retrieveQnaDetail: async (course, userId, seq) => {
     const {subjCd, subjSeq} = course
     let data = []
-    const query = util.objectToQuerystring({subjCd, subjSeq, userId, seq})
+    const q = util.objectToQuerystring({subjCd, subjSeq, userId, seq})
     const param = {
       mode: 'cors'
     }
 
     try {
-      const res = await fetch(`${env.api}/qna.do${query}`, param)
+      const res = await fetch(`${env.api}/qna.do${q}`, param)
       if (res.ok) {
         data = await res.json()
       }

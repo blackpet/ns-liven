@@ -11,7 +11,7 @@
   const {session} = stores()
   const dispatch = createEventDispatcher()
 
-  let like = item.likeYn === 'Y'
+  $: like = item.likeYn === 'Y'
   let showTools = false // [수정/삭제] tools
   let editMode = false
   let contents = ''

@@ -83,21 +83,6 @@
     })
   }
 
-  // 댓글 group 마지막이면 답글 입력창을 보여주자!
-  function leafOfGroup(i, groupSeq) {
-    // case1. 마지막 reply 면 무조건 보여주자!
-    if (replies.length - 1 === i) {
-      return true
-    }
-
-    // case2. 그룹의 마지막 이냐?(다음 reply가 다른 그룹인 경우)
-    else if (replies[i + 1].groupSeq !== groupSeq) {
-      return true
-    }
-
-    return false
-  }
-
   // 댓글의 답글 작성!
   function writeReply2(e) {
     // TODO blackpet: broadcast 할꺼냐??
@@ -185,8 +170,7 @@
 
               {#each replies as reply, i (reply.seq)}
 
-                <ReplyItem {reply} idx={i} leafOfGroup={leafOfGroup(i, reply.groupSeq)}
-                           on:writeReply2={writeReply2}/>
+                <ReplyItem {reply} idx={i} on:writeReply2={writeReply2}/>
 
               {/each}
 

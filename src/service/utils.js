@@ -13,3 +13,21 @@ export function objectToQuerystring (obj) {
 export function imgSrc(savefile) {
   return `${env.resource}/fileUpDownload/download.do?p_savefile=${savefile}&p_realfile=liven&p_type=mime`
 }
+
+////////////////// markdown [marked] //////////////////
+import marked from 'marked'
+
+const nsMarked = (function (md) {
+  const renderer = {
+    paragraph(text) {
+      const newlinedText = text.replace(/\n/g, '<br>')
+      return `<p>${newlinedText}</p>`
+    }
+  }
+  md.use({renderer})
+
+  return md
+})(marked);
+
+export {nsMarked}
+

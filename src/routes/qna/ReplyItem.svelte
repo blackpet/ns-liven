@@ -1,7 +1,8 @@
 <script>
-  export let reply, leafOfGroup, idx
+  export let reply, idx
   let contents = ''
 
+  import * as util from '../../service/utils'
   import QnaService from '../../service/qna-service'
   import {stores} from '@sapper/app'
   import {createEventDispatcher} from 'svelte'
@@ -52,7 +53,7 @@
   }
 
   async function deleteReply() {
-    const res = await QnaService.deleteQna({seq: reply.seq, type: 'R'})
+    const res = await QnaService.updateQna({seq: reply.seq, userId: $session.userId, type: 'R'})
     reply.delYn = 'Y'
 
     showTools = false
@@ -61,10 +62,6 @@
 </script>
 
 <style>
-  pre {
-    white-space: break-spaces;
-    text-align: justify;
-  }
 
   li.list_comment {
     transition: background-color 1s ease-in-out;
@@ -119,7 +116,7 @@
     {#if reply.delYn === 'Y'}
     <span class="txt_s16cGray deleted">삭제된 댓글 입니다.</span>
     {:else}
-    <span class="txt_s16cGray"><pre>{reply.contents}</pre></span>
+    <span class="txt_s16cGray">{@html util.nsMarked(reply.contents)}</span>
     {/if}
   </div>
 
@@ -162,7 +159,7 @@
 
 </li>
 
-{#if leafOfGroup}
+{#if reply.groupSeq !== reply.nextGroupSeq}
 <li class="reply-write-form">
   <div class="reply_write_w">
     <div class="inp_txtArea_reply">

@@ -73,7 +73,7 @@ export default {
       method: 'POST',
       mode: 'cors',
       headers: {
-        'Content-type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     }
@@ -97,7 +97,7 @@ export default {
       method: 'POST',
       mode: 'cors',
       headers: {
-        'Content-type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     }
@@ -121,7 +121,7 @@ export default {
       method: 'POST',
       mode: 'cors',
       headers: {
-        'Content-type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     }
@@ -145,18 +145,18 @@ export default {
     return false
   },
 
-  // delete qna / reply
-  deleteQna: async (data, like) => {
+  // update|delete qna / reply
+  updateQna: async (data) => {
     const param = {
       method: 'POST',
       mode: 'cors',
       headers: {
-        'Content-type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     }
 
-    let uri = `${env.api}/deleteQna.do`;
+    let uri = `${env.api}/updateQna.do`;
 
     try {
       const res = await fetch(uri, param)

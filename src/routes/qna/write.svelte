@@ -4,6 +4,9 @@
   const {session} = stores()
 
   let contents = ''
+  const placeholder =
+          `내용을 입력해주세요
+Markdown 형식을 지원합니다`
 
   // 목록으로 이동
   function toList() {
@@ -43,7 +46,7 @@
 
       <div class="cb_inner">
         <div class="inp_txtArea_live">
-          <textarea bind:value={contents} placeholder="내용을 입력해주세요"></textarea>
+          <textarea bind:value={contents} placeholder="{placeholder}"></textarea>
         </div>
 
         <div class="liveQnA_addSet">

@@ -1,3 +1,9 @@
+OPTIONS https://www.nscampus.net/liven/dislike.do
+Access-Control-Request-Headers: Content-type
+Access-Control-Request-Method: POST
+
+
+###
 POST http://localhost:8080/liven/submitQuizAnswer.do
 Content-Type: application/json
 

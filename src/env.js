@@ -1,4 +1,5 @@
 
+// const nsedu = 'https://www.nscampus.net'
 const nsedu = 'http://localhost:8080'
 const upload = 'http://172.26.10.101:8080'
 

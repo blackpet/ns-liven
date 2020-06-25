@@ -10,3 +10,8 @@
 .detail_View .list_comment .tools_w {
     top: 0px;
 }
+
+.item_cont pre, .item_cont code {
+    white-space: break-spaces;
+    text-align: justify;
+}

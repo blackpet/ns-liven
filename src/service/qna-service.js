@@ -1,5 +1,6 @@
-import {env} from "../env";
+import {env} from "../env"
 import * as util from './utils'
+import axios from 'axios'
 
 /**
  * Q&A Service
@@ -167,6 +168,21 @@ export default {
     }
 
     return false
+  },
+
+  // upload image file
+  uploadImage: (image, progress) => {
+    const formData = new FormData()
+    formData.append('qnaImage', image)
+
+    const res = axios.request({
+      method: 'POST',
+      url: `${env.api}/upload.do`,
+      data: formData,
+      onUploadProgress: progress
+    })
+
+    return res
   }
 }
 

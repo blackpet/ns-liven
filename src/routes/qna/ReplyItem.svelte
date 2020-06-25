@@ -168,7 +168,7 @@
 
     </div>
 
-    {#if reply.userId === $session.userId}
+    {#if reply.userId === $session.userId && reply.delYn === 'N'}
       <div class="tools_w">
         <div class="tools_btn_w">
           <button type="button" class="btnIcon_tools" class:active={showTools} on:click={() => showTools = !showTools}>

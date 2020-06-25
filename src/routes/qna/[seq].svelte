@@ -99,15 +99,17 @@
     // 신규 등록건 highlight 시키기!
     reply2.new = true
 
+    // 이전답글의 nextGroupSeq 를 신규 댓글로 밀어내자!
+    reply2.nextGroupSeq = replies[prevIdx].nextGroupSeq
+    replies[prevIdx].nextGroupSeq = replies[prevIdx].groupSeq
+
     // 순서에 맞게 삽입하자!
-    console.log('before', replies)
     replies.splice(prevIdx + 1, 0, reply2)
 
     // 부모 댓글 count 증가!
     replies.find(r => r.seq === reply2.groupSeq).replyCnt++
 
     replies = [...replies] // touch!
-    console.log('after', replies)
 
     // 'new' highlight 제거하자!
     setTimeout(() => {

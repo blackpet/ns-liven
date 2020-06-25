@@ -15,3 +15,6 @@
     white-space: break-spaces;
     text-align: justify;
 }
+
+/* QnaItem > 수정 모드 */
+li .contBox_NLive {padding: 0;}

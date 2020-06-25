@@ -26,11 +26,6 @@
     await goto('qna/write')
   }
 
-  // [더보기 +]btn
-  function nextPage() {
-    // TODO blackpet
-  }
-
   function deleteQna(e) {
     const seq = e.detail.seq
 
@@ -79,7 +74,7 @@
 
           <ul class="lists_wrap_comment">
 
-            {#each data as item}
+            {#each data as item (item.seq)}
               <li class="list_comment reply">
                 <QnaItem {item} on:deleteQna={deleteQna} />
               </li>

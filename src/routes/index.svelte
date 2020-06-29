@@ -5,7 +5,7 @@
   import LivenService, {goList} from '../service/liven-service'
   import {env} from '../env'
 
-  let role, userId, subjCd = 'OF221530', subjSeq = '0001'
+  let role, userId, subjCd = 'OF221570', subjSeq = '0003'
 
   const {session} = stores()
   let socket = LivenSocket.get()

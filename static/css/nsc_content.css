@@ -2300,7 +2300,7 @@
     .contBox_NLive_share .thumbSlider_cardView [class^="btnIcon_slide"] {display:inline-block; position:relative; left:auto; right:auto; top:auto; margin-top:0; width:40px; height:40px; vertical-align:middle;}
     .contBox_NLive_share .thumbSlider_cardView .btnIcon_autoPlay {margin-left:10px; width:40px; height:40px; background-image:url('../images/common/btn_auto_play.png');    background-size:100% auto; vertical-align:middle;}
     .contBox_NLive_share .thumbSlider_cardView .btnIcon_autoPlay.pause {background-image:url('../images/common/btn_auto_pause.png');}
-    .contBox_NLive_share .slide_btn_counter {position:absolute; right:20px; bottom:10px;}
+    .contBox_NLive_share .slide_btn_counter {position:absolute; right:20px; bottom:10px; width:40vw;}
         .contBox_NLive_share .slide_btn_counter .count_w {display:inline-block; padding:0 10px; letter-spacing:-0.5px; vertical-align:middle;}
             .contBox_NLive_share .slide_btn_counter .count_w [class^="txt_"] {vertical-align:middle;}    
             .contBox_NLive_share .slide_btn_counter .count_w [class^="txt_"] + [class^="txt_"] {position:relative;}

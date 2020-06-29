@@ -15,7 +15,7 @@
 <style>
   .floating-navigation {
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
     left: 20px;
     display: none;
   }

@@ -157,7 +157,7 @@
 
 /* 컨테이너 */
 .container, .content { width:100%; min-width:1388px;}
-.container {padding-top:80px; transition:padding-top .4s ease;}
+.container {transition:padding-top .4s ease;}
 	.content {/*padding-bottom:80px;*/ min-height:calc(100vh - 229px);}
 	.content.bgGray {background:#fbfbfb;}
 	.main .content {min-height:calc(100vh - 159px);}
@@ -747,7 +747,7 @@
 		.em_icon_w {left:20px;}
 
 	.container, .content {min-width:100%;}
-		.container {padding-top:80px; }
+		.container {}
 			.content {}
 			.content .tit_s48cBlack2FM {display:none;}
 
@@ -864,7 +864,7 @@
 		
 
 	.container, .content {min-width:100%;}
-		.container {padding-top:80px; }
+		.container {}
 			.content {}
 			.content .tit_s48cBlack2FM {display:none;}
 
@@ -1089,7 +1089,7 @@
 	.mom_inner .btnIcon_close_gray {background-image:url('../images/common/btn_close_dark.png'); background-size:24px auto;}
 
 	.container, .content {min-width:100%;}
-		.container {padding-top:60px; }
+		.container {}
 			.content {}
 			.content .tit_s48cBlack2FM {display:none;}
 
@@ -1412,7 +1412,7 @@
 		
 
 	.container, .content {min-width:100%;}
-	.container {padding-top:60px; }
+	.container {}
 		.content {}
 		.content .tit_s48cBlack2FM {display:none;}
 

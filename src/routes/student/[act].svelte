@@ -58,8 +58,6 @@
 
 </script>
 
-<h1>Student: {act}:{componentAct}</h1>
-
 {#if componentAct === 'standby' || componentAct === 'submit'}
   <Standby {...standbyMessage}/>
 

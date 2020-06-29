@@ -43,8 +43,6 @@
 
 </script>
 
-<h1>Tutor: {act}</h1>
-
 <div class="container">
   <section class="content">
     <div class="contBox_NLive">

@@ -11,8 +11,8 @@
 	const popups = []
 	const indexes = ['/', '/tutor', '/student']
 	let here
-	$: isPopup = popups.includes(here)
-	$: isSubpage = !isPopup && !indexes.includes(here)
+	$: isPopup = true //popups.includes(here)
+	$: isSubpage = !indexes.includes(here)
 
 	if (typeof window !== 'undefined' && typeof document !== 'undefined') {
 		page.subscribe(({path, params, query}) => {

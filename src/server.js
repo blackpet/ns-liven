@@ -19,6 +19,11 @@ polka({server})
 		target: env.nsedu,
 		pathRewrite: {
 			'^/api': ''
+		},
+		router: {
+			'172.26.10.103:4003': 'http://172.26.10.103:8080',
+			'172.26.10.101:5000': 'http://172.26.10.101:8080',
+			'vod.nscampus.net': 'http://172.25.1.104:8023',
 		}
 	}))
 	.use(

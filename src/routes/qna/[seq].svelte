@@ -14,19 +14,24 @@
 
 
   export let qnaSeq, qna, replies = []
-  let contents = ''
+  let contents = '', isPrivate = false
 
   import QnaItem from "./QnaItem.svelte";
   import ReplyItem from "./ReplyItem.svelte";
 
   import * as animationScroll from 'svelte-scrollto'
-  import * as util from '../../service/utils'
-  import {lazy} from '../../util/lazy-loading'
   import moment from 'moment'
   import {goto, stores} from '@sapper/app'
 
   const {session} = stores()
 
+  // nickname (비공개 여부에 따른 표시 분기)
+  function getNickname() {
+    if (qna.privateYn === 'Y') {
+      return '비공개'
+    }
+    return qna.nickname;
+  }
 
   // 댓글 [등록]btn
   async function writeReply() {
@@ -39,8 +44,9 @@
     const userId = $session.userId
     const depth = 1 // qna의 댓글은 depth=1
     const groupSeq = 0 // qna 댓글은 자동생성 seq 를 사용한다!
+    const privateYn = isPrivate ? 'Y' : 'N'
     let data = {
-      qnaSeq, depth, groupSeq, contents, userId
+      qnaSeq, depth, groupSeq, contents, privateYn, userId
     }
 
     const res = await QnaService.writeReply(data)
@@ -49,6 +55,7 @@
 
     // 입력 댓글은 초기화 하자!
     contents = ''
+    isPrivate = false
 
     // 입력한 댓글을 dataset 에 반영하자! (rendering)
     appendReply(data)
@@ -154,10 +161,10 @@
               </i>
             </div>
             <div class="item_userInfo">
-              <span class="txt_s16cDGray">{$session.nickname}</span>
+              <span class="txt_s16cDGray">{qna.nickname}</span>
 
               <label class="inp_chk">
-                <input type="checkbox" id="idSaveCheck" name="idSaveCheck">
+                <input type="checkbox" bind:checked={isPrivate}>
                 <i class="icon_chk"></i>
                 <span class="txt_s14cBlack">비공개</span>
               </label>

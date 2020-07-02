@@ -29,6 +29,7 @@
     item.likeCnt += checked ? 1 : -1
   }
 
+  // nickname (비공개 여부에 따른 표시 분기)
   function getNickname() {
     if (item.privateYn === 'Y') {
       return '비공개'

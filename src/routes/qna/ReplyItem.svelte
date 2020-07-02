@@ -12,8 +12,8 @@
   let like = reply.likeYn === 'Y'
   let showTools = false // [수정/삭제] tools
   let editMode = false // 수정 모드
-  let editContents = '' // 수정용 입력값
-  let newContents = '' // 신규 댓글용 입력값
+  let editContents = '', isEditPrivate = false // 수정용 입력값
+  let newContents = '', isNewPrivate = false // 신규 댓글용 입력값
 
   // like / cancel like
   async function toggleLike() {
@@ -24,6 +24,14 @@
 
     reply.likeYn = checked ? 'Y' : 'N'
     reply.likeCnt += checked ? 1 : -1
+  }
+
+  // nickname (비공개 여부에 따른 표시 분기)
+  function getNickname() {
+    if (reply.privateYn === 'Y') {
+      return '비공개'
+    }
+    return reply.nickname;
   }
 
   // 답글 [등록]btn
@@ -37,8 +45,9 @@
     const userId = $session.userId
     const depth = 2 // 댓글의 답글은 depth=2
     const {qnaSeq, groupSeq} = reply
+    const privateYn = isNewPrivate ? 'Y' : 'N'
     let data = {
-      qnaSeq, depth, groupSeq, contents: newContents, userId
+      qnaSeq, depth, groupSeq, contents: newContents, privateYn, userId
     }
 
     const res = await QnaService.writeReply(data)
@@ -63,6 +72,7 @@
     showTools = false
     editMode = true
     editContents = reply.contents
+    isEditPrivate = reply.privateYn === 'Y' ? true : false
   }
 
   // [저장하기]btn
@@ -76,41 +86,30 @@
     const {seq} = reply
     const userId = $session.userId
 
+    const privateYn = isEditPrivate ? 'Y' : 'N'
     const data = {
-      seq, userId, type: 'R', contents: editContents
+      seq, userId, type: 'R', contents: editContents, privateYn
     }
     const res = await QnaService.updateQna(data)
 
     // binding!
     reply.contents = editContents
+    reply.privateYn = isEditPrivate ? 'Y' : 'N'
     editContents = ''
+    isEditPrivate = false
     editMode = false
   }
 
 </script>
 
 <style>
-  li.list_comment {
-    transition: background-color 1s ease-in-out;
-  }
-
-  li.list_comment.depth1.new, li.list_comment.depth2.new {
-    background-color: #ffec73;
-  }
-
-  li.list_comment.depth2 {
-    background-color: #e0eff6;
-  }
+  li.list_comment {transition: background-color 1s ease-in-out;}
+  li.list_comment.depth1.new, li.list_comment.depth2.new {background-color: #ffec73;}
+  li.list_comment.depth2 {background-color: #e0eff6;}
 
   /* 답글 작성 폼 */
-  .inp_txtArea_reply {
-    width: 70vw;
-  }
-
-  .reply_write_w {
-    padding-top: 20px;
-  }
-
+  .inp_txtArea_reply {width: 70vw;}
+  .reply_write_w {padding-top: 20px;}
   .reply_write_w button {
     width: 18vw;
     float: right;
@@ -123,11 +122,14 @@
     border-color: #d0d0d0;
     padding-bottom: 20px;
   }
+  .inp_txtArea_live { margin-top: unset; }
+
 
   /* 삭제된 댓글 */
-  .deleted {
-    text-decoration: line-through;
-  }
+  .deleted {text-decoration: line-through;}
+
+  .private_chk {position: relative;height: 30px;}
+  .private_chk label.inp_chk {position: absolute;top: 10px; right: 15px;}
 </style>
 
 <!-- 조회 모드 -->
@@ -139,7 +141,7 @@
       </i>
     </div>
     <div class="item_userInfo">
-      <span class="txt_s16cDGray">{reply.nickname}</span>
+      <span class="txt_s16cDGray">{getNickname()}</span>
       <span class="txt_s14cLGray">{reply.date}</span>
     </div>
     <div class="item_cont">
@@ -196,6 +198,14 @@
         <textarea bind:value={editContents} placeholder="내용을 입력해 주세요."></textarea>
       </div>
 
+      <div class="private_chk">
+        <label class="inp_chk">
+          <input type="checkbox" bind:checked={isEditPrivate}>
+          <i class="icon_chk"></i>
+          <span class="txt_s14cBlack">비공개</span>
+        </label>
+      </div>
+
       <footer class="pop_footer">
         <ul class="items_btn_double">
           <li class="item_list">
@@ -218,6 +228,15 @@
 <!-- 댓글 그룹의 마지막이면 댓글 입력창 출력! -->
 {#if reply.groupSeq !== reply.nextGroupSeq}
   <li class="reply-write-form">
+
+    <div class="private_chk">
+      <label class="inp_chk">
+        <input type="checkbox" bind:checked={isNewPrivate}>
+        <i class="icon_chk"></i>
+        <span class="txt_s14cBlack">비공개</span>
+      </label>
+    </div>
+
     <div class="reply_write_w">
       <div class="inp_txtArea_reply">
         <textarea bind:value={newContents} class="s16cDGray" placeholder="답글을 입력해 주세요."></textarea>

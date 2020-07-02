@@ -11,7 +11,7 @@
 	const popups = []
 	const indexes = ['/', '/tutor', '/student']
 	let here
-	$: isPopup = true //popups.includes(here)
+	$: isPopup = false //popups.includes(here) // TODO blackpet: local test = false
 	$: isSubpage = !indexes.includes(here)
 
 	if (typeof window !== 'undefined' && typeof document !== 'undefined') {

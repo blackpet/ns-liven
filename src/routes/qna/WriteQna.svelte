@@ -7,7 +7,7 @@
   const {session} = stores()
   const dispatch = createEventDispatcher()
 
-  let contents = ''
+  let contents = '', isPrivate = false
   let imagefile = {realfile: '', savefile: ''} // 첨부파일 정보
   let imageSrc // 첨부 이미지 local 경로 (업로드 전 미리보기용)
   let uploadProgress = 0 // 첨부 이미지 업로드 진척율
@@ -20,6 +20,7 @@
   ////////// edit mode init //////////////
   if (mode === 'edit') {
     contents = item.contents
+    isPrivate = item.privateYn == 'Y' ? true : false
 
     onSave = update
     onCancel = () => dispatch('cancelEdit')
@@ -42,9 +43,9 @@
     const {realfile, savefile} = imagefile
     const userId = $session.userId
 
-    // TODO blackpet: 파일첨부 구현!!
+    const privateYn = isPrivate ? 'Y' : 'N'
     const data = {
-      subjCd, subjSeq, userId, contents, realfile, savefile
+      subjCd, subjSeq, userId, contents, privateYn, realfile, savefile
     }
     console.log(data)
     await QnaService.writeQna(data)
@@ -63,16 +64,17 @@
     const userId = $session.userId
     const {realfile, savefile} = imagefile
 
-    // TODO blackpet: 파일첨부 구현!!
+    const privateYn = isPrivate ? 'Y' : 'N'
     const data = {
-      seq, contents, userId, type: 'Q', realfile, savefile
+      seq, contents, userId, type: 'Q', privateYn, realfile, savefile
     }
     const res = await QnaService.updateQna(data)
 
     // 부모에 갱신하자!
     item.contents = contents
+    item.privateYn = privateYn
     // 첨부파일이 있으면 갱신하자!
-    if (imageSrc.length > 0) {
+    if (!!imageSrc) {
       item.realfile = imagefile.realfile;
       item.savefile = imagefile.savefile
     }
@@ -123,6 +125,9 @@
 
   .liveQnA_addSet span[class^="txt_"] {letter-spacing: normal;}
 
+  .private_chk {position: relative;height: 30px;}
+  .private_chk label.inp_chk {position: absolute;top: 10px;}
+
   progress {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -154,6 +159,14 @@
       <div class="cb_inner">
         <div class="inp_txtArea_live">
           <textarea bind:value={contents} placeholder="{placeholder}"></textarea>
+        </div>
+
+        <div class="private_chk">
+          <label class="inp_chk">
+            <input type="checkbox" bind:checked={isPrivate}>
+            <i class="icon_chk"></i>
+            <span class="txt_s14cBlack">비공개</span>
+          </label>
         </div>
 
         <div class="liveQnA_addSet">

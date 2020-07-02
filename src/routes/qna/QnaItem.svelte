@@ -29,6 +29,13 @@
     item.likeCnt += checked ? 1 : -1
   }
 
+  function getNickname() {
+    if (item.privateYn === 'Y') {
+      return '비공개'
+    }
+    return item.nickname;
+  }
+
   function deleteQna() {
     // 확인
     async function ok() {
@@ -75,7 +82,7 @@
     </i>
   </div>
   <div class="item_userInfo">
-    <span class="txt_s16cDGray">{item.nickname}</span>
+    <span class="txt_s16cDGray">{getNickname()}</span>
     <span class="txt_s14cLGray">{item.date}</span>
   </div>
   <div class="item_cont">

@@ -1,7 +1,7 @@
 <script>
   import {stores} from '@sapper/app'
+  const {session} = stores();
 
-  const {session} = stores()
   const course = $session.course
 </script>
 

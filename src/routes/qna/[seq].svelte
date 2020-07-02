@@ -120,9 +120,8 @@
 </script>
 
 <style>
-  .comm_write .profile_img_w {
-    top: 18px;
-  }
+  .comm_write .profile_img_w {top: 18px;}
+  label.inp_chk {position: absolute;right: 0;top: 18px;}
 </style>
 
 <div class="container">
@@ -156,6 +155,12 @@
             </div>
             <div class="item_userInfo">
               <span class="txt_s16cDGray">{$session.nickname}</span>
+
+              <label class="inp_chk">
+                <input type="checkbox" id="idSaveCheck" name="idSaveCheck">
+                <i class="icon_chk"></i>
+                <span class="txt_s14cBlack">비공개</span>
+              </label>
             </div>
             <div class="item_write">
               <div class="inp_txtArea_comment">

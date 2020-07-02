@@ -160,7 +160,6 @@
       <!-- 댓글의 답글은 더이상 답글이 없다! 댓글에만 답글 개수 표시! -->
       {#if reply.depth === 1}
         <label class="inp_chk_reply">
-          <input type="checkbox">
           <i class="icon_chk"></i>
           <span class="txt_s14cLGray">{reply.replyCnt}</span>
         </label>
@@ -229,3 +228,6 @@
     </div>
   </li>
 {/if}
+
+
+

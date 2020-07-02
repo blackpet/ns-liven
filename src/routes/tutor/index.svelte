@@ -15,7 +15,6 @@
     session.role = ROLE.TUTOR
 
     const course = await LivenService.retrieveSubjSummaryInfo(query.ns, query.seq)
-
     session.course = course
   }
 </script>

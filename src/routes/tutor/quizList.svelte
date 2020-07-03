@@ -16,27 +16,28 @@
 
   const act = 'quiz'
 
+  // 선택된 quiz의 checked status를 관리하자!
+  let checkedQzz = {}
+  $: disabledStart = Object.keys(checkedQzz).length == 0
+
+  quizzes.subscribe(qzz => {
+    checkedQzz = {}
+    qzz.forEach(q => {
+      checkedQzz[q] = true
+    })
+  });
+
   // 출제할 quiz 에 포함/제외
   function toggleQuiz(e) {
     const chk = e.target
     const id = chk.value
-    console.log('value(id)', id)
 
-    quizzes.update(arr => {
-      const idx = arr.indexOf(id)
-      if (idx > -1) {
-        // remove id
-        arr.splice(idx, 1);
-      } else {
-        arr.push(id)
-      }
-      arr.sort()
-
-      return arr
-    });
-    console.log(chk, chk.checked, id);
+    quizzes.toggleQuiz(id)
   }
 
+  function start() {
+
+  }
 </script>
 
 
@@ -61,13 +62,17 @@
 
             {#each list as quiz}
               <li class="list_question">
-                <div href="tutor/{act}?id={quiz.id}" class="q_box">
+                <div class="q_box">
                   <label class="inp_chk">
-                    <input type="checkbox" value="{quiz.id}" on:change={toggleQuiz}>
+                    <input type="checkbox" value="{quiz.id}"
+                           bind:checked={checkedQzz[quiz.id]}
+                           on:change={toggleQuiz}>
                     <i class="icon_chk"></i>
-                    <span class="txt_s18cDGray">{quiz.subject}</span>
                   </label>
 
+                  <a href="tutor/{act}?id={quiz.id}">
+                    <span class="txt_s18cDGray">{quiz.subject}</span>
+                  </a>
                 </div>
               </li>
             {/each}
@@ -81,6 +86,12 @@
           </ul>
         {/if}
 
+
+      </div>
+      <div class="items_btn_single">
+        <button type="button" class="btn_brownh50" on:click={start} disabled={disabledStart}>
+          <span class="txt_s18">출제하기</span>
+        </button>
       </div>
     </div>
 

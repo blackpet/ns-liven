@@ -51,4 +51,31 @@ export default {
 }
 
 // 출제할 quiz id array
-export const quizzes = writable([])
+function createQuizStore() {
+  const {subscribe, set, update} = writable([])
+
+  const toggleQuiz = id => {
+    update(qzz => {
+      const idx = qzz.indexOf(id)
+      if (idx > -1) {
+        // remove id
+        qzz.splice(idx, 1);
+      } else {
+        // append id
+        qzz.push(id)
+      }
+      // 출제 순서는 quizId 순 (DB SELECT 순)
+      qzz.sort()
+
+      return qzz
+    })
+  }
+
+  return {
+    subscribe,
+    toggleQuiz,
+    set,
+    reset: () => set([])
+  }
+}
+export const quizzes = createQuizStore()

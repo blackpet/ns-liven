@@ -21,10 +21,10 @@
     }
   }
 
-  import {stores} from '@sapper/app'
+  import {goto, stores} from '@sapper/app'
   import {onMount, createEventDispatcher} from 'svelte'
   import LivenService, {ROLE, EVENT} from '../service/liven-service'
-  import QuizService from '../service/quiz-service'
+  import QuizService, {quizzes} from '../service/quiz-service'
   import {action, LivenSocket} from '../store/action'
 
   const {session} = stores()
@@ -55,6 +55,18 @@
   } else {
     // 선택한 값이 있으면 default check를 해주자!
     answer.id = !data.myAnswer ? -1 : data.myAnswer
+  }
+
+  $: isAddedQuiz = $quizzes.includes(data.id.toString())
+  // quiz 목록으로
+  function goQuizList() {
+    goto('tutor/quizList')
+  }
+
+  // 출제에 포함/제외?
+  function toggleQuizzes() {
+    quizzes.toggleQuiz(data.id.toString())
+    goQuizList()
   }
   ////////////////////////////////////////////////// end of 강사 전용
 
@@ -147,11 +159,24 @@
     {#if act === 'quiz'}
       {#if role === ROLE.TUTOR}
         <!-- tutor only -->
-        <div class="items_btn_single">
-          <button type="button" class="btn_brownh50" on:click={start}>
-            <span class="txt_s18">출제하기</span>
-          </button>
-        </div>
+          <ul class="items_btn_double">
+            <li class="item_list">
+              <button type="button" class="btn_lineGrayh50" on:click={goQuizList}>
+                <span class="txt_s16">목록으로</span>
+              </button>
+            </li>
+            <li class="item_list">
+              <button type="button" class="{isAddedQuiz ? 'btn_grayh50' : 'btn_brownh50'}" on:click={toggleQuizzes}>
+                <span class="txt_s16">
+                  {#if isAddedQuiz}
+                    출제에서 제외하기
+                  {:else}
+                    출제에 포함하기
+                  {/if}
+                </span>
+              </button>
+            </li>
+          </ul>
 
       {:else}
         <!-- student only -->

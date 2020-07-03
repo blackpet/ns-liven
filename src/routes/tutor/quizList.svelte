@@ -12,8 +12,30 @@
   export let list
 
   import CourseSummary from "../../components/CourseSummary.svelte";
+  import {quizzes} from '../../service/quiz-service'
 
   const act = 'quiz'
+
+  // 출제할 quiz 에 포함/제외
+  function toggleQuiz(e) {
+    const chk = e.target
+    const id = chk.value
+    console.log('value(id)', id)
+
+    quizzes.update(arr => {
+      const idx = arr.indexOf(id)
+      if (idx > -1) {
+        // remove id
+        arr.splice(idx, 1);
+      } else {
+        arr.push(id)
+      }
+      arr.sort()
+
+      return arr
+    });
+    console.log(chk, chk.checked, id);
+  }
 
 </script>
 
@@ -28,7 +50,7 @@
       <div class="cb_inner">
 
         <h3 class="title_wrap">
-          <span class="tit_s20cDGray">Quiz</span>
+          <span class="tit_s20cDGray">Quiz (출제할 퀴즈를 선택해 주세요)</span>
         </h3>
 
         {#if list.length === 0}
@@ -39,9 +61,14 @@
 
             {#each list as quiz}
               <li class="list_question">
-                <a href="tutor/{act}?id={quiz.id}" class="q_box">
-                  <span class="txt_s18cDGray">{quiz.subject}</span>
-                </a>
+                <div href="tutor/{act}?id={quiz.id}" class="q_box">
+                  <label class="inp_chk">
+                    <input type="checkbox" value="{quiz.id}" on:change={toggleQuiz}>
+                    <i class="icon_chk"></i>
+                    <span class="txt_s18cDGray">{quiz.subject}</span>
+                  </label>
+
+                </div>
               </li>
             {/each}
 

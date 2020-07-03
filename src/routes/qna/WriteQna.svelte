@@ -178,7 +178,7 @@
                 {:else}
                   {#if uploading}
                     <span class="txt_s16cDGray">사진을 업로드 중입니다....</span>
-                <progress value="{uploadProgress}" />
+                    <progress value="{uploadProgress}" />
                   {:else}
                     <span class="txt_s16cDGray">사진을 첨부해 주세요</span>
                   {/if}

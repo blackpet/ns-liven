@@ -1,5 +1,6 @@
 import {env} from "../env";
 import * as util from './utils'
+import {writable} from 'svelte/store'
 
 /**
  * Quiz Service
@@ -49,3 +50,5 @@ export default {
   }
 }
 
+// 출제할 quiz id array
+export const quizzes = writable([])

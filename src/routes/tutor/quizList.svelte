@@ -11,6 +11,7 @@
 <script>
   export let list
 
+  import {goto} from '@sapper/app'
   import CourseSummary from "../../components/CourseSummary.svelte";
   import {quizzes} from '../../service/quiz-service'
 
@@ -36,7 +37,8 @@
   }
 
   function start() {
-
+    console.log('start quiz value', quizzes.getValues())
+    goto(`tutor/quizResult?id=${quizzes.getValues()[0]}`)
   }
 </script>
 

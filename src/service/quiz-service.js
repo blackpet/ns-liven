@@ -53,6 +53,7 @@ export default {
 // 출제할 quiz id array
 function createQuizStore() {
   const {subscribe, set, update} = writable([])
+  let value = []
 
   const toggleQuiz = id => {
     update(qzz => {
@@ -67,14 +68,41 @@ function createQuizStore() {
       // 출제 순서는 quizId 순 (DB SELECT 순)
       qzz.sort()
 
+      value = qzz
+      console.log('changed value', value)
+
       return qzz
     })
+  }
+
+  const getValues = () => {
+    return value
+  }
+
+  // 다음 문제가 있냐? 마지막 문제 = false
+  const hasNextQuiz = id => {
+    return value.indexOf(id.toString()) < value.length - 1
+  }
+
+  // 다음 문제 quizId
+  const nextQuizId = id => {
+    id = id.toString()
+    // 다음 문제가 없으면 return null!
+    if (!hasNextQuiz(id)) {
+      return null
+    }
+    const idx = value.indexOf(id);
+    console.log('nextQuizId', value[idx+1])
+    return value[idx + 1]
   }
 
   return {
     subscribe,
     toggleQuiz,
     set,
+    getValues,
+    hasNextQuiz,
+    nextQuizId,
     reset: () => set([])
   }
 }

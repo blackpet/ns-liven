@@ -96,6 +96,7 @@
 
         </ul>
 
+        <slot></slot>
         {#if act === 'quiz'}
           <!-- quiz only -->
           {#if role === ROLE.TUTOR}

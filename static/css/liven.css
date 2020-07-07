@@ -18,3 +18,17 @@
 
 /* QnaItem > 수정 모드 */
 li .contBox_NLive {padding: 0;}
+
+
+/** Quiz Ranking **/
+[class^="icon_nlrank_"] {width:40px; height:54px;}
+.icon_nlrank_01 {background:url('../images/nLive/rank_01.png') no-repeat; background-size:100% auto;}
+.icon_nlrank_02 {background:url('../images/nLive/rank_02.png') no-repeat; background-size:100% auto;}
+.icon_nlrank_03 {background:url('../images/nLive/rank_03.png') no-repeat; background-size:100% auto;}
+
+.learn_chart_w {position:relative; width:60px; height:60px; margin:0 auto;}
+.learn_chart_w .c100 {font-size:60px; background-color:#d8d8d8;}
+.learn_chart_w .p0 + .lchart_info [class^="txt_"] {color:#d8d8d8;}
+.learn_chart_w .c100:after {background:#fff;}
+.learn_chart_w .chart_w [class^="c100 p"] .bar, .learn_chart_w .chart_w [class^="c100 p"] .fill {border-color:#ff5452;}
+.lchart_info {position:absolute; top:50%; left:50%; width:100%; margin-top:-12px; margin-left:-50%; text-align:center;}

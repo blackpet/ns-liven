@@ -27,8 +27,9 @@
     goto(`tutor/quizResult?id=${quizzes.nextQuizId(data.id)}`)
   }
 
-  function shareRank() {
+  async function shareRank() {
     console.log('shareRank!!!')
+    await goto('quiz/ranking')
   }
 </script>
 

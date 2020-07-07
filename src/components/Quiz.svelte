@@ -14,6 +14,9 @@
     show: true
   }
 
+  const timer = new Date().getTime() // 시험 시작 시간
+  console.log('start time', timer)
+
   // 답안(문항) 선택
   let myAnswer = -1
 
@@ -115,7 +118,8 @@
         quizId: data.id,
         userId: $session.userId,
         answerId,
-        myAnswer: myAnswer
+        myAnswer: myAnswer,
+        examtime: new Date().getTime() - timer
       })
 
       // submit!

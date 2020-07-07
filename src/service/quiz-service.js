@@ -71,6 +71,31 @@ export default {
     }
 
     return false
+  },
+
+  // quiz ranking
+  retrieveQuizRanking: async (course, ids) => {
+    const {subjCd, subjSeq} = course
+    const param = {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({subjCd, subjSeq, ids})
+    }
+    let data = []
+
+    try {
+      const res = await fetch(`${env.api}/quizRanking.do`, param)
+      if (res.ok) {
+        data = await res.json()
+      }
+    } catch (e) {
+      console.error('retrieveQuizRanking error occur!', e)
+    }
+
+    return data
   }
 }
 

@@ -38,6 +38,7 @@
     quizzes.toggleQuiz(id)
   }
 
+  // [출제하기]btn
   async function start() {
     const socket = LivenSocket.get()
     const qzz = quizzes.getValues()
@@ -49,15 +50,14 @@
       await goto(`tutor/quizResult?id=${quizzes.getValues()[0]}`)
     }
 
-    // 기 출제된 문항이 있으면 경  고!!
+    // 기 출제된 문항이 있으면 경고!!
     const existsSubmitted = list.filter(q => qzz.includes(q.id.toString())).reduce((sum, i) => sum += i.answerCnt, 0) > 0
     if (existsSubmitted) {
       // 기 출제된 문항 삭제 후 진행하자!
-      const ok = async function() {
+      const ok = async function() { // this(bpf.popup instance) binding 을 위해 function definition 사용 (arrow function 사용 시 this binding 안됨!)
         const {subjCd, subjSeq} = $session.course
-        await QuizService.resetQuizAnswers({
-          subjCd, subjSeq, ids: qzz
-        })
+        await QuizService.resetQuizAnswers({subjCd, subjSeq, ids: qzz})
+
         // 시작하자!
         startLive()
         // close poppy
@@ -69,6 +69,25 @@
       startLive()
     }
 
+  }
+
+  // [랭킹보기]btn
+  async function rank() {
+    // 하나도 선택안하면 못보지!
+    if (quizzes.getValues().length === 0) {
+      alert('랭킹을 집계할 Quiz를 선택해 주세요.')
+      return
+    }
+
+    // 응시가 완료된 (출제한) 퀴즈만 랭킹보기 대상이다!
+    const checkedQzz = quizzes.getValues()
+    const submitted = list.filter(q => checkedQzz.includes(q.id.toString()) && q.answerCnt > 0)
+    if (submitted.length !== checkedQzz.length) {
+      alert('출제되지 않은 문항은 랭킹을 집계할 수 없습니다.')
+      return
+    }
+
+    await goto('quiz/ranking')
   }
 </script>
 
@@ -129,9 +148,16 @@
 
 
       </div>
+
       <div class="items_btn_single">
         <button type="button" class="btn_brownh50" on:click={start} disabled={disabledStart}>
           <span class="txt_s18">출제하기</span>
+        </button>
+      </div>
+
+      <div class="items_btn_single">
+        <button type="button" class="btn_grayh50" on:click={rank}>
+          <span class="txt_s18">랭킹보기</span>
         </button>
       </div>
     </div>

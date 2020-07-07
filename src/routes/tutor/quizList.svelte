@@ -4,18 +4,20 @@
   export async function preload(page, session) {
     const list = await QuizService.retrieveQuizList(session.course)
 
-    return {list}
+    return {act: 'quiz', list}
   }
 </script>
 
 <script>
-  export let list
+  export let act, list
 
-  import {goto} from '@sapper/app'
+  import {goto, stores} from '@sapper/app'
   import CourseSummary from "../../components/CourseSummary.svelte";
   import {quizzes} from '../../service/quiz-service'
+  import {EVENT} from '../../service/liven-service'
+  import {LivenSocket} from '../../store/action'
 
-  const act = 'quiz'
+  const {session} = stores()
 
   // 선택된 quiz의 checked status를 관리하자!
   let checkedQzz = {}
@@ -36,11 +38,45 @@
     quizzes.toggleQuiz(id)
   }
 
-  function start() {
-    console.log('start quiz value', quizzes.getValues())
-    goto(`tutor/quizResult?id=${quizzes.getValues()[0]}`)
+  async function start() {
+    const socket = LivenSocket.get()
+    const qzz = quizzes.getValues()
+
+    const startLive = async () => {
+      // send action data to server
+      socket.emit(EVENT.TUTOR_START_QUIZ, qzz);
+
+      await goto(`tutor/quizResult?id=${quizzes.getValues()[0]}`)
+    }
+
+    // 기 출제된 문항이 있으면 경  고!!
+    const existsSubmitted = list.filter(q => qzz.includes(q.id.toString())).reduce((sum, i) => sum += i.answerCnt, 0) > 0
+    if (existsSubmitted) {
+      // 기 출제된 문항 삭제 후 진행하자!
+      const ok = async function() {
+        const {subjCd, subjSeq} = $session.course
+        await QuizService.resetQuizAnswers({
+          subjCd, subjSeq, ids: qzz
+        })
+        // 시작하자!
+        startLive()
+        // close poppy
+        this.close()
+      };
+      confirm('출제된 문항이 포함되어 있습니다.<br>재 출제 시 기존 데이터는 모두 삭제됩니다.<br><br>출제하시겠습니까?', ok);
+    } else {
+      // 시작하자!
+      startLive()
+    }
+
   }
 </script>
+
+<style>
+  /* 출제여부 표시 */
+  .list_question .q_box {position: relative;}
+  .list_question .txt_s18cBrown_set {position: absolute;top: 15px;right: 15px;}
+</style>
 
 
 <div class="container">
@@ -74,6 +110,9 @@
 
                   <a href="tutor/{act}?id={quiz.id}">
                     <span class="txt_s18cDGray">{quiz.subject}</span>
+                    {#if quiz.answerCnt > 0}
+                      <span class="txt_s18cBrown_set">출제</span>
+                    {/if}
                   </a>
                 </div>
               </li>

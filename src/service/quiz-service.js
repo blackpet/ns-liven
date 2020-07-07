@@ -47,13 +47,42 @@ export default {
     }
 
     return false
+  },
+
+  // [tutor] 출제할 quiz 기존 답변 모두 초기화(삭제)
+  resetQuizAnswers: async data => {
+    const param = {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+    const uri = `${env.api}/resetQuizAnswers.do`
+
+    try {
+      const res = await fetch(uri, param)
+      if (res.ok) {
+        return true;
+      }
+    } catch (e) {
+      console.error(e, 'resetQuizAnswers error occur!!!', e)
+    }
+
+    return false
   }
 }
 
-// 출제할 quiz id array
+// 출제할 quiz ids store
 function createQuizStore() {
   const {subscribe, set, update} = writable([])
   let value = []
+
+  const _set = qzz => {
+    set(qzz)
+    value = qzz
+  }
 
   const toggleQuiz = id => {
     update(qzz => {
@@ -99,7 +128,7 @@ function createQuizStore() {
   return {
     subscribe,
     toggleQuiz,
-    set,
+    set: _set,
     getValues,
     hasNextQuiz,
     nextQuizId,

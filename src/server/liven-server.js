@@ -26,12 +26,25 @@ function createLivenServer(server) {
     ServerStorage.namespace(ns)
 
     // [student] broadcast active data to all student (강사가 시작 후 접속한 수강생이 있으면 즉시 시작하자!)
-    const data = ServerStorage.activeActionData(ns)
-    if (!!data) {
-      socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data)
-    }
+    // const data = ServerStorage.activeActionData(ns)
+    // if (!!data) {
+    //   socket.nsp.emit(EVENT.TUTOR_START_LIVEN, data)
+    // }
 
     ////////////////////////////////////////////// listen
+    // [tutor] quiz 시작!
+    socket.on(EVENT.TUTOR_START_QUIZ, qzz => {
+      // store namespace data
+      ServerStorage.namespace(ns, {act: 'quiz', qzz})
+
+      socket.nsp.emit(EVENT.TUTOR_START_QUIZ, qzz)
+    });
+    // [tutor] quiz > next quiz
+    socket.on(EVENT.TUTOR_NEXT_QUIZ, nextId => {
+
+      socket.nsp.emit(EVENT.TUTOR_NEXT_QUIZ, nextId)
+    });
+
 
     // [tutor] Live.N 공유 시작!
     socket.on(EVENT.TUTOR_START_LIVEN, data => {
@@ -47,16 +60,24 @@ function createLivenServer(server) {
      * [student] submit quiz
      * @userData {actId, itemId}
      */
-    socket.on(EVENT.STUDENT_SUBMIT_QUIZ, userData => {
-      console.log(EVENT.STUDENT_SUBMIT_QUIZ, ns, userData)
+    socket.on(EVENT.STUDENT_SUBMIT_QUIZ, userAnswer => {
+      console.log(EVENT.STUDENT_SUBMIT_QUIZ, ns, userAnswer) // { actId: 13529, itemId: '27220' }
+      userAnswer.userId = users[socket.id]
+      userAnswer.timestamp = new Date().getTime()
 
       const act = ServerStorage.activeActionData(ns)
-      let actData = act.data;
-      const item = actData.items.find(i => i.id == userData.itemId)
-      item.vote++
+      console.log(act) // { act: 'quiz', qzz: [ '13529', '13531', '13533' ] }
+
+      // 답변 데이터가 없으면 key를 생성하자!
+      if (!act.answers) {
+        act.answers = []
+      }
+      // 기존 데이터가 없을텐데.. 그래도 혹시 있으면 지우고 다시 추가하자!
+      act.answers.filter(a => a.userId !== userAnswer.userId || a.actId !== userAnswer.actId)
+      act.answers.push(userAnswer)
 
       // ns의 모든 사용자(강사, 학습자)에 broadcast!!
-      socket.nsp.emit(EVENT.STUDENT_SUBMIT_QUIZ, act)
+      socket.nsp.emit(EVENT.STUDENT_SUBMIT_QUIZ, userAnswer)
     });
 
     /**
@@ -126,10 +147,6 @@ function createLivenServer(server) {
       socket.server.to(socket.id).emit('admin:server-storage', storage)
     });
 
-
-    // 접속한 수강생에게 설문을 전송하자!
-    // socket.server.to(socket.id).emit('broadcast.startSurvey', survey);
-
     socket.on('disconnect', () => {
       console.log('user disconnected', socket.id);
 
@@ -137,25 +154,6 @@ function createLivenServer(server) {
       evt.disconnectUser(socket.id);
     });
 
-    // [tutor] 모든 수강생에 설문 시작 알림
-    socket.on('startSurvey', (_survey) => {
-      console.log('startSurvey1231231231');
-      survey = _survey;
-      // start survey by tutor, broadcast to all students
-      survey.user = 'student';
-
-      // [tutor]를 제외한 모든 수강생만 대상이다! (cf: sio.sockets.emit() )
-      socket.broadcast.emit('broadcast.startSurvey', survey);
-    });
-
-    socket.on('vote', (voteId) => {
-      console.log(`${findUserIdBySocketId(socket.id)} vote: ${voteId}`);
-
-      const voteItem = surveyService.increaseVoteCount(voteId);
-
-      // 투표 결과를 위해 다시 설문 데이터를 내려주자!
-      io.sockets.emit('broadcast.updateVote', survey.surveyItems, voteItem);
-    });
   };
 
   const middlewareDefault = (socket, next) => {
@@ -165,7 +163,7 @@ function createLivenServer(server) {
       return next(new Error('Not Authorized'))
     }
 
-    users[userId] = socket.id
+    users[socket.id] = userId
     console.log(users)
 
     return next()
@@ -200,8 +198,8 @@ export default createLivenServer;
 // events....
 const evt = {
   disconnectUser: (socketId) => {
-    const userId = findUserIdBySocketId(socketId);
-    delete users[userId];
+    const userId = users[socketId];
+    delete users[socketId];
 
     io.sockets.emit(EVENT.EVERYONE_DISCONNECT, userId);
   }

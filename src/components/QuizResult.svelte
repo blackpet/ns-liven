@@ -34,10 +34,19 @@
   //////////////////////////////////////// listen socket
 
   // [student] submit quiz/poll/survey data!
-  socket.on(EVENT.STUDENT_SUBMIT_QUIZ, (actData) => {
-    console.log(EVENT.STUDENT_SUBMIT_QUIZ, actData)
+  socket.on(EVENT.STUDENT_SUBMIT_QUIZ, (userAnswer) => {
+    console.log(EVENT.STUDENT_SUBMIT_QUIZ, userAnswer)
 
-    $action[actData.act] = actData.data
+    if (data.id === userAnswer.actId) {
+      console.log(`items[0]:`, data.items[0])
+      // 입렭한 정답자 숫자 +1 증가
+      const item = data.items.find(i => i.id == userAnswer.itemId)
+      if (!!item) {
+        ++item.vote;
+      }
+    }
+    // touch!
+    data = {...data}
   })
 
   // [종료하기] 시작 페이지로 이동하자!
@@ -78,7 +87,7 @@
         <ul class="lists_wrap_result">
 
           {#if data && data.items && data.items.length}
-          {#each data.items as item, i}
+          {#each data.items as item, i (item.id)}
             <li class="list_result">
               <span class="txt_s18cDGray">{i+1}. {@html item.subject}</span>
               {#if item.answer}

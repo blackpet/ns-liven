@@ -24,6 +24,7 @@
   import {stores, goto} from '@sapper/app'
   import LivenService, {EVENT} from '../../service/liven-service'
   import {LivenSocket} from '../../store/action'
+  import {quizzes} from '../../service/quiz-service'
   import {action} from '../../store/action'
 
   import List from '../../components/List.svelte'
@@ -38,9 +39,15 @@
     // store socket
     LivenSocket.set(socket)
 
+    // standby for [tutor] quiz start
+    socket.on(EVENT.TUTOR_START_QUIZ, async qzz => {
+      quizzes.set(qzz)
+
+      await goto(`student/quizForm?id=${quizzes.getValues()[0]}`)
+    })
+
     // standby for [tutor] start
     socket.on(EVENT.TUTOR_START_LIVEN, async data => {
-      console.log(`student on ${EVENT.TUTOR_START_LIVEN}`, data, $action);
       // store action data
       $action[data.act] = data.data
 

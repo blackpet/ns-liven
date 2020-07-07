@@ -9,7 +9,10 @@
    *  - [제출하기]btn 제어용 / 학생전용
    */
   export let data, role, act
-  export let submitStatus
+  export let submitStatus = {
+    can: false,
+    show: true
+  }
 
   // 답안(문항) 선택
   let myAnswer = -1

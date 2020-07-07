@@ -13,12 +13,17 @@
   export let data
 
   import QuizResult from '../../components/QuizResult.svelte'
-  import {ROLE} from '../../service/liven-service'
+  import {ROLE, EVENT} from '../../service/liven-service'
   import QuizService, {quizzes} from '../../service/quiz-service'
   import {goto} from '@sapper/app'
+  import {LivenSocket} from '../../store/action'
 
   function nextQuiz() {
-    console.log('nextQuiz')
+    const socket = LivenSocket.get()
+
+    // send action data to server
+    socket.emit(EVENT.TUTOR_NEXT_QUIZ, quizzes.nextQuizId(data.id))
+
     goto(`tutor/quizResult?id=${quizzes.nextQuizId(data.id)}`)
   }
 

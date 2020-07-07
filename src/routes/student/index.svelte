@@ -42,8 +42,14 @@
     // standby for [tutor] quiz start
     socket.on(EVENT.TUTOR_START_QUIZ, async qzz => {
       quizzes.set(qzz)
-
       await goto(`student/quizForm?id=${quizzes.getValues()[0]}`)
+    })
+
+    // [tutor] quiz > share ranking
+    socket.on(EVENT.TUTOR_SHARE_QUIZ_RANK, async qzz => {
+      console.log(qzz)
+      quizzes.set(qzz)
+      await goto(`quiz/ranking`)
     })
 
     // standby for [tutor] start

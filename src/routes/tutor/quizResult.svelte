@@ -14,12 +14,13 @@
 
   import QuizResult from '../../components/QuizResult.svelte'
   import {ROLE, EVENT} from '../../service/liven-service'
-  import QuizService, {quizzes} from '../../service/quiz-service'
+  import {quizzes} from '../../service/quiz-service'
   import {goto} from '@sapper/app'
   import {LivenSocket} from '../../store/action'
 
+  const socket = LivenSocket.get()
+
   function nextQuiz() {
-    const socket = LivenSocket.get()
 
     // send action data to server
     socket.emit(EVENT.TUTOR_NEXT_QUIZ, quizzes.nextQuizId(data.id))
@@ -27,10 +28,10 @@
     goto(`tutor/quizResult?id=${quizzes.nextQuizId(data.id)}`)
   }
 
-  async function shareRank() {
-    console.log('shareRank!!!')
+  async function ranking() {
     await goto('quiz/ranking')
   }
+
 </script>
 
 <div class="container">
@@ -47,8 +48,8 @@
           </div>
         {:else}
           <div class="items_btn_single">
-            <button type="button" class="btn_brownh50" on:click={shareRank}>
-              <span class="txt_s16">순위 공유하기</span>
+            <button type="button" class="btn_brownh50" on:click={ranking}>
+              <span class="txt_s16">랭킹보기</span>
             </button>
           </div>
         {/if}

@@ -129,6 +129,7 @@ export const EVENT = {
 
   'TUTOR_START_QUIZ': 'tutor:start-quiz',
   'TUTOR_NEXT_QUIZ': 'tutor:next-quiz',
+  'TUTOR_SHARE_QUIZ_RANK': 'tutor:share-quiz-rank',
 
   'TUTOR_START_LIVEN': 'tutor:start-liven',
   'TUTOR_SHARE_RESULT': 'tutor:show-result', // 결과 공유하기

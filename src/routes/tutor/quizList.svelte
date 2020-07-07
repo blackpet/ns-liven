@@ -92,6 +92,7 @@
 </script>
 
 <style>
+  .mt-20 {margin-top: 20px;}
   /* 출제여부 표시 */
   .list_question .q_box {position: relative;}
   .list_question .txt_s18cBrown_set {position: absolute;top: 15px;right: 15px;}
@@ -155,7 +156,7 @@
         </button>
       </div>
 
-      <div class="items_btn_single">
+      <div class="items_btn_single mt-20">
         <button type="button" class="btn_grayh50" on:click={rank}>
           <span class="txt_s18">랭킹보기</span>
         </button>

@@ -1,6 +1,7 @@
 import _ from "lodash";
 import {EVENT} from '../service/liven-service';
 import ServerStorage from './server-store'
+import {quizzes} from "../service/quiz-service";
 
 let users = {}
 let survey
@@ -44,6 +45,14 @@ function createLivenServer(server) {
 
       socket.nsp.emit(EVENT.TUTOR_NEXT_QUIZ, nextId)
     });
+
+    // [tutor] quiz > share ranking
+    socket.on(EVENT.TUTOR_SHARE_QUIZ_RANK, qzz => {
+
+      socket.nsp.emit(EVENT.TUTOR_SHARE_QUIZ_RANK, qzz)
+    })
+
+    ////////////////////////////////////////////// end of quiz
 
 
     // [tutor] Live.N 공유 시작!
@@ -112,7 +121,7 @@ function createLivenServer(server) {
     });
 
     // [tutor] "종료하기"
-    socket.on(EVENT.TUTOR_END_LIVEN, (act) => {
+    socket.on(EVENT.TUTOR_END_LIVEN, act => {
       // 서버의 데이터 삭제하자!
       ServerStorage.removeActionData(socket.nsp.name, act)
 

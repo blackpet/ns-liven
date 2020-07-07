@@ -1,6 +1,5 @@
 <script>
 
-
 	export let segment;
 
 	import GotoButton from "../components/GotoButton.svelte";

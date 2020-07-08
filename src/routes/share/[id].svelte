@@ -131,4 +131,8 @@
   .contBox_NLive_share .dim {
     z-index: unset;
   }
+  .contBox_NLive_share .slide_btn_counter {
+    width: 50vw;
+    text-align: right;
+  }
 </style>

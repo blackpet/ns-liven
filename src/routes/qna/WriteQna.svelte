@@ -142,7 +142,7 @@
   .liveQnA_addSet span[class^="txt_"] {letter-spacing: normal;}
 
   .private_chk {position: relative;height: 30px;}
-  .private_chk label.inp_chk {position: absolute;top: 10px;}
+  .private_chk label.inp_chk {position: absolute;top: 10px; width: 80px;}
 
   progress {
     -webkit-appearance: none;

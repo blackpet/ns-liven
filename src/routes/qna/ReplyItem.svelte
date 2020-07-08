@@ -129,7 +129,7 @@
   .deleted {text-decoration: line-through;}
 
   .private_chk {position: relative;height: 30px;}
-  .private_chk label.inp_chk {position: absolute;top: 10px; right: 15px;}
+  .private_chk label.inp_chk {position: absolute;top: 10px; right: 0; width: 60px;}
 
   .fas.fa-user {
     color: #89827f;

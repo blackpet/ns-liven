@@ -128,7 +128,7 @@
 
 <style>
   .comm_write .profile_img_w {top: 18px;}
-  label.inp_chk {position: absolute;right: 0;top: 18px;}
+  label.inp_chk {position: absolute;right: 0;top: 18px; width: 60px;}
 </style>
 
 <div class="container">

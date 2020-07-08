@@ -8,6 +8,7 @@
   const dispatch = createEventDispatcher()
 
   let contents = '', isPrivate = false
+  let imagefiles = []
   let imagefile = {realfile: '', savefile: ''} // 첨부파일 정보
   let imageSrc // 첨부 이미지 local 경로 (업로드 전 미리보기용)
   let uploadProgress = 0 // 첨부 이미지 업로드 진척율
@@ -81,6 +82,21 @@
     dispatch('update', {item})
   }
 
+  async function attachImage2(aa) {
+    alert(JSON.stringify(aa))
+  }
+  $: {
+    if (imagefiles && imagefiles[0]) {
+      let binfile = imagefiles[0];
+      alert('imagefiles changed!!!!')
+      alert(binfile)
+      // let reader = new FileReader();
+      // reader.onload = function(evt) {
+      //   data = new Uint8Array(evt.target.result);
+      // }
+      // reader.readAsArrayBuffer(binfile);
+    }
+  }
   async function attachImage({target}) {
     const files = target.files ? [...target.files] : [];
     const image = files[0]
@@ -165,7 +181,7 @@
           <label class="inp_chk">
             <input type="checkbox" bind:checked={isPrivate}>
             <i class="icon_chk"></i>
-            <span class="txt_s14cBlack">비공개</span>
+            <span class="txt_s14cBlack">익명</span>
           </label>
         </div>
 
@@ -188,6 +204,7 @@
           </ul>
 
           <label class="btn_lineGrayh40_file">
+<!--            <input type="file" accept="image/gif, image/jpeg, image/png" bind:files={imagefiles}>-->
             <input type="file" accept="image/gif, image/jpeg, image/png" on:input={attachImage}>
             <span class="txt_s16">파일선택</span>
           </label>

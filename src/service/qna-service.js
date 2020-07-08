@@ -177,6 +177,8 @@ export default {
 
     const res = axios.request({
       method: 'POST',
+      withCredentials: true,
+      credentials: true,
       url: `${env.api}/upload.do`,
       data: formData,
       onUploadProgress: progress

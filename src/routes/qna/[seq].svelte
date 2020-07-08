@@ -157,16 +157,16 @@
           <div class="comm_write">
             <div class="profile_img_w">
               <i class="user_pic_comment">
-                <img src="http://placehold.it/640x360" alt="임시이미지">
+                <img src="{QnaService.profileImageSrc($session.userId)}" onerror="this.src='http://placehold.it/640x360'" alt="profile">
               </i>
             </div>
             <div class="item_userInfo">
-              <span class="txt_s16cDGray">{qna.nickname}</span>
+              <span class="txt_s16cDGray">{$session.nickname}</span>
 
               <label class="inp_chk">
                 <input type="checkbox" bind:checked={isPrivate}>
                 <i class="icon_chk"></i>
-                <span class="txt_s14cBlack">비공개</span>
+                <span class="txt_s14cBlack">익명</span>
               </label>
             </div>
             <div class="item_write">

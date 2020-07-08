@@ -130,6 +130,12 @@
 
   .private_chk {position: relative;height: 30px;}
   .private_chk label.inp_chk {position: absolute;top: 10px; right: 15px;}
+
+  .fas.fa-user {
+    color: #89827f;
+    padding: 7px 9px;
+    font-size: 18px;
+  }
 </style>
 
 <!-- 조회 모드 -->
@@ -137,7 +143,11 @@
   <li class="list_comment depth{reply.depth}" class:new={reply.new}>
     <div class="profile_img_w">
       <i class="user_pic_comment">
-        <img src="http://placehold.it/640x360" alt="임시이미지">
+        {#if reply.privateYn === 'Y'}
+          <i class="fas fa-user"></i>
+        {:else}
+          <img src="{QnaService.profileImageSrc(reply.userId)}" onerror="this.src='http://placehold.it/640x360'" alt="profile">
+        {/if}
       </i>
     </div>
     <div class="item_userInfo">
@@ -202,7 +212,7 @@
         <label class="inp_chk">
           <input type="checkbox" bind:checked={isEditPrivate}>
           <i class="icon_chk"></i>
-          <span class="txt_s14cBlack">비공개</span>
+          <span class="txt_s14cBlack">익명</span>
         </label>
       </div>
 
@@ -233,7 +243,7 @@
       <label class="inp_chk">
         <input type="checkbox" bind:checked={isNewPrivate}>
         <i class="icon_chk"></i>
-        <span class="txt_s14cBlack">비공개</span>
+        <span class="txt_s14cBlack">익명</span>
       </label>
     </div>
 

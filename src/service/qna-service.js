@@ -183,6 +183,11 @@ export default {
     })
 
     return res
+  },
+
+  // profile iamge src
+  profileImageSrc: (userId) => {
+    return `${env.nsedu}/fileUpDownload/profileImage.do?userId=${userId}`
   }
 }
 

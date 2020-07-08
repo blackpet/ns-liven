@@ -74,12 +74,23 @@
 
 </script>
 
+<style>
+  .fas.fa-user {
+    color: #89827f;
+    padding: 7px 9px;
+    font-size: 18px;
+  }
+</style>
 
 <!-- 조회 모드 -->
 {#if !editMode}
   <div class="profile_img_w">
     <i class="user_pic_comment">
-      <img src="http://placehold.it/640x360" alt="임시이미지">
+      {#if item.privateYn === 'Y'}
+        <i class="fas fa-user"></i>
+      {:else}
+        <img src="{QnaService.profileImageSrc(item.userId)}" onerror="this.src='http://placehold.it/640x360'" alt="profile">
+      {/if}
     </i>
   </div>
   <div class="item_userInfo">

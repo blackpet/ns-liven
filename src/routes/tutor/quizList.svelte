@@ -91,13 +91,6 @@
   }
 </script>
 
-<style>
-  .mt-20 {margin-top: 20px;}
-  /* 출제여부 표시 */
-  .list_question .q_box {position: relative;}
-  .list_question .txt_s18cBrown_set {position: absolute;top: 15px;right: 15px;}
-</style>
-
 
 <div class="container">
   <section class="content">
@@ -138,12 +131,6 @@
               </li>
             {/each}
 
-<!--          <li class="list_question">-->
-<!--            <a href="#none" class="q_box set">&lt;!&ndash; 출제 된 문제일때 set  추가 &ndash;&gt;-->
-<!--              <span class="txt_s18cDGray">어떤 걸 어떻게 해야 해결이 가능할까요 어떻게 해야 해결이 가능할까요?</span>-->
-<!--              <span class="txt_s18cBrown_set">출제</span>-->
-<!--            </a>-->
-<!--          </li>-->
           </ul>
         {/if}
 
@@ -166,3 +153,11 @@
   </section>
 
 </div>
+
+
+<style>
+  .mt-20 {margin-top: 20px;}
+  /* 출제여부 표시 */
+  .list_question .q_box {position: relative;}
+  .list_question .txt_s18cBrown_set {position: absolute;top: 15px;right: 15px;}
+</style>

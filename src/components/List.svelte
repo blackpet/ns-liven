@@ -9,7 +9,7 @@
     {name: 'Live Poll', act: 'pollList', class: 'poll'},
     {name: 'Live Q&A', act: 'qna'},
     {name: 'Live Share', act: 'share'},
-    {name: 'Survey', act: 'survey', id: 1},
+    {name: 'Survey', act: 'survey'},
   ];
 
   function getUrl(act) {

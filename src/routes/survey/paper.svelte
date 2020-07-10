@@ -2,15 +2,15 @@
   import LivenService from '../../service/liven-service'
   export async function preload({params, query}, session) {
     const act = 'poll'
-    // poll 문항정보 조회!
+    // survey 문항정보 조회!
     const data = await LivenService.retrieveActionData(act, session.course, query.id)
 
-    return {act, data}
+    return {data}
   }
 </script>
 
 <script>
-  export let data, act
+  export let data
 
   import SurveyItem from './SurveyItem.svelte'
   import {fly} from 'svelte/transition'
@@ -104,7 +104,6 @@
         {/if}
       </ul>
 
-      <!-- poll paper -->
       <div class="items_btn_single">
         <button type="button" class="btn_brownh50" on:click={submit} disabled="{!allAnswers()}">
           <span class="txt_s18">제출하기</span>
@@ -128,3 +127,9 @@
     </div>
   </section>
 </div>
+
+<style>
+  .items_btn_single {
+    margin-bottom: 20px;
+  }
+</style>

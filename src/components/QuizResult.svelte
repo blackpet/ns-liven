@@ -1,5 +1,5 @@
 <script>
-  export let data, role, act
+  export let data, act
   console.log('QuizResult', data)
 
   import {stores, goto} from '@sapper/app'

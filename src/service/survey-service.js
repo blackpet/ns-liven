@@ -25,6 +25,27 @@ export default {
     }
 
     return data
+  },
+
+  // survey result detail
+  retrieveSurveyResult: async (course, id) => {
+    const {subjCd, subjSeq} = course
+    let data = []
+    const query = util.objectToQuerystring({subjCd, subjSeq, id})
+    const param = {
+      mode: 'cors'
+    }
+
+    try {
+      const res = await fetch(`${env.api}/survey.do${query}`, param)
+      if (res.ok) {
+        data = await res.json()
+      }
+    } catch (e) {
+      console.error('retrieveSurveyResult error occur!', e)
+    }
+
+    return data
   }
 }
 

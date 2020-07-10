@@ -15,13 +15,15 @@
   import {ROLE} from '../../service/liven-service'
   import CourseSummary from "../../components/CourseSummary.svelte"
 
+
   const {session} = stores()
+  const course = $session.course
   const act = 'survey'
 
   // link to detail
   async function linkDetail(survey) {
     let url = 'survey'
-    if ($session.role === 'tutor') {
+    if ($session.role === ROLE.TUTOR) {
       // 강사는 결과 화면으로 링크
       url += '/result'
     } else {
@@ -63,21 +65,20 @@
 
             {#each list as survey}
               <li class="list_question">
-                <a href="" on:click|preventDefault={linkDetail(survey)} class="q_box">
+                <a href="#" on:click|preventDefault={linkDetail(survey)} class="q_box">
                   <span class="txt_s18cDGray">{survey.subject}</span>
-                  {#if survey.submitYn === 'Y'}
+                  {#if $session.role === ROLE.STUDENT && survey.submitYn === 'Y'}
                     <span class="txt_s18cBrown_set">제출</span>
                   {/if}
+
+                  {#if $session.role === ROLE.TUTOR}
+                    <span class="txt_s18cBrown_set">({!survey.submitCnt ? 0 : survey.submitCnt} / {course.stdCnt})</span>
+                  {/if}
+
                 </a>
               </li>
             {/each}
 
-                  <!--          <li class="list_question">-->
-            <!--            <a href="#none" class="q_box set">&lt;!&ndash; 출제 된 문제일때 set  추가 &ndash;&gt;-->
-            <!--              <span class="txt_s18cDGray">어떤 걸 어떻게 해야 해결이 가능할까요 어떻게 해야 해결이 가능할까요?</span>-->
-            <!--              <span class="txt_s18cBrown_set">출제</span>-->
-            <!--            </a>-->
-            <!--          </li>-->
           </ul>
         {/if}
 

@@ -12,8 +12,22 @@
   export let list
 
   import CourseSummary from "../../components/CourseSummary.svelte";
+  import {goto} from '@sapper/app'
 
   const act = 'poll'
+
+  async function goDetail(poll) {
+    let url
+    if (poll.submitCnt > 0) {
+      // 출제된 poll 은 결과화면으로 이동!
+      url = `survey/result?id=${poll.id}`;
+    } else {
+      // 상세화면으로 이동
+      url = `tutor/${act}?id=${poll.id}`;
+    }
+
+    await goto(url)
+  }
 
 </script>
 
@@ -39,7 +53,7 @@
 
             {#each list as poll}
               <li class="list_question">
-                <a href="tutor/{act}?id={poll.id}" class="q_box">
+                <a href="detail" on:click|preventDefault={goDetail(poll)} class="q_box">
                   <span class="txt_s18cDGray">{poll.subject}</span>
                   {#if poll.submitCnt > 0}
                     <span class="txt_s18cBrown_set">출제</span>

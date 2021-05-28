@@ -20,7 +20,7 @@
     "polka": "next",
     "sirv": "^0.4.0",
     "socket.io": "^2.4.0",
-    "swiper": "^5.4.2"
+    "swiper": "^6.5.1"
   },
   "devDependencies": {
     "@smui/icon-button": "^1.0.0-beta.21",
